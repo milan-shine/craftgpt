@@ -1,0 +1,127 @@
+[
+  {
+    "question": "Integration of Assurance activities",
+    "options": [
+      {
+        "label": "Siloed assurance functions; lack of coordination.",
+        "value": "initial"
+      },
+      {
+        "label": "Initial steps towards coordination of assurance activities; activities some overlap.",
+        "value": "developing"
+      },
+      {
+        "label": "Defined processes for integrating assurance activities across functions.",
+        "value": "defined"
+      },
+      {
+        "label": "Effective management of assurance activities; clear roles and collaboration.",
+        "value": "managed"
+      },
+      {
+        "label": "Fully integrated and seamless coordination; strategic assurance approach.",
+        "value": "optimized"
+      }
+    ]
+  },
+  {
+    "question": "Coverage of Assurance Activities",
+    "options": [
+      {
+        "label": "Ad-hoc and limited coverage of assurance activities; significant gaps.",
+        "value": "initial"
+      },
+      {
+        "label": "Developing a broader coverage of assurance activities; identification of key risk areas.",
+        "value": "developing"
+      },
+      {
+        "label": "Comprehensive coverage of all significant risk areas; systematic approach.",
+        "value": "defined"
+      },
+      {
+        "label": "Assurance activities fully cover all risk areas; proactive identification of emerging risks.",
+        "value": "managed"
+      },
+      {
+        "label": "State-of-the-art assurance coverage; predictive analysis and continuous adaptation.",
+        "value": "optimized"
+      }
+    ]
+  },
+  {
+    "question": "Coordination Among Assurance Providers",
+    "options": [
+      {
+        "label": "Minimal or no coordination between internal and external assurance providers.",
+        "value": "initial"
+      },
+      {
+        "label": "Initial efforts to coordinate between different assurance providers.",
+        "value": "developing"
+      },
+      {
+        "label": "Effective coordination and communication among assurance providers.",
+        "value": "defined"
+      },
+      {
+        "label": "Strategic and well-managed coordination among all assurance providers.",
+        "value": "managed"
+      },
+      {
+        "label": "Fully integrated and strategic collaboration with all assurance providers.",
+        "value": "optimized"
+      }
+    ]
+  },
+  {
+    "question": "Assurance Quality and Effectiveness",
+    "options": [
+      {
+        "label": "Inconsistent quality and effectiveness of assurance activities; minimal impact.",
+        "value": "initial"
+      },
+      {
+        "label": "Improving quality; increasing recognition of the importance of assurance affectiveness",
+        "value": "developing"
+      },
+      {
+        "label": "High-quality and efective assurance activities; regular evolutions.",
+        "value": "defined"
+      },
+      {
+        "label": "Consistently high-quality assurance; proactive measures for continuous improvement",
+        "value": "managed"
+      },
+      {
+        "label": "Benchmark quality and effectiveness in assurance; leading industry practices.",
+        "value": "optimized"
+      }
+    ]
+  },
+  {
+    "question": "Assurance Quality and Effectiveness",
+    "options": [
+      {
+        "label": "Inconsistent quality and effectiveness of assurance activities; minimal impact.",
+        "value": "initial"
+      },
+      {
+        "label": "Improving quality; increasing recognition of the importance of assurance affectiveness",
+        "value": "developing"
+      },
+      {
+        "label": "High-quality and efective assurance activities; regular evolutions.",
+        "value": "defined"
+      },
+      {
+        "label": "Consistently high-quality assurance; proactive measures for continuous improvement",
+        "value": "managed"
+      },
+      {
+        "label": "Benchmark quality and effectiveness in assurance; leading industry practices.",
+        "value": "optimized"
+      }
+    ]
+  }
+]

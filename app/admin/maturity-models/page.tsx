@@ -1,0 +1,147 @@
+"use client";
+
+import React from "react";
+import Header from "@/components/headers/Header";
+import { Input } from "@/components/shadcn/ui/input";
+import { Formik, Field, Form, FieldArray } from "formik";
+import { Button } from "@/components/shadcn/ui/button";
+import { Trash } from "lucide-react";
+
+export type Question = {
+  content: string;
+  options: { level: number; content: string }[];
+};
+
+export type MaturityModel = {
+  name: string;
+  description: string;
+  questions: Question[];
+};
+
+const initialValues: MaturityModel = {
+  name: "",
+  description: "",
+  questions: [
+    {
+      content: "",
+      options: [
+        { level: 1, content: "" },
+        { level: 2, content: "" },
+        { level: 3, content: "" },
+        { level: 4, content: "" },
+        { level: 5, content: "" },
+      ],
+    },
+  ],
+};
+
+const initialQuestionValues: Question = {
+  content: "",
+  options: [
+    { level: 1, content: "" },
+    { level: 2, content: "" },
+    { level: 3, content: "" },
+    { level: 4, content: "" },
+    { level: 5, content: "" },
+  ],
+};
+
+const LEVEL_TITLES = [
+  "Initial",
+  "Developing",
+  "Defined",
+  "Managed",
+  "Optimized",
+];
+
+const Page: React.FC = () => {
+  return (
+    <>
+      <div className="w-[60%]">
+        <Header title="Add maturity model" />
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values) => {
+            // Display form field values in alert on form submission
+            console.log(values);
+          }}
+        >
+          {({ values }) => (
+            <Form className="flex flex-col gap-2 mt-4">
+              <Field
+                name="name"
+                label="Model name:"
+                placeholder="Name"
+                component={Input}
+                required
+              />
+              <Field
+                name="description"
+                label="Model Description:"
+                placeholder="Description"
+                component={Input}
+                required
+              />
+
+              <FieldArray name="questions">
+                {({ insert, remove, push }) => (
+                  <div>
+                    {values.questions.length > 0 &&
+                      values.questions.map((question, index) => (
+                        <div
+                          className="bg-indigo-100 mb-4 p-6 rounded-xl"
+                          key={index}
+                        >
+                          <div className="flex gap-4 items-end justify-between">
+                            <div className="w-full">
+                              <Field
+                                name={`questions.${index}.content`}
+                                label={`Question ${index + 1}:`}
+                                placeholder="Question"
+                                component={Input}
+                                required
+                              />
+                            </div>
+                            <Button onClick={() => remove(index)}>
+                              <Trash />
+                            </Button>
+                          </div>
+                          <div className="flex flex-col gap-1 pl-6 pt-4 pr-0">
+                            {question.options.map((option, optionIndex) => (
+                              <Field
+                                name={`questions.${index}.options.${optionIndex}.content`}
+                                label={`Level ${optionIndex + 1}: ${
+                                  LEVEL_TITLES[optionIndex]
+                                }`}
+                                placeholder={`Option ${optionIndex + 1}`}
+                                key={optionIndex}
+                                component={Input}
+                                required
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+
+                    <Button
+                      type="button"
+                      onClick={() => push(initialQuestionValues)}
+                    >
+                      Add Question
+                    </Button>
+                  </div>
+                )}
+              </FieldArray>
+
+              <Button type="submit" className="self-end">
+                Submit
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </>
+  );
+};
+
+export default Page;
