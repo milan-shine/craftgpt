@@ -17,7 +17,7 @@ const Page: React.FC = () => {
           Welcome to Business Assessment Admin Portal
         </h1>
       </header>
-      <div className="w-1/4 items-center p-5 bg-slate-200 rounded-xl">
+      <div className="w-1/4 items-center p-5 bg-card rounded-xl">
         <Formik
           initialValues={{ username: "", password: "" }}
           // validationSchema={loginSchema}

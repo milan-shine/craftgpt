@@ -67,7 +67,7 @@ export const Options = ({
   }, [selectedOptions]);
 
   return (
-    <td>
+    <td className="mx-2">
       <Button
         variant={"outline"}
         className={`justify-start items-start text-left ${bgColor} hover:${bgColor} w-full h-full text-wrap`}

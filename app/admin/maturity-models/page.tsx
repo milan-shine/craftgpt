@@ -6,6 +6,7 @@ import { Input } from "@/components/shadcn/ui/input";
 import { Formik, Field, Form, FieldArray } from "formik";
 import { Button } from "@/components/shadcn/ui/button";
 import { Trash } from "lucide-react";
+import { Separator } from "@/components/shadcn/ui/separator";
 
 export type Question = {
   content: string;
@@ -57,8 +58,9 @@ const LEVEL_TITLES = [
 const Page: React.FC = () => {
   return (
     <>
-      <div className="w-[60%]">
+      <div>
         <Header title="Add maturity model" />
+        <Separator className="mt-2 w-[95%]" />
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
@@ -67,7 +69,7 @@ const Page: React.FC = () => {
           }}
         >
           {({ values }) => (
-            <Form className="flex flex-col gap-2 mt-4">
+            <Form className="flex flex-col gap-2 mt-6 w-[60%]">
               <Field
                 name="name"
                 label="Model name:"
@@ -89,7 +91,7 @@ const Page: React.FC = () => {
                     {values.questions.length > 0 &&
                       values.questions.map((question, index) => (
                         <div
-                          className="bg-indigo-100 mb-4 p-6 rounded-xl"
+                          className="bg-card mb-4 p-6 rounded-xl"
                           key={index}
                         >
                           <div className="flex gap-4 items-end justify-between">

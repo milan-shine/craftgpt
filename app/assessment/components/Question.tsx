@@ -30,7 +30,7 @@ export const Question = ({ question, options }: QuestionProps) => {
 
   return (
     <>
-      <td className="text-center">
+      <td className="text-center mx-2">
         <strong>{question}</strong>
       </td>
       {options.map(({ label, value }) => (

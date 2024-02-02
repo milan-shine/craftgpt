@@ -1,7 +1,9 @@
+import { redirect } from "next/navigation";
 import React from "react";
 
 const Page: React.FC = () => {
-  return <div>Page</div>;
+  redirect("/admin/maturity-models");
+  return <></>;
 };
 
 export default Page;
