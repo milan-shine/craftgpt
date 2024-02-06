@@ -8,6 +8,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { FileSpreadsheet, Trash } from "lucide-react";
 import { Separator } from "@/components/shadcn/ui/separator";
 import AdminFormContainer from "@/components/containers/AdminContainer";
+import BreadcrumbView from "@/components/breadcrumbs/BreadcrumbView";
 
 export type Question = {
   content: string;
@@ -60,6 +61,7 @@ const Page: React.FC = () => {
   return (
     <>
       <div>
+      <BreadcrumbView>
         <Header title="Add Assessment model" />
         <Separator className="mt-2 w-[95%]" />
         <Formik
@@ -161,6 +163,7 @@ const Page: React.FC = () => {
             </Form>
           )}
         </Formik>
+      </BreadcrumbView>
       </div>
     </>
   );

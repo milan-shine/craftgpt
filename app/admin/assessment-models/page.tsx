@@ -1,28 +1,17 @@
-"use client";
-
 import React from "react";
 import AdminContainer from "@/components/containers/AdminContainer";
 import Header from "@/components/headers/Header";
 import { Button } from "@/components/shadcn/ui/button";
 import { Separator } from "@/components/shadcn/ui/separator";
 import { useRouter } from "next/navigation";
+import Models from "./Models";
+import { getModels } from "@/api/assessment-models";
+import BreadcrumbView from "@/components/breadcrumbs/BreadcrumbView";
 
-const Page: React.FC = () => {
-  const router = useRouter();
-
+const Page: React.FC = async () => {
+  const initialData = await getModels();
   return (
-    <div>
-      <Header title="Model List" />
-      <Separator className="mt-2 w-[95%]" />
-      <AdminContainer>
-        <Button
-          className="self-end"
-          onClick={() => router.push("assessment-models/new")}
-        >
-          Add Model
-        </Button>
-      </AdminContainer>
-    </div>
+      <Models inititalModelList={initialData} />
   );
 };
 
