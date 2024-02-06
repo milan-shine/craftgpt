@@ -11,16 +11,12 @@ export type SidebarTabs = {
 
 const SIDEBAR_TABS: SidebarTabs = [
   {
-    title: "Maturity Modules",
-    path: "/admin/maturity-models",
+    title: "Assessment Models",
+    path: "/admin/assessment-models",
   },
   {
-    title: "tab 2",
-    path: "/admin/tab-2",
-  },
-  {
-    title: "tab 3",
-    path: "/admin/tab-3",
+    title: "Assessments",
+    path: "/admin/assessments",
   },
 ];
 
