@@ -7,6 +7,8 @@ import { Formik, Field, Form, FieldArray } from "formik";
 import { Button } from "@/components/shadcn/ui/button";
 import { Trash } from "lucide-react";
 import { Separator } from "@/components/shadcn/ui/separator";
+import { useMutation } from "@tanstack/react-query";
+import { createModel } from "@/api/assessment-models";
 
 export type Question = {
   content: string;
@@ -55,7 +57,88 @@ const LEVEL_TITLES = [
   "Optimized",
 ];
 
+
+
 const Page: React.FC = () => {
+  const datax = {
+    "name": "Model Name 11.52",
+    "description": "Model Description",
+    "questions": [
+        {
+            "content": "Question 1",
+            "options": [
+                {
+                    "level": 1,
+                    "content": "Level 1: Initial*",
+                    "level_name": "Initial",
+                    "score": 1
+                },
+                {
+                    "level": 2,
+                    "content": "Level 2: Developing*",
+                    "level_name": "Developing",
+                    "score": 2
+                },
+                {
+                    "level": 3,
+                    "content": "Level 3: Defined*",
+                    "level_name": "Defined",
+                    "score": 3
+                },
+                {
+                    "level": 4,
+                    "content": "Level 4: Managed*",
+                    "level_name": "Managed",
+                    "score": 4
+                },
+                {
+                    "level": 5,
+                    "content": "Level 5: Optimized*",
+                    "level_name": "Optimized",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "content": "Question 2",
+            "options": [
+                {
+                    "level": 1,
+                    "content": "Level 1: Initial*",
+                    "level_name": "Initial",
+                    "score": 1
+                },
+                {
+                    "level": 2,
+                    "content": "Level 2: Developing*",
+                    "level_name": "Developing",
+                    "score": 2
+                },
+                {
+                    "level": 3,
+                    "content": "Level 3: Defined*",
+                    "level_name": "Defined",
+                    "score": 3
+                },
+                {
+                    "level": 4,
+                    "content": "Level 4: Managed*",
+                    "level_name": "Managed",
+                    "score": 4
+                },
+                {
+                    "level": 5,
+                    "content": "Level 5: Optimized*",
+                    "level_name": "Optimized",
+                    "score": 5
+                }
+            ]
+        }
+    ]
+}
+  const modelMutation = useMutation({
+    mutationFn: () => createModel(datax)
+  })
   return (
     <>
       <div>
@@ -66,6 +149,7 @@ const Page: React.FC = () => {
           onSubmit={(values) => {
             // Display form field values in alert on form submission
             console.log(values);
+            modelMutation.mutate()
           }}
         >
           {({ values }) => (
@@ -75,14 +159,14 @@ const Page: React.FC = () => {
                 label="Model name:"
                 placeholder="Name"
                 component={Input}
-                required
+                // required
               />
               <Field
                 name="description"
                 label="Model Description:"
                 placeholder="Description"
                 component={Input}
-                required
+                // required
               />
 
               <FieldArray name="questions">
@@ -101,7 +185,7 @@ const Page: React.FC = () => {
                                 label={`Question ${index + 1}:`}
                                 placeholder="Question"
                                 component={Input}
-                                required
+                                // required
                               />
                             </div>
                             <Button onClick={() => remove(index)}>
@@ -118,7 +202,7 @@ const Page: React.FC = () => {
                                 placeholder={`Option ${optionIndex + 1}`}
                                 key={optionIndex}
                                 component={Input}
-                                required
+                                // required
                               />
                             ))}
                           </div>
