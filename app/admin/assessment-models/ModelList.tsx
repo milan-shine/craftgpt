@@ -18,7 +18,7 @@ const ModelList = ({ initialData }: { initialData: any }) => {
         {data?.length &&
           data.map(({ name }: { name: string }) => (
             <li
-              className="m-3 flex justify-between rounded-lg bg-card p-3"
+              className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
               key={name}
             >
               <span>{name}</span>

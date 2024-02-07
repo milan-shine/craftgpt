@@ -47,7 +47,7 @@ const Layout = ({
         position="top-right"
         duration={2000}
         theme="light"
-        richColors={true}
+        richColors
       />
     </div>
   );

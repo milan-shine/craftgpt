@@ -12,6 +12,7 @@ import BreadcrumbView from "@/components/breadcrumbs/BreadcrumbView";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createModel } from "@/api/assessment-models";
 import { toast } from "sonner";
+import { Label } from "@/components/shadcn/ui/label";
 
 export type Question = {
   content: string;
@@ -103,22 +104,24 @@ const Page: React.FC = () => {
                   label="Model name:"
                   placeholder="Name"
                   component={Input}
-                  required
+                  // required
                 />
                 <Field
                   name="description"
                   label="Model Description:"
                   placeholder="Description"
                   component={Input}
-                  required
+                  // required
                 />
-                <Button
-                  className="flex gap-2 self-end bg-green-800 hover:bg-green-700"
+                <Label
+                  htmlFor="upload"
+                  className="flex gap-2 self-end items-center text-white p-2 cursor-pointer rounded-lg bg-green-800 hover:bg-green-700"
                   onClick={() => console.log("imported")}
                 >
                   <FileSpreadsheet />
                   <span>Import Data</span>
-                </Button>
+                </Label>
+                <Input className="hidden" id="upload" type="file"/>
                 <FieldArray name="questions">
                   {({ insert, remove, push }) => (
                     <div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Edit, Eye, Trash } from "lucide-react";
+import { Edit, Eye, Trash, Share2 } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import ActionButton from "@/components/buttons/ActionButton";
 import { useQuery } from "@tanstack/react-query";
@@ -58,22 +58,19 @@ const AssessmentList: React.FC<{ initialAssessmentsList: any }> = ({
                 className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
               >
                 <span>{name}</span>
-                <div className="flex gap-2">
-                  <ActionButton Icon={Eye} />
-                  <ActionButton Icon={Edit} />
-                  <ActionButton Icon={Trash} />
-                </div>
-                <div>
-                  <Button
+                <div className="flex gap-2 items-center">
+                  <ActionButton title="View" Icon={Eye} />
+                  <ActionButton title="Edit" Icon={Edit} />
+                  <ActionButton title="Delete" Icon={Trash} />
+                  <ActionButton 
+                    title="Copy to Share"
                     onClick={() => {
-                      navigator.clipboard.writeText(
-                        `${GLOBAL_CONFIG.APP.BASE_URL}/login?access_code=${access_code}`,
-                      );
-                      toast("Link copied to clipboard");
-                    }}
-                  >
-                    Access Link
-                  </Button>
+                    navigator.clipboard.writeText(
+                      `${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${access_code}`,
+                    );
+                    toast.success("Link copied to clipboard");
+                  }}
+                    Icon={Share2} />
                 </div>
               </li>
             ),

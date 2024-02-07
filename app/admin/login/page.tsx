@@ -24,7 +24,7 @@ const Page: React.FC = () => {
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               setSubmitting(false);
-              router.push("/admin/assessment-models");
+              router.push("/admin/assessments");
             }, 2000);
           }}
         >

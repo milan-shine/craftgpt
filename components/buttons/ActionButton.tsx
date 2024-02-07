@@ -6,9 +6,9 @@ interface ActionButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   Icon: LucideIcon;
 }
 
-const ActionButton: React.FC<ActionButtonProps> = ({ Icon }) => {
+const ActionButton: React.FC<ActionButtonProps> = ({ Icon, onClick, ...props }) => {
   return (
-    <Button className="bg-transparent p-1 text-foreground hover:bg-transparent">
+    <Button {...props} onClick={onClick} className="bg-transparent p-1 text-foreground hover:bg-transparent">
       <Icon />
     </Button>
   );
