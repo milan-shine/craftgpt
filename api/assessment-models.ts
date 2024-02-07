@@ -16,7 +16,15 @@ export const createModel = async (body: any) => {
 
 export const getModels = async () => {
   const data = await fetch(
-    `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models`
+    `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models`,
+  ).then((res) => res.json());
+
+  return data.data;
+};
+
+export const getModelById = async (id: string) => {
+  const data = await fetch(
+    `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models/${id}`,
   ).then((res) => res.json());
 
   return data.data;
