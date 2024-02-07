@@ -52,11 +52,13 @@ const ModelTable: React.FC<ModelTableProps> = ({
               ({
                 content,
                 answers,
+                _id,
               }: {
                 content: string;
                 answers: AnswerType[];
+                _id: string;
               }) => (
-                <tr className="my-4 grid w-[80vw] grid-cols-6" key={content}>
+                <tr className="my-4 grid w-[80vw] grid-cols-6" key={_id}>
                   <Question
                     key={content}
                     question={content}
