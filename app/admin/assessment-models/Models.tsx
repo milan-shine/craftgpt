@@ -5,17 +5,10 @@ import Header from "@/components/headers/Header";
 import { Button } from "@/components/shadcn/ui/button";
 import { Separator } from "@/components/shadcn/ui/separator";
 import ModelList from "./ModelList";
-import { useQuery } from "@tanstack/react-query";
-import { getModels } from "@/api/assessment-models";
 import { useRouter } from "next/navigation";
 
 const Models = ({ inititalModelList }: { inititalModelList: any }) => {
   const router = useRouter();
-  const { data } = useQuery({
-    queryKey: ["models"],
-    queryFn: getModels,
-    initialData: { inititalModelList },
-  });
 
   return (
     <div>

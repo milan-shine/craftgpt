@@ -9,6 +9,9 @@ import { FileSpreadsheet, Trash } from "lucide-react";
 import { Separator } from "@/components/shadcn/ui/separator";
 import AdminFormContainer from "@/components/containers/AdminContainer";
 import BreadcrumbView from "@/components/breadcrumbs/BreadcrumbView";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createModel } from "@/api/assessment-models";
+import { toast } from "sonner";
 
 export type Question = {
   content: string;
@@ -58,17 +61,16 @@ const LEVEL_TITLES = [
 ];
 
 const Page: React.FC = () => {
+  const { mutate } = useMutation({ mutationFn: createModel });
+
   return (
     <>
       <div>
-      <BreadcrumbView>
         <Header title="Add Assessment model" />
         <Separator className="mt-2 w-[95%]" />
         <Formik
           initialValues={initialValues}
-          onSubmit={(values) => {
-            // Display form field values in alert on form submission
-
+          onSubmit={(values, actions) => {
             const questionsData = values.questions?.map((question) => ({
               ...question,
               options: question.options?.map((option) => ({
@@ -77,9 +79,20 @@ const Page: React.FC = () => {
                 score: option.level,
               })),
             }));
-
             const modelData = { ...values, questions: questionsData };
-            console.log(modelData);
+
+            mutate(modelData, {
+              onSuccess() {
+                actions.resetForm({
+                  values: initialValues,
+                });
+                toast.success("Added successfully");
+              },
+              onError(error) {
+                console.log(error);
+                toast.error("Added successfully");
+              },
+            });
           }}
         >
           {({ values }) => (
@@ -112,10 +125,10 @@ const Page: React.FC = () => {
                       {values.questions.length > 0 &&
                         values.questions.map((question, index) => (
                           <div
-                            className="bg-card mb-4 p-6 rounded-xl"
+                            className="mb-4 rounded-xl bg-card p-6"
                             key={index}
                           >
-                            <div className="flex gap-4 items-end justify-between">
+                            <div className="flex items-end justify-between gap-4">
                               <div className="w-full">
                                 <Field
                                   name={`questions.${index}.content`}
@@ -129,7 +142,7 @@ const Page: React.FC = () => {
                                 <Trash />
                               </Button>
                             </div>
-                            <div className="flex flex-col gap-1 pl-6 pt-4 pr-0">
+                            <div className="flex flex-col gap-1 pl-6 pr-0 pt-4">
                               {question.options.map((option, optionIndex) => (
                                 <Field
                                   name={`questions.${index}.options.${optionIndex}.content`}
@@ -163,7 +176,6 @@ const Page: React.FC = () => {
             </Form>
           )}
         </Formik>
-      </BreadcrumbView>
       </div>
     </>
   );

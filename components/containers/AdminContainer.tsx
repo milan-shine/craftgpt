@@ -6,7 +6,7 @@ const AdminContainer: React.FC<
   }>
 > = ({ children }) => {
   return (
-    <section className="flex flex-col gap-2 mt-6 w-[60%]">{children}</section>
+    <section className="mt-6 flex w-[60%] flex-col gap-2">{children}</section>
   );
 };
 

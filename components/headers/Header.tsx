@@ -1,12 +1,12 @@
 import React from "react";
 
-type HeaderProps = {
+interface HeaderProps extends React.ComponentPropsWithoutRef<"header"> {
   title: string;
-};
+}
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const Header: React.FC<HeaderProps> = ({ title, ...restProps }) => {
   return (
-    <header>
+    <header {...restProps}>
       <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
     </header>
   );

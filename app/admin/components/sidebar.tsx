@@ -33,7 +33,7 @@ export const Sidebar = ({ sidebarTabs, isCollapsed }: SidebarProps) => {
               }),
               pathname.includes(sidebarTab.path) &&
                 "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-              "justify-start"
+              "justify-start",
             )}
           >
             {sidebarTab.title}
