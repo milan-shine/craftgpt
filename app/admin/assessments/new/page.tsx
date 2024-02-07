@@ -16,6 +16,7 @@ import { createAssessment } from "@/api/assessments";
 import { getModels } from "@/api/assessment-models";
 import { ScrollArea } from "@/components/shadcn/ui/scroll-area";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export type Assessment = {
   name: string;
@@ -56,6 +57,7 @@ const dummyList = [
 ];
 
 const Page: React.FC = () => {
+  const router = useRouter();
   const { mutate } = useMutation({ mutationFn: createAssessment });
   const { data: models } = useQuery({
     queryKey: ["models"],
@@ -99,6 +101,7 @@ const Page: React.FC = () => {
                 values: initialValues,
               });
               toast.success("Added successfully");
+              router.push("/admin/assessments");
             },
             onError(error) {
               console.log(error);

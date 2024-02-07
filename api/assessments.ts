@@ -22,7 +22,7 @@ export const getAssessments = async () => {
 
 export const getAssessmentByAccessCode = async (accessCode: string) => {
   const data = await fetch(
-    `${GLOBAL_CONFIG.API.BASE_URL}/assessments?access_code=${accessCode}`,
+    `${GLOBAL_CONFIG.API.BASE_URL}/assessments?access-code=${accessCode}`,
   )
     .then((res) => res.json())
     .catch((err) => console.log(err));

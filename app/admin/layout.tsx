@@ -43,12 +43,6 @@ const Layout = ({
         </ScrollArea>
       </div>
       <div className="flex-[5] space-y-2 p-8">{children}</div>
-      <Toaster
-        position="top-right"
-        duration={2000}
-        theme="light"
-        richColors
-      />
     </div>
   );
 };

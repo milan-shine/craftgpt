@@ -5,39 +5,58 @@ import { Formik, Form, Field } from "formik";
 import { Input } from "@/components/shadcn/ui/input";
 import LoadingButton from "@/components/buttons/LoadingButton";
 import { loginSchema } from "@/lib/form-validation/user";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { createUser } from "@/api/users";
 
 const Page: React.FC = () => {
+  const { mutate } = useMutation({
+    mutationFn: createUser,
+  });
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const access_code = searchParams.get("access-code");
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex h-screen flex-col items-center justify-center">
       <header className="mb-5 pb-5">
         <h1 className="scroll-m-20 text-2xl font-extrabold tracking-tight lg:text-3xl">
           Welcome to Business Assessment
         </h1>
       </header>
-      <div className="w-1/4 items-center p-5 bg-card rounded-xl">
+      <div className="w-1/4 items-center rounded-xl bg-card p-5">
         <Formik
-          initialValues={{ assessment_code: "", username: "", password: "" }}
+          initialValues={{
+            access_code: access_code,
+            name: "",
+            email: "",
+          }}
           validationSchema={loginSchema}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              setSubmitting(false);
-              router.push("/assessment");
-            }, 2000);
+            mutate(values, {
+              onSuccess(data, variables, context) {
+                setTimeout(() => {
+                  setSubmitting(false);
+                  router.push(`/assessment?access-code=${access_code}`);
+                }, 1000);
+              },
+            });
+
+            console.log(values);
           }}
         >
           {({ isSubmitting }) => (
             <Form noValidate className="flex flex-col gap-3">
-              <Field required name="assessment_code" component={Input} />
-              <Field required name="username" component={Input} />
               <Field
-                required
-                type="password"
-                name="password"
+                label="ASSESSMENT CODE"
+                name="access_code"
                 component={Input}
+                value={access_code}
+                className="pointer-events-none"
+                disabled
               />
+              <Field required name="name" component={Input} />
+              <Field required type="email" name="email" component={Input} />
               <LoadingButton
                 type="submit"
                 isLoading={isSubmitting}
