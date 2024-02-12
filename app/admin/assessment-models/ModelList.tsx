@@ -16,10 +16,10 @@ const ModelList = ({ initialData }: { initialData: any }) => {
     <>
       <ul>
         {data?.length &&
-          data.map(({ name }: { name: string }) => (
+          data.map(({ name, _id }: { name: string; _id: string }) => (
             <li
               className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
-              key={name}
+              key={_id}
             >
               <span>{name}</span>
               <div className="flex gap-2">

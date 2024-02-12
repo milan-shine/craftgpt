@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { createModel } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { Label } from "@/components/shadcn/ui/label";
+import Link from "next/link";
 
 export type Question = {
   content: string;
@@ -136,7 +137,7 @@ const Page: React.FC = () => {
                   onClick={() => console.log("imported")}
                 >
                   <FileSpreadsheet />
-                  <span>Import Data</span>
+                  <span>Download Sample file</span>
                 </Label>
                 <FieldArray name="questions">
                   {({ insert, remove, push }) => (
