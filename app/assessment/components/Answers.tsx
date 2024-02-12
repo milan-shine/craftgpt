@@ -2,12 +2,15 @@
 
 import { Button } from "@/components/shadcn/ui/button";
 import React, { useEffect, useState } from "react";
+import { AnswerType } from "./Question";
 
 interface OptionsProps {
-  content: string;
-  level_name: string;
-  selectAnswer: (value: string) => void;
-  selectedAnswers: string[];
+  answer: AnswerType;
+  selectAnswer: (level: number) => void;
+  selectedAnswers: {
+    currentAnswer: number;
+    desiredAnswer: number;
+  };
 }
 
 type ColorValues = {
@@ -27,34 +30,32 @@ const COLOR_VALUES: ColorValues = {
 };
 
 export const Answers = ({
-  content,
-  level_name,
+  answer,
   selectAnswer,
   selectedAnswers,
 }: OptionsProps) => {
   const [bgColor, setBgColor] = useState<string>("");
+  const { currentAnswer, desiredAnswer } = selectedAnswers;
+  const { level, level_name } = answer;
 
   const btnColorHandler = () => {
-    if (selectedAnswers) {
-      selectedAnswers.map((item) => {
-        if (item === level_name) {
-          setBgColor(COLOR_VALUES[item.toLowerCase() as keyof ColorValues]);
-        }
-        return item;
-      });
+    if (level === currentAnswer || level === desiredAnswer) {
+      setBgColor(COLOR_VALUES[level_name.toLowerCase() as keyof ColorValues]);
+    } else {
+      if (bgColor !== "") setBgColor("");
     }
   };
+
   const computeDisabled = (): boolean => {
     let isDisabled = false;
 
-    if (selectedAnswers.length >= 2) {
+    if (
+      currentAnswer !== 0 &&
+      desiredAnswer !== 0 &&
+      level !== currentAnswer &&
+      level !== desiredAnswer
+    ) {
       isDisabled = true;
-    }
-
-    for (const option of selectedAnswers) {
-      if (option === level_name) {
-        isDisabled = false;
-      }
     }
 
     return isDisabled;
@@ -70,11 +71,10 @@ export const Answers = ({
       <Button
         variant={"outline"}
         className={`items-start justify-start text-left ${bgColor} hover:${bgColor} h-full w-full text-wrap`}
-        value={level_name}
-        onClick={() => selectAnswer(level_name)}
+        onClick={() => selectAnswer(answer.level)}
         disabled={computeDisabled()}
       >
-        {content}
+        {answer.content}
       </Button>
     </td>
   );

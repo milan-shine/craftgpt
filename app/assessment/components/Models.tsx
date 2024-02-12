@@ -5,42 +5,83 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import ModelTable from "./ModelTable";
 import { Progress } from "@/components/shadcn/ui/progress";
+import LoadingButton from "@/components/buttons/LoadingButton";
+import { toast } from "sonner";
 
 type ModelsProps = {
   modelIds: string[];
+  setAssessmentModelAnswers: (modelData: any) => void;
+  handleSubmit: (lastModelData: any) => void;
 };
 
-const Models: React.FC<ModelsProps> = ({ modelIds }) => {
+const Models: React.FC<ModelsProps> = ({
+  modelIds,
+  setAssessmentModelAnswers,
+  handleSubmit,
+}) => {
   const [currentModel, setCurrentModel] = useState<number>(0);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [storedAnswers, setStoredAnswers] = useState<any>([]);
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["current_assessment_model"],
+  const { data, isLoading: isModelLoading } = useQuery({
+    queryKey: ["current_assessment_model", currentModel],
     queryFn: () => getModelById(modelIds[currentModel]),
   });
 
   useEffect(() => {
-    if (currentModel !== 0) {
-      refetch();
-    }
     if (currentModel + 1 === modelIds.length) {
       setIsSubmit(true);
     }
-  }, [currentModel]);
+  }, [currentModel, modelIds.length]);
 
-  if (isLoading) {
+  const mapAnswers = (storedAnswers: any, questions: any) => {
+    const mappedAnswers = storedAnswers.map(
+      (
+        { question_id, current_level_answer_id, desired_level_answer_id }: any,
+        index: number,
+      ) => {
+        const questionData = questions.find(
+          (question: any) => question._id === question_id,
+        );
+        const currentAnswer = questionData.answers.find(
+          (answer: any) => answer.level.toString() === current_level_answer_id,
+        );
+        const desiredAnswer = questionData.answers.find(
+          (answer: any) => answer.level.toString() === desired_level_answer_id,
+        );
+
+        return {
+          question_id,
+          current_level_answer: currentAnswer._id,
+          desired_level_answer: desiredAnswer._id,
+        };
+      },
+    );
+
+    return mappedAnswers;
+  };
+  const handleNextModel = () => {
+    if (currentModel + 1 < modelIds.length) {
+      setCurrentModel((prev) => prev + 1);
+    }
+
+    const mappedAnswers = mapAnswers(storedAnswers, data.questions);
+
+    setAssessmentModelAnswers({
+      model_id: data._id,
+      questions: mappedAnswers,
+    });
+    setStoredAnswers([]);
+  };
+
+  if (isModelLoading) {
     return <div>Loading..</div>;
   }
 
   if (!data?.name) {
     return <div>Something went wrong</div>;
   }
-
-  const handleNextModel = () => {
-    if (currentModel + 1 < modelIds.length) {
-      setCurrentModel((prev) => prev + 1);
-    }
-  };
 
   return (
     <>
@@ -53,9 +94,43 @@ const Models: React.FC<ModelsProps> = ({ modelIds }) => {
       />
       <ModelTable
         tableData={data}
-        handleNextModel={handleNextModel}
-        isSubmit={isSubmit}
+        storedAnswers={storedAnswers}
+        setStoredAnswers={setStoredAnswers}
       />
+      <div className="self-end">
+        {isSubmit ? (
+          <LoadingButton
+            onClick={() => {
+              setIsLoading(true);
+              setTimeout(() => {
+                setIsLoading(false);
+                const mappedAnswers = mapAnswers(storedAnswers, data.questions);
+                handleSubmit({
+                  model_id: data._id,
+                  questions: mappedAnswers,
+                });
+                toast.success("Submitted successfully");
+              }, 500);
+            }}
+            isLoading={isLoading}
+          >
+            Submit
+          </LoadingButton>
+        ) : (
+          <LoadingButton
+            onClick={() => {
+              setIsLoading(true);
+              setTimeout(() => {
+                setIsLoading(false);
+                handleNextModel();
+              }, 500);
+            }}
+            isLoading={isLoading}
+          >
+            Next
+          </LoadingButton>
+        )}
+      </div>
     </>
   );
 };

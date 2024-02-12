@@ -1,24 +1,19 @@
-import { Button } from "@/components/shadcn/ui/button";
 import React, { useState } from "react";
 import { AnswerType, Question } from "./Question";
-import LoadingButton from "@/components/buttons/LoadingButton";
-import { toast } from "sonner";
 
 type ModelTableProps = {
   tableData: any;
-  handleNextModel: Function;
-  isSubmit: boolean;
+  storedAnswers: any;
+  setStoredAnswers: React.Dispatch<any>;
 };
 
 const ModelTable: React.FC<ModelTableProps> = ({
   tableData,
-  handleNextModel,
-  isSubmit,
+  storedAnswers,
+  setStoredAnswers,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-
   return (
-    <div className="mt-8 flex flex-col items-end gap-4 p-20 pt-0">
+    <div className="mt-8 flex flex-col items-end gap-4 p-20 pb-4 pt-0">
       <span className="ml-4 self-start">
         <strong>Model Name: </strong>
         {tableData.name}
@@ -48,55 +43,33 @@ const ModelTable: React.FC<ModelTableProps> = ({
             </tr>
           </thead>
           <tbody className="w-full border border-black">
-            {tableData.questions?.map(
-              ({
-                content,
-                answers,
-                _id,
-              }: {
-                content: string;
-                answers: AnswerType[];
-                _id: string;
-              }) => (
-                <tr className="my-4 grid w-[80vw] grid-cols-6" key={_id}>
+            {tableData.questions?.map((question: any) => {
+              const [filterdAnswers] = storedAnswers.filter(
+                (answer: any) => answer.question_id === question._id,
+              );
+
+              return (
+                <tr
+                  className="my-4 grid w-[80vw] grid-cols-6"
+                  key={question._id}
+                >
                   <Question
-                    key={content}
-                    question={content}
-                    answers={answers}
+                    key={question._id}
+                    question={question}
+                    storedAnswer={{
+                      currentAnswer:
+                        filterdAnswers?.current_level_answer_id || 0,
+                      desiredAnswer:
+                        filterdAnswers?.desired_level_answer_id || 0,
+                    }}
+                    setStoredAnswers={setStoredAnswers}
                   />
                 </tr>
-              ),
-            )}
+              );
+            })}
           </tbody>
         </table>
       </div>
-      {isSubmit ? (
-        <LoadingButton
-          onClick={() => {
-            setIsLoading(true);
-            setTimeout(() => {
-              setIsLoading(false);
-              toast.success("Submitted successfully");
-            }, 2000);
-          }}
-          isLoading={isLoading}
-        >
-          Submit
-        </LoadingButton>
-      ) : (
-        <LoadingButton
-          onClick={() => {
-            setIsLoading(true);
-            setTimeout(() => {
-              setIsLoading(false);
-              handleNextModel();
-            }, 2000);
-          }}
-          isLoading={isLoading}
-        >
-          Next
-        </LoadingButton>
-      )}
     </div>
   );
 };

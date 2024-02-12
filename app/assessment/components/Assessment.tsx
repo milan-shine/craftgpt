@@ -1,8 +1,11 @@
+"use client";
+
 import { getAssessmentByAccessCode } from "@/api/assessments";
 import Header from "@/components/headers/Header";
 import { Separator } from "@/components/shadcn/ui/separator";
-import React from "react";
+import React, { useState } from "react";
 import Models from "./Models";
+import { useQuery } from "@tanstack/react-query";
 
 type AssessmentProps = {
   accessCode: string;
@@ -18,8 +21,35 @@ const dummyAssessment = {
   updatedAt: "2024-02-07T05:49:55.446Z",
 };
 
-const Assessment = async ({ accessCode }: AssessmentProps) => {
-  const data = await getAssessmentByAccessCode(accessCode);
+const Assessment = ({ accessCode }: AssessmentProps) => {
+  let userString = localStorage.getItem("user");
+  let user: null | any = null;
+  if (userString && userString !== "undefined") {
+    user = JSON.parse(userString);
+  }
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["assessment"],
+    queryFn: () => getAssessmentByAccessCode(accessCode),
+  });
+
+  const [modelSubmissionData, setModelSubmissionData] = useState<any>([]);
+
+  const setAssessmentModelAnswers = (modelData: any) => {
+    setModelSubmissionData((prev: any) => [...prev, modelData]);
+  };
+
+  const handleSubmit = (lastModelData: any) => {
+    console.log({
+      user_id: user?._id,
+      assessment_id: data._id,
+      assessment_models: [...modelSubmissionData, lastModelData],
+    });
+  };
+
+  if (isLoading) {
+    return <div>Loading..</div>;
+  }
 
   if (!data || (data && !data.name)) {
     return <div>Something went wrong</div>;
@@ -34,7 +64,11 @@ const Assessment = async ({ accessCode }: AssessmentProps) => {
         to be completed.
       </span>
       <Separator className="my-2" />
-      <Models modelIds={data.assessment_model_ids} />
+      <Models
+        modelIds={data.assessment_model_ids}
+        setAssessmentModelAnswers={setAssessmentModelAnswers}
+        handleSubmit={handleSubmit}
+      />
     </section>
   );
 };

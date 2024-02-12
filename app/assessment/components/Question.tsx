@@ -1,46 +1,98 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Answers } from "./Answers";
 
 export interface AnswerType {
+  _id: string;
+  question_id: string;
   content: string;
-  score: string;
+  score: number;
   level_name: string;
+  level: number;
 }
 
 interface QuestionProps {
-  question: string;
-  answers: AnswerType[];
+  question: any;
+  storedAnswer: { currentAnswer: number; desiredAnswer: number };
+  setStoredAnswers: React.Dispatch<any>;
 }
 
-export const Question = ({ question, answers }: QuestionProps) => {
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
+export const Question = ({
+  question,
+  storedAnswer: { currentAnswer, desiredAnswer },
+  setStoredAnswers,
+}: QuestionProps) => {
+  // const [selectedAnswers, setSelectedAnswers] = useState<{
+  //   currentAnswer: number;
+  //   desiredAnswer: number;
+  // }>({ currentAnswer: 0, desiredAnswer: 0 });
 
-  const selectAnswer = (level_name: string) => {
-    const filteredAnswers = selectedAnswers.filter(
-      (option) => option !== level_name,
-    );
+  const selectAnswer = (level: number) => {
+    let newCurrent = currentAnswer;
+    let newDesired = desiredAnswer;
 
-    if (filteredAnswers.length === selectedAnswers.length) {
-      setSelectedAnswers([...selectedAnswers, level_name]);
+    if (newCurrent === 0) {
+      newCurrent = level;
+    } else if (newDesired === 0) {
+      if (level < newCurrent) {
+        newDesired = newCurrent;
+        newCurrent = level;
+      } else if (level !== newCurrent) {
+        newDesired = level;
+      } else {
+        newCurrent = 0;
+      }
+    } else if (level === newCurrent) {
+      newCurrent = newDesired;
+      newDesired = 0;
     } else {
-      setSelectedAnswers(filteredAnswers);
+      newDesired = 0;
     }
+
+    // setSelectedAnswers({
+    //   currentAnswer: newCurrent,
+    //   desiredAnswer: newDesired,
+    // });
+
+    setStoredAnswers((prevAnswers: any) => {
+      const index = prevAnswers.findIndex(
+        (answer: any) => answer.question_id === question._id,
+      );
+      if (index !== -1) {
+        // Update the existing answer
+        const updatedAnswers = [...prevAnswers];
+        updatedAnswers[index] = {
+          question_id: question._id,
+          current_level_answer_id: newCurrent,
+          desired_level_answer_id: newDesired,
+        };
+        return updatedAnswers;
+      } else {
+        // Add a new answer
+        return [
+          ...prevAnswers,
+          {
+            question_id: question._id,
+            current_level_answer_id: newCurrent,
+            desired_level_answer_id: newDesired,
+          },
+        ];
+      }
+    });
   };
 
   return (
     <>
       <td className="mx-2 text-center">
-        <strong>{question}</strong>
+        <strong>{question.content}</strong>
       </td>
-      {answers.map(({ content, level_name }) => (
+      {question.answers.map((answer: AnswerType) => (
         <Answers
-          key={content}
-          content={content}
-          level_name={level_name}
+          key={answer._id}
+          answer={answer}
           selectAnswer={selectAnswer}
-          selectedAnswers={selectedAnswers}
+          selectedAnswers={{ currentAnswer, desiredAnswer }}
         />
       ))}
     </>

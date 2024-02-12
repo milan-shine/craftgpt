@@ -34,8 +34,9 @@ const Page: React.FC = () => {
           validationSchema={loginSchema}
           onSubmit={(values, { setSubmitting }) => {
             mutate(values, {
-              onSuccess(data, variables, context) {
+              onSuccess(data) {
                 setTimeout(() => {
+                  localStorage.setItem("user", JSON.stringify(data.data));
                   setSubmitting(false);
                   router.push(`/assessment?access-code=${access_code}`);
                 }, 1000);
