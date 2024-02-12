@@ -113,6 +113,14 @@ const Page: React.FC = () => {
                   component={Input}
                   // required
                 />
+                <Field
+                  name="file"
+                  label="Upload Excel File"
+                  type="file"
+                  placeholder="Description"
+                  component={Input}
+                  // required
+                />
                 <Label
                   htmlFor="upload"
                   className="flex gap-2 self-end items-center text-white p-2 cursor-pointer rounded-lg bg-green-800 hover:bg-green-700"
@@ -121,7 +129,6 @@ const Page: React.FC = () => {
                   <FileSpreadsheet />
                   <span>Import Data</span>
                 </Label>
-                <Input className="hidden" id="upload" type="file"/>
                 <FieldArray name="questions">
                   {({ insert, remove, push }) => (
                     <div>
