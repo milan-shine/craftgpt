@@ -23,23 +23,14 @@ export type MaturityModel = {
   name: string;
   description: string;
   questions: Question[];
+  file: File | null;
 };
 
 const initialValues: MaturityModel = {
   name: "",
   description: "",
-  questions: [
-    {
-      content: "",
-      options: [
-        { level: 1, content: "" },
-        { level: 2, content: "" },
-        { level: 3, content: "" },
-        { level: 4, content: "" },
-        { level: 5, content: "" },
-      ],
-    },
-  ],
+  questions: [],
+  file: null,
 };
 
 const initialQuestionValues: Question = {
@@ -71,8 +62,8 @@ const Page: React.FC = () => {
         <Separator className="mt-2 w-[95%]" />
         <Formik
           initialValues={initialValues}
-          onSubmit={(values, actions) => {
-            const questionsData = values.questions?.map((question) => ({
+          onSubmit={({ questions, ...values }, actions) => {
+            const questionsData = questions?.map((question) => ({
               ...question,
               options: question.options?.map((option) => ({
                 ...option,
@@ -80,7 +71,25 @@ const Page: React.FC = () => {
                 score: option.level,
               })),
             }));
-            const modelData = { ...values, questions: questionsData };
+
+            let modelData;
+            if (values.file) {
+              const formData = new FormData();
+
+              for (let key in values) {
+                const value = values[key as keyof typeof values];
+                if (typeof value === "string" || value instanceof Blob) {
+                  formData.append(key, value);
+                }
+              }
+
+              modelData = { data: formData, file: true };
+            } else {
+              modelData = {
+                data: { ...values, questions: questionsData },
+                file: false,
+              };
+            }
 
             mutate(modelData, {
               onSuccess() {
@@ -96,7 +105,7 @@ const Page: React.FC = () => {
             });
           }}
         >
-          {({ values }) => (
+          {({ values, setFieldValue }) => (
             <Form>
               <AdminFormContainer>
                 <Field
@@ -113,17 +122,17 @@ const Page: React.FC = () => {
                   component={Input}
                   // required
                 />
-                <Field
-                  name="file"
-                  label="Upload Excel File"
+                <Input
                   type="file"
-                  placeholder="Description"
-                  component={Input}
-                  // required
+                  name="file"
+                  label="Add File:"
+                  onChange={(e) => {
+                    setFieldValue("file", e.target.files![0]);
+                  }}
                 />
                 <Label
                   htmlFor="upload"
-                  className="flex gap-2 self-end items-center text-white p-2 cursor-pointer rounded-lg bg-green-800 hover:bg-green-700"
+                  className="flex cursor-pointer items-center gap-2 self-end rounded-lg bg-green-800 p-2 text-white hover:bg-green-700"
                   onClick={() => console.log("imported")}
                 >
                   <FileSpreadsheet />

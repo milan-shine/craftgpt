@@ -7,6 +7,7 @@ import ModelTable from "./ModelTable";
 import { Progress } from "@/components/shadcn/ui/progress";
 import LoadingButton from "@/components/buttons/LoadingButton";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 type ModelsProps = {
   modelIds: string[];
@@ -110,6 +111,7 @@ const Models: React.FC<ModelsProps> = ({
                   questions: mappedAnswers,
                 });
                 toast.success("Submitted successfully");
+                redirect("/thank-you");
               }, 500);
             }}
             isLoading={isLoading}
