@@ -17,7 +17,7 @@ export const getAssessments = async () => {
   const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments`)
     .then((res) => res.json())
     .catch((err) => console.log(err));
-  return data.data;
+  return data?.data || [];
 };
 
 export const getAssessmentByAccessCode = async (accessCode: string) => {
@@ -26,5 +26,5 @@ export const getAssessmentByAccessCode = async (accessCode: string) => {
   )
     .then((res) => res.json())
     .catch((err) => console.log(err));
-  return data.data[0];
+  return data?.data[0] || {};
 };

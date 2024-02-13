@@ -28,17 +28,19 @@ export const createModel = async (body: any) => {
 };
 
 export const getModels = async () => {
-  const data = await fetch(
-    `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models`,
-  ).then((res) => res.json());
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/maturity-models`)
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
 
-  return data.data;
+  return data?.data || [];
 };
 
 export const getModelById = async (id: string) => {
   const data = await fetch(
     `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models/${id}`,
-  ).then((res) => res.json());
+  )
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
 
-  return data.data;
+  return data?.data;
 };
