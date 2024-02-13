@@ -3,6 +3,8 @@
 import React from "react";
 import { Sidebar } from "./components/sidebar";
 import { usePathname } from "next/navigation";
+import { Toaster } from "@/components/shadcn/ui/sonner";
+import { ScrollArea } from "@/components/shadcn/ui/scroll-area";
 
 export type SidebarTabs = {
   title: string;
@@ -11,16 +13,12 @@ export type SidebarTabs = {
 
 const SIDEBAR_TABS: SidebarTabs = [
   {
-    title: "Maturity Modules",
-    path: "/admin/maturity-models",
+    title: "Assessment Models",
+    path: "/admin/assessment-models",
   },
   {
-    title: "tab 2",
-    path: "/admin/tab-2",
-  },
-  {
-    title: "tab 3",
-    path: "/admin/tab-3",
+    title: "Assessments",
+    path: "/admin/assessments",
   },
 ];
 
@@ -38,9 +36,11 @@ const Layout = ({
   }
 
   return (
-    <div className="flex min-h-[100vh] bg-background">
-      <div className="bg-secondary w-64 flex-1 shadow-lg text-secondary-foreground">
-        <Sidebar sidebarTabs={SIDEBAR_TABS} />
+    <div className="relative flex bg-background">
+      <div className="sticky top-0 flex h-[100vh] w-64 flex-1 bg-secondary text-secondary-foreground shadow-lg">
+        <ScrollArea className="relative top-0 h-[100vh] w-full flex-col">
+          <Sidebar sidebarTabs={SIDEBAR_TABS} />
+        </ScrollArea>
       </div>
       <div className="flex-[5] space-y-2 p-8">{children}</div>
     </div>

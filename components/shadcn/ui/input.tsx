@@ -13,11 +13,11 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, field, label, form, type, ...props }, ref) => {
-    const isError = form.touched[field.name] && form.errors[field.name];
+    const isError = form?.touched[field.name] && form?.errors[field.name];
     return (
       <>
         <Label>
-          {label || field.name.toUpperCase().replace(/_/g, " ")}
+          {label || field?.name.toUpperCase().replace(/_/g, " ")}
           {props.required && <span className="text-red-500">*</span>}
         </Label>
         <input
@@ -32,7 +32,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         <ErrorMessage
-          error={form.touched[field.name] && form.errors[field.name]}
+          error={form?.touched[field.name] && form?.errors[field.name]}
         />
       </>
     );

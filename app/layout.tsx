@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryClientProvider from "@/providers/QueryClientProvider";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} m-auto`}>
         <QueryClientProvider>{children}</QueryClientProvider>
+        <Toaster
+          position="top-right"
+          duration={2000}
+          theme="light"
+          richColors
+        />
       </body>
     </html>
   );

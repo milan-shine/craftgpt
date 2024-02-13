@@ -6,6 +6,7 @@ import { Input } from "@/components/shadcn/ui/input";
 import LoadingButton from "@/components/buttons/LoadingButton";
 import { loginSchema } from "@/lib/form-validation/user";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -22,10 +23,23 @@ const Page: React.FC = () => {
           initialValues={{ username: "", password: "" }}
           // validationSchema={loginSchema}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
+            // setTimeout(() => {
+            //   setSubmitting(false);
+            //   router.push("/admin/assessments");
+            // }, 2000);
+             // Check if the provided username and password are "admin"
+             if (values.username === "admin" && values.password === "admin") {
+              setTimeout(() => {
+                setSubmitting(false);
+                router.push("/admin/assessments");
+              }, 2000);
+            } else {
+              // Handle incorrect credentials (e.g., display an error message)
+              console.error("Invalid username or password");
+              // You can also set an error state and display it in your UI.
+              toast.error('Invalid credentials')
               setSubmitting(false);
-              router.push("/admin/maturity-models");
-            }, 2000);
+            }
           }}
         >
           {({ isSubmitting }) => (

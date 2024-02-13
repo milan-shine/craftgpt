@@ -1,0 +1,14 @@
+import { GLOBAL_CONFIG } from "@/config/globals";
+
+export const createUser = async (body: any) => {
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/users`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+  return data;
+};

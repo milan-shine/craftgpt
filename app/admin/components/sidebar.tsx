@@ -26,12 +26,14 @@ export const Sidebar = ({ sidebarTabs, isCollapsed }: SidebarProps) => {
             href={sidebarTab.path}
             className={cn(
               buttonVariants({
-                variant: pathname === sidebarTab.path ? "default" : "ghost",
+                variant: pathname.includes(sidebarTab.path)
+                  ? "default"
+                  : "ghost",
                 size: "default",
               }),
-              pathname === sidebarTab.path &&
+              pathname.includes(sidebarTab.path) &&
                 "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-              "justify-start"
+              "justify-start",
             )}
           >
             {sidebarTab.title}
