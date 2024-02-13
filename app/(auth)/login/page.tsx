@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { Formik, Form, Field } from "formik";
 import { Input } from "@/components/shadcn/ui/input";
 import LoadingButton from "@/components/buttons/LoadingButton";
@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createUser } from "@/api/users";
 
-const Page: React.FC = () => {
+const Login: React.FC = () => {
   const { mutate } = useMutation({
     mutationFn: createUser,
   });
@@ -42,8 +42,6 @@ const Page: React.FC = () => {
                 }, 1000);
               },
             });
-
-            console.log(values);
           }}
         >
           {({ isSubmitting }) => (
@@ -70,6 +68,14 @@ const Page: React.FC = () => {
         </Formik>
       </div>
     </div>
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense>
+      <Login />
+    </Suspense>
   );
 };
 
