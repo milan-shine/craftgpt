@@ -41,9 +41,13 @@ const AssessmentList: React.FC<{ initialAssessmentsList: any }> = ({
 
   return (
     <>
-      <ul>
-        {data?.length &&
-          data.map(
+      {data?.length === 0 ? (
+        <div className="flex h-full w-full flex-col items-center justify-center text-2xl">
+          <span>No Data found</span>
+        </div>
+      ) : (
+        <ul>
+          {data.map(
             ({
               _id,
               name,
@@ -58,24 +62,26 @@ const AssessmentList: React.FC<{ initialAssessmentsList: any }> = ({
                 className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
               >
                 <span>{name}</span>
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center gap-2">
                   <ActionButton title="View" Icon={Eye} />
                   <ActionButton title="Edit" Icon={Edit} />
                   <ActionButton title="Delete" Icon={Trash} />
-                  <ActionButton 
+                  <ActionButton
                     title="Copy to Share"
                     onClick={() => {
-                    navigator.clipboard.writeText(
-                      `${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${access_code}`,
-                    );
-                    toast.success("Link copied to clipboard");
-                  }}
-                    Icon={Share2} />
+                      navigator.clipboard.writeText(
+                        `${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${access_code}`,
+                      );
+                      toast.success("Link copied to clipboard");
+                    }}
+                    Icon={Share2}
+                  />
                 </div>
               </li>
             ),
           )}
-      </ul>
+        </ul>
+      )}
     </>
   );
 };

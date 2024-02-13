@@ -14,9 +14,13 @@ const ModelList = ({ initialData }: { initialData: any }) => {
 
   return (
     <>
-      <ul>
-        {data?.length &&
-          data.map(({ name, _id }: { name: string; _id: string }) => (
+      {data?.length === 0 ? (
+        <div className="flex h-full w-full flex-col items-center justify-center text-2xl">
+          <span>No Data found</span>
+        </div>
+      ) : (
+        <ul>
+          {data.map(({ name, _id }: { name: string; _id: string }) => (
             <li
               className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
               key={_id}
@@ -29,7 +33,8 @@ const ModelList = ({ initialData }: { initialData: any }) => {
               </div>
             </li>
           ))}
-      </ul>
+        </ul>
+      )}
     </>
   );
 };
