@@ -131,14 +131,15 @@ const Page: React.FC = () => {
                     setFieldValue("file", e.target.files![0]);
                   }}
                 />
-                <Label
-                  htmlFor="upload"
+                <a
+                  href="/sample.xlsx"
+                  download="sample"
                   className="flex cursor-pointer items-center gap-2 self-end rounded-lg bg-green-800 p-2 text-white hover:bg-green-700"
                   onClick={() => console.log("imported")}
                 >
                   <FileSpreadsheet />
                   <span>Download Sample file</span>
-                </Label>
+                </a>
                 <FieldArray name="questions">
                   {({ insert, remove, push }) => (
                     <div>
