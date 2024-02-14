@@ -8,14 +8,23 @@ import { loginSchema } from "@/lib/form-validation/user";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createUser } from "@/api/users";
+import { toast } from "sonner";
 
 const Login: React.FC = () => {
-  const { mutate } = useMutation({
-    mutationFn: createUser,
-  });
   const router = useRouter();
   const searchParams = useSearchParams();
   const access_code = searchParams.get("access-code");
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createUser,
+    onSuccess: data => {
+      localStorage.setItem("user", JSON.stringify(data.data));
+      router.push(`/assessment?access-code=${access_code}`);
+    },
+    onError: (err: any) => {
+      toast.error(err.message)
+    }
+  });
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">
@@ -32,19 +41,11 @@ const Login: React.FC = () => {
             email: "",
           }}
           validationSchema={loginSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            mutate(values, {
-              onSuccess(data) {
-                setTimeout(() => {
-                  localStorage.setItem("user", JSON.stringify(data.data));
-                  setSubmitting(false);
-                  router.push(`/assessment?access-code=${access_code}`);
-                }, 1000);
-              },
-            });
+          onSubmit={(values) => {
+            mutate(values);
           }}
         >
-          {({ isSubmitting }) => (
+          {() => (
             <Form noValidate className="flex flex-col gap-3">
               <Field
                 label="ASSESSMENT CODE"
@@ -58,8 +59,8 @@ const Login: React.FC = () => {
               <Field required type="email" name="email" component={Input} />
               <LoadingButton
                 type="submit"
-                isLoading={isSubmitting}
-                disabled={isSubmitting}
+                isLoading={isPending}
+                disabled={isPending}
               >
                 Login
               </LoadingButton>
