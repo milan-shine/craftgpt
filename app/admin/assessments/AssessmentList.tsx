@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAssessments } from "@/api/assessments";
 import { GLOBAL_CONFIG } from "@/config/globals";
 import { toast } from "sonner";
+import CopyButton from "@/components/buttons/CopyToClipboardBtn";
 
 const dummyList = [
   { name: "word1", value: "word1" },
@@ -66,16 +67,7 @@ const AssessmentList: React.FC<{ initialAssessmentsList: any }> = ({
                   <ActionButton title="View" Icon={Eye} />
                   <ActionButton title="Edit" Icon={Edit} />
                   <ActionButton title="Delete" Icon={Trash} />
-                  <ActionButton
-                    title="Copy to Share"
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        `${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${access_code}`,
-                      );
-                      toast.success("Link copied to clipboard");
-                    }}
-                    Icon={Share2}
-                  />
+                  <CopyButton text={`${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${access_code}`}/>
                 </div>
               </li>
             ),
