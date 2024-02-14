@@ -1,5 +1,6 @@
 "use client";
 
+import { createTitleCase } from "@/utils/string";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { ReactNode } from "react";
@@ -17,12 +18,12 @@ export default function BreadcrumbView({ children }: { children: ReactNode }) {
            isCurrentScreen(i) ? (
             <span key={path} className="text-muted-foreground">
             {i > 0 && <span className="mx-2">/</span>}
-            {path}
+            {createTitleCase(path)}
            </span>
           ) : (
             <Link key={path} className="hover:underline" href={`/admin/${path}`}>
             {i > 0 && <span className="mx-2">/</span>}
-            {path.replace(/-/g, ' ')}
+            {createTitleCase(path).replace(/-/g, ' ')}
           </Link>
           )
         )}
