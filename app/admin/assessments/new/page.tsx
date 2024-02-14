@@ -78,7 +78,7 @@ const Page: React.FC = () => {
   }, [models]);
 
   return (
-    <div>
+    <div className="w-[60%]">
       <Formik
         initialValues={initialValues}
         onSubmit={(values, actions) => {

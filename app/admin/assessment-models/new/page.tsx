@@ -55,12 +55,12 @@ const LEVEL_TITLES = [
 ];
 
 const Page: React.FC = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { mutate } = useMutation({ mutationFn: createModel });
 
   return (
     <>
-      <div>
+      <div className="w-[60%]">
         <Formik
           initialValues={initialValues}
           onSubmit={({ questions, ...values }, actions) => {
@@ -98,7 +98,7 @@ const Page: React.FC = () => {
                   values: initialValues,
                 });
                 toast.success("Added successfully");
-                router.push('/admin/assessment-models')
+                router.push("/admin/assessment-models");
               },
               onError(error) {
                 console.log(error);

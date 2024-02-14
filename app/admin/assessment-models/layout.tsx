@@ -10,8 +10,8 @@ export default function AssessmentLayout({
 }) {
   return (
     <>
-      <Header title="Models" />
-      <Separator className="mt-2 w-[95%]" />
+      <Header title="Assessment Models" />
+      <Separator className="mt-2 w-[100%]" />
       <BreadcrumbView>{children}</BreadcrumbView>
     </>
   );
