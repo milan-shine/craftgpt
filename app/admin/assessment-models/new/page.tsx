@@ -14,6 +14,7 @@ import { createModel } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { Label } from "@/components/shadcn/ui/label";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export type Question = {
   content: string;
@@ -54,6 +55,7 @@ const LEVEL_TITLES = [
 ];
 
 const Page: React.FC = () => {
+  const router = useRouter()
   const { mutate } = useMutation({ mutationFn: createModel });
 
   return (
@@ -98,6 +100,7 @@ const Page: React.FC = () => {
                   values: initialValues,
                 });
                 toast.success("Added successfully");
+                router.push('/admin/assessment-models')
               },
               onError(error) {
                 console.log(error);
