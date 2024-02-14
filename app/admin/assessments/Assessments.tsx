@@ -17,9 +17,6 @@ const Assessments: React.FC<{ initialAssessmentsList: any }> = ({
 
   return (
     <div>
-      {/* <BreadcrumbView> */}
-      <Header title="Assessment List" />
-      <Separator className="mt-2 w-[95%]" />
       <AdminContainer>
         <Button
           className="self-end"
@@ -29,7 +26,6 @@ const Assessments: React.FC<{ initialAssessmentsList: any }> = ({
         </Button>
         <AssessmentList initialAssessmentsList={initialAssessmentsList} />
       </AdminContainer>
-      {/* </BreadcrumbView> */}
     </div>
   );
 };
