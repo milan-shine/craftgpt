@@ -14,6 +14,7 @@ import { createModel } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { Label } from "@/components/shadcn/ui/label";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export type Question = {
   content: string;
@@ -54,13 +55,12 @@ const LEVEL_TITLES = [
 ];
 
 const Page: React.FC = () => {
+  const router = useRouter();
   const { mutate } = useMutation({ mutationFn: createModel });
 
   return (
     <>
-      <div>
-        <Header title="Add Assessment model" />
-        <Separator className="mt-2 w-[95%]" />
+      <div className="w-[60%]">
         <Formik
           initialValues={initialValues}
           onSubmit={({ questions, ...values }, actions) => {
@@ -98,6 +98,7 @@ const Page: React.FC = () => {
                   values: initialValues,
                 });
                 toast.success("Added successfully");
+                router.push("/admin/assessment-models");
               },
               onError(error) {
                 console.log(error);
@@ -131,14 +132,15 @@ const Page: React.FC = () => {
                     setFieldValue("file", e.target.files![0]);
                   }}
                 />
-                <Label
-                  htmlFor="upload"
+                <a
+                  href="/sample.xlsx"
+                  download="sample"
                   className="flex cursor-pointer items-center gap-2 self-end rounded-lg bg-green-800 p-2 text-white hover:bg-green-700"
                   onClick={() => console.log("imported")}
                 >
                   <FileSpreadsheet />
                   <span>Download Sample file</span>
-                </Label>
+                </a>
                 <FieldArray name="questions">
                   {({ insert, remove, push }) => (
                     <div>

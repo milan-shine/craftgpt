@@ -78,9 +78,7 @@ const Page: React.FC = () => {
   }, [models]);
 
   return (
-    <div>
-      <Header title="Add assessment" />
-      <Separator className="mt-2 w-[95%]" />
+    <div className="w-[60%]">
       <Formik
         initialValues={initialValues}
         onSubmit={(values, actions) => {

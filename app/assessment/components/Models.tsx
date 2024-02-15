@@ -7,7 +7,6 @@ import ModelTable from "./ModelTable";
 import { Progress } from "@/components/shadcn/ui/progress";
 import LoadingButton from "@/components/buttons/LoadingButton";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 type ModelsProps = {
   modelIds: string[];
@@ -20,7 +19,6 @@ const Models: React.FC<ModelsProps> = ({
   setAssessmentModelAnswers,
   handleSubmit,
 }) => {
-  const router = useRouter();
   const [currentModel, setCurrentModel] = useState<number>(0);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -104,16 +102,12 @@ const Models: React.FC<ModelsProps> = ({
           <LoadingButton
             onClick={() => {
               setIsLoading(true);
-              setTimeout(() => {
                 setIsLoading(false);
                 const mappedAnswers = mapAnswers(storedAnswers, data.questions);
                 handleSubmit({
                   model_id: data._id,
                   questions: mappedAnswers,
                 });
-                toast.success("Submitted successfully");
-                router.push("/thank-you");
-              }, 500);
             }}
             isLoading={isLoading}
           >

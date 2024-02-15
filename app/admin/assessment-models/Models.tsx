@@ -12,8 +12,6 @@ const Models = ({ inititalModelList }: { inititalModelList: any }) => {
 
   return (
     <div>
-      <Header title="Model List" />
-      <Separator className="mt-2 w-[95%]" />
       <AdminContainer>
         <Button
           className="self-end"

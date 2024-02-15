@@ -1,34 +1,12 @@
 import React from "react";
-import { Edit, Eye, Trash, Share2 } from "lucide-react";
-import { Button } from "@/components/shadcn/ui/button";
-import ActionButton from "@/components/buttons/ActionButton";
 import { useQuery } from "@tanstack/react-query";
 import { getAssessments } from "@/api/assessments";
+import DataTable from "@/components/table/DataTable";
+import ActionButton from "@/components/buttons/ActionButton";
+import { Edit, Eye, Trash, Share2 } from "lucide-react";
 import { GLOBAL_CONFIG } from "@/config/globals";
 import { toast } from "sonner";
-
-const dummyList = [
-  { name: "word1", value: "word1" },
-  { name: "word2", value: "word2" },
-  { name: "word3", value: "word3" },
-  { name: "word4", value: "word4" },
-  { name: "word5", value: "word5" },
-  { name: "word6", value: "word6" },
-  { name: "word7", value: "word7" },
-  { name: "word8", value: "word8" },
-  { name: "word9", value: "word9" },
-  { name: "word10", value: "word10" },
-  { name: "word11", value: "word11" },
-  { name: "word12", value: "word12" },
-  { name: "word13", value: "word13" },
-  { name: "word14", value: "word14" },
-  { name: "word15", value: "word15" },
-  { name: "word16", value: "word16" },
-  { name: "word17", value: "word17" },
-  { name: "word18", value: "word18" },
-  { name: "word19", value: "word19" },
-  { name: "word20", value: "word20" },
-];
+import CopyButton from "@/components/buttons/CopyToClipboardBtn";
 
 const AssessmentList: React.FC<{ initialAssessmentsList: any }> = ({
   initialAssessmentsList,
@@ -39,43 +17,41 @@ const AssessmentList: React.FC<{ initialAssessmentsList: any }> = ({
     initialData: initialAssessmentsList,
   });
 
+  const assessmentData =
+    data &&
+    data.map((cell: any) => ({
+      row: [
+        { cell: cell.name },
+        {
+          cell: cell?.completed_submissions
+            ? cell.completed_submissions.length
+            : 0,
+        },
+        { cell: cell.submissions_limit },
+        {
+          cell: (
+            <div className="flex items-center justify-center gap-2">
+              <ActionButton title="View" Icon={Eye} />
+              <ActionButton title="Edit" Icon={Edit} />
+              <ActionButton title="Delete" Icon={Trash} />
+              <CopyButton text={`${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${cell.access_code}`}/>
+            </div>
+          ),
+        },
+      ],
+    }));
+
   return (
     <>
-      <ul>
-        {data?.length &&
-          data.map(
-            ({
-              _id,
-              name,
-              access_code,
-            }: {
-              _id: string;
-              name: string;
-              access_code: string;
-            }) => (
-              <li
-                key={_id}
-                className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
-              >
-                <span>{name}</span>
-                <div className="flex gap-2 items-center">
-                  <ActionButton title="View" Icon={Eye} />
-                  <ActionButton title="Edit" Icon={Edit} />
-                  <ActionButton title="Delete" Icon={Trash} />
-                  <ActionButton 
-                    title="Copy to Share"
-                    onClick={() => {
-                    navigator.clipboard.writeText(
-                      `${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${access_code}`,
-                    );
-                    toast.success("Link copied to clipboard");
-                  }}
-                    Icon={Share2} />
-                </div>
-              </li>
-            ),
-          )}
-      </ul>
+      <DataTable
+        tHeads={[
+          "Name",
+          "Completed assessment",
+          "Total assessment limit",
+          "Actions",
+        ]}
+        tRows={assessmentData}
+      />
     </>
   );
 };
