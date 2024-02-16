@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryClientProvider from "@/providers/QueryClientProvider";
 import { Toaster } from "sonner";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} m-auto`}>
-        <QueryClientProvider>{children}</QueryClientProvider>
+        {/* <QueryClientProvider>{children}</QueryClientProvider> */}
+        <QueryClientProvider>
+          {children}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+
         <Toaster
           position="top-right"
           duration={2000}
