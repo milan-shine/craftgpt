@@ -19,3 +19,15 @@ export const registerSchema = Yup.object().shape({
     )
     .required("Required"),
 });
+
+export const assessmentModelSchema = Yup.object().shape({
+  name: Yup.string().min(4).max(25).required("Required"),
+  description: Yup.string().required("Required"),
+  file: Yup.mixed().required("Required"),
+});
+
+export const assessmentSchema = Yup.object().shape({
+  name: Yup.string().required("Required"),
+  submissions_limit: Yup.number().required("Required"),
+  assessment_model_ids: Yup.array().of(Yup.string().required("Required")),
+});

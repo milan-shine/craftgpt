@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Header from "@/components/headers/Header";
-import { Separator } from "@/components/shadcn/ui/separator";
 import AdminContainer from "@/components/containers/AdminContainer";
 import { Button } from "@/components/shadcn/ui/button";
 import { Formik, Field, Form } from "formik";
@@ -14,9 +12,9 @@ import { Label } from "@/components/shadcn/ui/label";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createAssessment } from "@/api/assessments";
 import { getModels } from "@/api/assessment-models";
-import { ScrollArea } from "@/components/shadcn/ui/scroll-area";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { assessmentSchema } from "@/lib/form-validation/user";
 
 export type Assessment = {
   name: string;
@@ -32,30 +30,6 @@ const initialValues: Assessment = {
   submissions_limit: 1,
   assessment_models: [],
 };
-
-const dummyList = [
-  { name: "word1", value: "word1" },
-  { name: "word2", value: "word2" },
-  { name: "word3", value: "word3" },
-  { name: "word4", value: "word4" },
-  { name: "word5", value: "word5" },
-  { name: "word6", value: "word6" },
-  { name: "word7", value: "word7" },
-  { name: "word8", value: "word8" },
-  { name: "word9", value: "word9" },
-  { name: "word10", value: "word10" },
-  { name: "word11", value: "word11" },
-  { name: "word12", value: "word12" },
-  { name: "word13", value: "word13" },
-  { name: "word14", value: "word14" },
-  { name: "word15", value: "word15" },
-  { name: "word16", value: "word16" },
-  { name: "word17", value: "word17" },
-  { name: "word18", value: "word18" },
-  { name: "word19", value: "word19" },
-  { name: "word20", value: "word20" },
-];
-
 const Page: React.FC = () => {
   const router = useRouter();
   const { mutate } = useMutation({ mutationFn: createAssessment });
@@ -81,6 +55,7 @@ const Page: React.FC = () => {
     <div className="w-[60%]">
       <Formik
         initialValues={initialValues}
+        validationSchema={assessmentSchema}
         onSubmit={(values, actions) => {
           // Display form field values in alert on form submission
 
@@ -93,8 +68,7 @@ const Page: React.FC = () => {
           };
 
           mutate(assessment, {
-            onSuccess(data) {
-              console.log(data);
+            onSuccess() {
               actions.resetForm({
                 values: initialValues,
               });

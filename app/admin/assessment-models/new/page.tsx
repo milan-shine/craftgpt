@@ -1,20 +1,16 @@
 "use client";
 
 import React from "react";
-import Header from "@/components/headers/Header";
 import { Input } from "@/components/shadcn/ui/input";
 import { Formik, Field, FieldArray, Form } from "formik";
 import { Button } from "@/components/shadcn/ui/button";
 import { FileSpreadsheet, Trash } from "lucide-react";
-import { Separator } from "@/components/shadcn/ui/separator";
 import AdminFormContainer from "@/components/containers/AdminContainer";
-import BreadcrumbView from "@/components/breadcrumbs/BreadcrumbView";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createModel } from "@/api/assessment-models";
 import { toast } from "sonner";
-import { Label } from "@/components/shadcn/ui/label";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { assessmentModelSchema } from "@/lib/form-validation/user";
 
 export type Question = {
   content: string;
@@ -63,6 +59,7 @@ const Page: React.FC = () => {
       <div className="w-[60%]">
         <Formik
           initialValues={initialValues}
+          validationSchema={assessmentModelSchema}
           onSubmit={({ questions, ...values }, actions) => {
             const questionsData = questions?.map((question) => ({
               ...question,
@@ -102,7 +99,7 @@ const Page: React.FC = () => {
               },
               onError(error) {
                 console.log(error);
-                toast.error("Added successfully");
+                toast.error("Something went wrong!");
               },
             });
           }}
@@ -115,14 +112,12 @@ const Page: React.FC = () => {
                   label="Model name:"
                   placeholder="Name"
                   component={Input}
-                  // required
                 />
                 <Field
                   name="description"
                   label="Model Description:"
                   placeholder="Description"
                   component={Input}
-                  // required
                 />
                 <Input
                   type="file"

@@ -44,3 +44,19 @@ export const getModelById = async (id: string) => {
 
   return data?.data;
 };
+
+export const deleteModel = async (id: string) => {
+  const data = await fetch(
+    `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  )
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+
+  return data?.data;
+};
