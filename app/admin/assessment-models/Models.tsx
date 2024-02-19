@@ -2,7 +2,7 @@
 
 import AdminContainer from "@/components/containers/AdminContainer";
 import { Button } from "@/components/shadcn/ui/button";
-import ModelList from "./ModelList";
+import ModelList from "./components/ModelList";
 import { useRouter } from "next/navigation";
 
 interface IModel {

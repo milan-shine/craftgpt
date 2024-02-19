@@ -8,7 +8,7 @@ import { createModel } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { assessmentModelSchema } from "@/lib/form-validation/user";
-import ModelForm from "../components/ModelForm";
+import ModelForm from "../../components/ModelForm";
 
 export type Question = {
   content: string;
