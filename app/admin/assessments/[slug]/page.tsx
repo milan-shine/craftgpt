@@ -1,12 +1,12 @@
 import { getAssessmentById } from "@/api/assessments";
-import AssessmentForm from "../components/AssessmentForm"
+import AssessmentForm from "../components/AssessmentForm";
 
-export default async function Page({ params: { slug }}: any){
+export default async function Page({ params: { slug } }: any) {
   const initialData = await getAssessmentById(slug);
-    
-    return(
-        <>
-            <AssessmentForm key={slug} initialValues={initialData}/>
-        </>
-    )
+
+  return (
+    <>
+      <AssessmentForm key={slug} initialValues={initialData} />
+    </>
+  );
 }

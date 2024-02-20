@@ -9,6 +9,7 @@ import { deleteModel } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface IModel {
   _id: string;
@@ -68,7 +69,7 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
                 <span>{type?.name || "-"}</span>
                 <div className="flex gap-2">
                   {/* <ActionButton Icon={Eye} /> */}
-                  <ActionButton Icon={Edit} />
+                  <ActionButton onClick={() => router.push(`/admin/assessment-models/${_id}`)} Icon={Edit} />
                   <ActionButton
                     Icon={Trash}
                     onClick={() => modalHandler(_id)}

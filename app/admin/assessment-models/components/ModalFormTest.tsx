@@ -3,8 +3,8 @@
 import React from "react";
 import { Formik } from "formik";
 ("lucide-react");
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateModel } from "@/api/assessment-models";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { updateModel, getModelById } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 import { assessmentModelSchema } from "@/lib/form-validation/user";
@@ -30,7 +30,7 @@ const LEVEL_TITLES = [
   "Optimized",
 ];
 
-const ModalFormTest = ({initialValues}: any) => {
+const ModalFormTest = ({ initialValues }: any) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { slug } = useParams<any>()
@@ -43,6 +43,13 @@ const ModalFormTest = ({initialValues}: any) => {
       router.push('/admin/assessment-models')
     }
   })
+
+  const initialModal: MaturityModel = {
+    name: initialValues.name,
+    description: initialValues.description,
+    questions: [],
+    file: null,
+  };
 
   const initialModal: MaturityModel = {
     name: initialValues.name,
@@ -86,10 +93,10 @@ const ModalFormTest = ({initialValues}: any) => {
               };
             }
 
-          updateMutation.mutate({
-            id: slug,
-            body: values
-          })
+            updateMutation.mutate({
+              id: slug,
+              body: values,
+            });
           }}
         >
           {({ values, setFieldValue }) => (
