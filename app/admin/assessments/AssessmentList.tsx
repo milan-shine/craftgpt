@@ -9,6 +9,7 @@ import CopyButton from "@/components/buttons/CopyToClipboardBtn";
 import { ConfirmationDialog } from "@/components/modals/Modal";
 import { deleteAssessment } from "@/api/assessments";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface IAssessment {
   _id: string;
@@ -22,6 +23,7 @@ interface IAssessment {
 const AssessmentList: React.FC<{
   initialAssessmentsList: IAssessment;
 }> = ({ initialAssessmentsList }) => {
+  const router = useRouter()
   const queryClient = useQueryClient();
 
   const [open, setOpen] = useState(false);
@@ -69,7 +71,7 @@ const AssessmentList: React.FC<{
           cell: (
             <div className="flex items-center justify-center gap-2">
               <ActionButton title="View" Icon={Eye} />
-              <ActionButton title="Edit" Icon={Edit} />
+              <ActionButton onClick={() => router.push(`/admin/assessments/${cell._id}`)} title="Edit" Icon={Edit} />
               <ActionButton
                 title="Delete"
                 Icon={Trash}

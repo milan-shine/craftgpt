@@ -41,3 +41,10 @@ export const deleteAssessment = async (id: string) => {
 
   return data?.data;
 };
+
+export const getAssessmentById = async (id: string) => {
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments/${id}`)
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+  return data?.data || [];
+};

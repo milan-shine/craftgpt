@@ -8,6 +8,7 @@ import { Edit, Eye, Trash, AlertCircle } from "lucide-react";
 import { deleteModel } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface IModel {
   _id: string;
@@ -16,6 +17,7 @@ interface IModel {
 }
 
 const ModelList = ({ initialData }: { initialData: IModel }) => {
+  const router = useRouter()
   const queryClient = useQueryClient();
 
   const [open, setOpen] = useState(false);
@@ -63,7 +65,7 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
               <span>{name}</span>
               <div className="flex gap-2">
                 <ActionButton Icon={Eye} />
-                <ActionButton Icon={Edit} />
+                <ActionButton onClick={() => router.push(`/admin/assessment-models/${_id}`)} Icon={Edit} />
                 <ActionButton Icon={Trash} onClick={() => modalHandler(_id)} />
               </div>
             </li>
