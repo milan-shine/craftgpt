@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "../shadcn/ui/table";
+import { TableLoader } from "../loader/skeleton-loader/TableLoader";
 
 interface ICell {
   cell: string | React.ReactNode;
@@ -19,7 +20,8 @@ interface IRow {
 const DataTable: React.FC<{
   tHeads: string[];
   tRows: IRow[];
-}> = ({ tHeads, tRows }) => {
+  isLoading: boolean;
+}> = ({ tHeads, tRows, isLoading }) => {
   const renderCells = (row: any) => {
     return row.map((item: any) => (
       <TableCell key={item} className="text-center font-medium">
@@ -43,11 +45,17 @@ const DataTable: React.FC<{
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tRows?.map((row: any) => (
-          <TableRow key={row} className="justify-between">
-            {renderCells(row.row)}
-          </TableRow>
-        ))}
+        {isLoading ? (
+          <TableLoader theadLength={tHeads.length} />
+        ) : (
+          <>
+            {tRows?.map((row: any) => (
+              <TableRow key={row} className="justify-between">
+                {renderCells(row.row)}
+              </TableRow>
+            ))}
+          </>
+        )}
       </TableBody>
     </Table>
   );

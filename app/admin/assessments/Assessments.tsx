@@ -2,18 +2,23 @@
 
 import React from "react";
 import AdminContainer from "@/components/containers/AdminContainer";
-import Header from "@/components/headers/Header";
 import { Button } from "@/components/shadcn/ui/button";
-import { Separator } from "@/components/shadcn/ui/separator";
 import { useRouter } from "next/navigation";
-import BreadcrumbView from "@/components/breadcrumbs/BreadcrumbView";
 import AssessmentList from "./AssessmentList";
 
-const Assessments: React.FC<{ initialAssessmentsList: any }> = ({
-  initialAssessmentsList,
-}) => {
-  const router = useRouter();
+interface IAssessment {
+  _id: string;
+  access_code: string;
+  assessment_model_ids: string[];
+  completed_submissions: string[];
+  name: string;
+  submissions_limit: number;
+}
 
+const Assessments: React.FC<{
+  initialAssessmentsList: IAssessment;
+}> = ({ initialAssessmentsList }) => {
+  const router = useRouter();
   return (
     <div>
       <AdminContainer>

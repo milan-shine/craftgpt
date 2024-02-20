@@ -1,13 +1,17 @@
 "use client";
 
 import AdminContainer from "@/components/containers/AdminContainer";
-import Header from "@/components/headers/Header";
 import { Button } from "@/components/shadcn/ui/button";
-import { Separator } from "@/components/shadcn/ui/separator";
-import ModelList from "./ModelList";
+import ModelList from "./components/ModelList";
 import { useRouter } from "next/navigation";
 
-const Models = ({ inititalModelList }: { inititalModelList: any }) => {
+interface IModel {
+  _id: string;
+  name: string;
+  description: string;
+}
+
+const Models = ({ inititalModelList }: { inititalModelList: IModel }) => {
   const router = useRouter();
 
   return (

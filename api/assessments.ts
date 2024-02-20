@@ -28,3 +28,16 @@ export const getAssessmentByAccessCode = async (accessCode: string) => {
     .catch((err) => console.log(err));
   return data?.data[0] || {};
 };
+
+export const deleteAssessment = async (id: string) => {
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+
+  return data?.data;
+};
