@@ -25,19 +25,22 @@ export type Assessment = {
   }[];
 };
 
-const tempInitialValues: Assessment = {
-  name: "",
-  submissions_limit: 1,
-  assessment_models: [],
-};
-const Page: React.FC = ({initialValues=tempInitialValues}: any) => {
+
+const AssessmentForm = ({initialValues}: any) => {
   const router = useRouter();
   const { mutate } = useMutation({ mutationFn: createAssessment });
+
   const { data: models } = useQuery({
     queryKey: ["models"],
     queryFn: getModels,
+    initialData: initialValues
   });
 
+  const initialAssessment = {
+    name: initialValues.name || "",
+    submissions_limit: initialValues.submissions_limit || 1,
+    assessment_models: [],
+  };
   const [modelList, setModelList] = useState<SelectorListItem[]>([]);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ const Page: React.FC = ({initialValues=tempInitialValues}: any) => {
   return (
     <div className="w-[60%]">
       <Formik
-        initialValues={initialValues}
+        initialValues={initialAssessment}
         validationSchema={assessmentSchema}
         onSubmit={(values, actions) => {
           // Display form field values in alert on form submission
@@ -120,4 +123,4 @@ const Page: React.FC = ({initialValues=tempInitialValues}: any) => {
   );
 };
 
-export default Page;
+export default AssessmentForm;

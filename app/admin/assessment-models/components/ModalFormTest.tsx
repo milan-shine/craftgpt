@@ -3,12 +3,12 @@
 import React from "react";
 import { Formik } from "formik";
 ("lucide-react");
-import { useMutation } from "@tanstack/react-query";
-import { createModel } from "@/api/assessment-models";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createModel, getModelById } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { assessmentModelSchema } from "@/lib/form-validation/user";
-import ModelForm from "../../components/ModelForm";
+import ModelForm from "../components/ModelForm";
 
 export type Question = {
   content: string;
@@ -22,12 +22,12 @@ export type MaturityModel = {
   file: File | null;
 };
 
-const initialValues: MaturityModel = {
-  name: "",
-  description: "",
-  questions: [],
-  file: null,
-};
+// const initialValues: MaturityModel = {
+//   name: "",
+//   description: "",
+//   questions: [],
+//   file: null,
+// };
 
 const LEVEL_TITLES = [
   "Initial",
@@ -37,15 +37,26 @@ const LEVEL_TITLES = [
   "Optimized",
 ];
 
-const Page: React.FC = () => {
+interface PageProps {
+  params: { slug: string };
+}
+
+const ModalFormTest = ({initialValues}: any) => {
   const router = useRouter();
   const { mutate } = useMutation({ mutationFn: createModel });
+
+  const initialModal: MaturityModel = {
+    name: initialValues.name,
+    description: initialValues.description,
+    questions: [],
+    file: null,
+  };
 
   return (
     <>
       <div className="w-[60%]">
         <Formik
-          initialValues={initialValues}
+          initialValues={initialModal}
           validationSchema={assessmentModelSchema}
           onSubmit={({ questions, ...values }, actions) => {
             const questionsData = questions?.map((question) => ({
@@ -100,4 +111,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default ModalFormTest;
