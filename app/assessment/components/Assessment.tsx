@@ -15,11 +15,9 @@ type AssessmentProps = {
 };
 
 const Assessment = ({ accessCode }: AssessmentProps) => {
-  const router = useRouter();
-  let userString;
-  if (typeof localStorage !== "undefined") {
-    userString = localStorage.getItem("user");
-  }
+  const router = useRouter()
+
+  let userString = localStorage.getItem("user")
   let user: null | any = null;
   if (userString && userString !== "undefined") {
     user = JSON.parse(userString);
@@ -34,12 +32,12 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
     mutationFn: submitAssessment,
     onSuccess: () => {
       toast.success("Submitted successfully");
-      router.push("/risk-assessment");
+      router.push("/thank-you");
     },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+    onError: error => {
+      toast.error(error.message)
+    }
+  })
 
   const [modelSubmissionData, setModelSubmissionData] = useState<any>([]);
 
@@ -57,7 +55,7 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
       user_id: user?._id,
       assessment_id: data._id,
       assessment_models: [...modelSubmissionData, lastModelData],
-    });
+    })
   };
 
   if (isLoading) {
