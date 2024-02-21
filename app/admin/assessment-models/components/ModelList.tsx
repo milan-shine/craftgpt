@@ -62,7 +62,7 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
             >
               <span>{name}</span>
               <div className="flex gap-2">
-                <ActionButton Icon={Eye} />
+                {/* <ActionButton Icon={Eye} /> */}
                 <ActionButton Icon={Edit} />
                 <ActionButton Icon={Trash} onClick={() => modalHandler(_id)} />
               </div>

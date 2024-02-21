@@ -19,6 +19,10 @@ export type MaturityModel = {
   name: string;
   description: string;
   questions: Question[];
+  type: {
+    name: string;
+    value: string;
+  }[];
   file: File | null;
 };
 
@@ -26,6 +30,7 @@ const initialValues: MaturityModel = {
   name: "",
   description: "",
   questions: [],
+  type: [],
   file: null,
 };
 
@@ -63,11 +68,17 @@ const Page: React.FC = () => {
 
               for (let key in values) {
                 const value = values[key as keyof typeof values];
+                if (
+                  key === "type" &&
+                  Array.isArray(value) &&
+                  value.length > 0
+                ) {
+                  formData.append(key, value[0].value);
+                }
                 if (typeof value === "string" || value instanceof Blob) {
                   formData.append(key, value);
                 }
               }
-
               modelData = { data: formData, file: true };
             } else {
               modelData = {
@@ -75,7 +86,7 @@ const Page: React.FC = () => {
                 file: false,
               };
             }
-
+            console.log("modelData", modelData);
             mutate(modelData, {
               onSuccess() {
                 actions.resetForm({

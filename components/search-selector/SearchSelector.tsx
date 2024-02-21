@@ -13,22 +13,32 @@ type SearchSelectorProps = {
   itemList: SelectorListItem[];
   selectedModels: SelectorListItem[];
   setFieldValue: Function;
+  name: string;
 };
 
 const SearchSelector: React.FC<SearchSelectorProps> = ({
   itemList,
   selectedModels,
   setFieldValue,
+  name,
 }) => {
   const [modelName, setModelName] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const handleSelectItem = (item: { name: string; value: string }) => {
+  //   setFieldValue(name, [...selectedModels, item]);
+  // };
+
   const handleSelectItem = (item: { name: string; value: string }) => {
-    setFieldValue("assessment_models", [...selectedModels, item]);
+    if (name === "type") {
+      setFieldValue(name, [item]);
+    } else {
+      setFieldValue(name, [...selectedModels, item]);
+    }
   };
 
   const handleDeleteItem = (value: string) => {
     const filteredItems = selectedModels.filter((item) => item.value !== value);
-    setFieldValue("assessment_models", filteredItems);
+    setFieldValue(name, filteredItems);
   };
 
   const handleDisabled = (value: string): boolean => {

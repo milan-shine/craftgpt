@@ -68,7 +68,7 @@ const AssessmentList: React.FC<{
         {
           cell: (
             <div className="flex items-center justify-center gap-2">
-              <ActionButton title="View" Icon={Eye} />
+              {/* <ActionButton title="View" Icon={Eye} /> */}
               <ActionButton title="Edit" Icon={Edit} />
               <ActionButton
                 title="Delete"
