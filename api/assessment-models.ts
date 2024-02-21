@@ -37,8 +37,7 @@ export const getModels = async () => {
 
 export const getModelById = async (id: string) => {
   const data = await fetch(
-    `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models/${id}`,
-  )
+    `${GLOBAL_CONFIG.API.BASE_URL}/maturity-models/${id}`, {cache: 'no-store'})
     .then((res) => res.json())
     .catch((err) => console.log(err));
 
@@ -60,3 +59,17 @@ export const deleteModel = async (id: string) => {
 
   return data?.data;
 };
+
+export const updateModel = async (id: string, body: any) => {
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/maturity-models/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body)
+  })
+    .then(res => res.json())
+    .catch(err => console.log(err))
+
+    return data
+}

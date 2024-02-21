@@ -7,10 +7,10 @@ interface PageProps {
 
 export default async function Page({ params: { slug }}: PageProps){
   const initialData = await getModelById(slug);
-
+  //refactor: unified form
   return(
     <>
-      <ModalFormTest initialValues={initialData}/>
+      <ModalFormTest key={slug} initialValues={initialData}/>
     </>
   )
 }
