@@ -18,6 +18,7 @@ import { assessmentSchema } from "@/lib/form-validation/user";
 
 export type Assessment = {
   name: string;
+  client_code: string;
   submissions_limit: number;
   assessment_models: {
     name: string;
@@ -27,6 +28,7 @@ export type Assessment = {
 
 const initialValues: Assessment = {
   name: "",
+  client_code: "",
   submissions_limit: 1,
   assessment_models: [],
 };
@@ -60,6 +62,7 @@ const Page: React.FC = () => {
           // Display form field values in alert on form submission
 
           const assessment = {
+            client_code: values.client_code,
             name: values.name,
             submissions_limit: values.submissions_limit,
             assessment_model_ids: values.assessment_models.map(
@@ -86,6 +89,13 @@ const Page: React.FC = () => {
           <Form className="mb-96">
             <AdminContainer>
               <Field
+                name="client_code"
+                label="Client Code:"
+                placeholder="Client Code"
+                component={Input}
+                required
+              />
+              <Field
                 name="name"
                 label="Assessment name:"
                 placeholder="Name"
@@ -103,8 +113,8 @@ const Page: React.FC = () => {
               <div className="flex flex-col gap-2 ">
                 <Label>Select Models:</Label>
                 <SearchSelector
+                  name="assessment_models"
                   itemList={modelList}
-                  // itemList={dummyList}
                   selectedModels={values.assessment_models}
                   setFieldValue={setFieldValue}
                 />

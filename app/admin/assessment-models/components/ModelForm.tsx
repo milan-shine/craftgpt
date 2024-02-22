@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Field, FieldArray, Form } from "formik";
 import AdminFormContainer from "@/components/containers/AdminContainer";
 import { Input } from "@/components/shadcn/ui/input";
 import { FileSpreadsheet, Trash } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
+import SearchSelector, {
+  SelectorListItem,
+} from "@/components/search-selector/SearchSelector";
+import { Label } from "@/components/shadcn/ui/label";
+import { getModelType } from "@/api/model-type";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export type Question = {
   content: string;
@@ -33,6 +39,23 @@ const ModelForm: React.FC<{
   setFieldValue: any;
   values: any;
 }> = ({ setFieldValue, values }) => {
+  const { data: modelType } = useQuery({
+    queryKey: ["model-type"],
+    queryFn: getModelType,
+  });
+
+  const [modelTypeList, setModelTypeList] = useState<SelectorListItem[]>([]);
+
+  useEffect(() => {
+    if (modelType?.length > 0) {
+      const list = modelType.map((type: any) => ({
+        name: type.name,
+        value: type._id,
+      }));
+      setModelTypeList(list);
+    }
+  }, [modelType]);
+
   return (
     <Form>
       <AdminFormContainer>
@@ -48,6 +71,16 @@ const ModelForm: React.FC<{
           placeholder="Description"
           component={Input}
         />
+        <div className="flex flex-col gap-2 ">
+          <Label>Select Model Type:</Label>
+          <SearchSelector
+            name="type"
+            itemList={modelTypeList}
+            selectedModels={values.type}
+            setFieldValue={setFieldValue}
+          />
+        </div>
+
         <Input
           type="file"
           name="file"

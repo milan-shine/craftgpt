@@ -19,6 +19,7 @@ export type MaturityModel = {
   name: string;
   description: string;
   questions: Question[];
+  type: string;
   file: File | null;
 };
 
@@ -26,6 +27,7 @@ const initialValues: MaturityModel = {
   name: "",
   description: "",
   questions: [],
+  type: "",
   file: null,
 };
 

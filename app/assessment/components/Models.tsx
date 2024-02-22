@@ -66,8 +66,12 @@ const Models: React.FC<ModelsProps> = ({
       setCurrentModel((prev) => prev + 1);
     }
 
-    const mappedAnswers = mapAnswers(storedAnswers, data.questions);
-
+    let mappedAnswers;
+    if (!data.type.name.toLowerCase().includes("risk")) {
+      mappedAnswers = mapAnswers(storedAnswers, data.questions);
+    } else {
+      mappedAnswers = storedAnswers;
+    }
     setAssessmentModelAnswers({
       model_id: data._id,
       questions: mappedAnswers,
@@ -102,12 +106,17 @@ const Models: React.FC<ModelsProps> = ({
           <LoadingButton
             onClick={() => {
               setIsLoading(true);
-                setIsLoading(false);
-                const mappedAnswers = mapAnswers(storedAnswers, data.questions);
-                handleSubmit({
-                  model_id: data._id,
-                  questions: mappedAnswers,
-                });
+              setIsLoading(false);
+              let mappedAnswers;
+              if (!data.type.name.toLowerCase().includes("risk")) {
+                mappedAnswers = mapAnswers(storedAnswers, data.questions);
+              } else {
+                mappedAnswers = storedAnswers;
+              }
+              handleSubmit({
+                model_id: data._id,
+                questions: mappedAnswers,
+              });
             }}
             isLoading={isLoading}
           >
