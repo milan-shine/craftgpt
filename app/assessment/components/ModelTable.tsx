@@ -23,7 +23,10 @@ const ModelTable: React.FC<ModelTableProps> = ({
           <thead>
             <tr className="grid w-[80vw] grid-cols-6 divide-x divide-slate-500 rounded-tl-xl rounded-tr-xl border border-slate-500 bg-card">
               <th className="flex items-center justify-center p-2">
-                Combined Assurance Principle
+                Assessment Criteriaaa
+              </th>
+              <th className="flex items-center justify-center p-2">
+                Description
               </th>
               <th className="flex items-center justify-center p-2">
                 Level 1: Initial

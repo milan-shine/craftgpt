@@ -64,8 +64,8 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
             >
               <span>{name}</span>
               <div className="flex gap-2">
-                <ActionButton Icon={Eye} />
-                <ActionButton onClick={() => router.push(`/admin/assessment-models/${_id}`)} Icon={Edit} />
+                {/* <ActionButton Icon={Eye} /> */}
+                <ActionButton Icon={Edit} />
                 <ActionButton Icon={Trash} onClick={() => modalHandler(_id)} />
               </div>
             </li>
