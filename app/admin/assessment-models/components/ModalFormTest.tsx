@@ -3,10 +3,10 @@
 import React from "react";
 import { Formik } from "formik";
 ("lucide-react");
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createModel, getModelById } from "@/api/assessment-models";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateModel } from "@/api/assessment-models";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { assessmentModelSchema } from "@/lib/form-validation/user";
 import ModelForm from "../components/ModelForm";
 
@@ -22,13 +22,6 @@ export type MaturityModel = {
   file: File | null;
 };
 
-// const initialValues: MaturityModel = {
-//   name: "",
-//   description: "",
-//   questions: [],
-//   file: null,
-// };
-
 const LEVEL_TITLES = [
   "Initial",
   "Developing",
@@ -37,13 +30,19 @@ const LEVEL_TITLES = [
   "Optimized",
 ];
 
-interface PageProps {
-  params: { slug: string };
-}
-
 const ModalFormTest = ({initialValues}: any) => {
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const { mutate } = useMutation({ mutationFn: createModel });
+  const { slug } = useParams<any>()
+
+  const updateMutation = useMutation({
+    mutationFn: ({id, body}: {id:string, body: any}) => updateModel(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["assessments"]})
+      toast.success('Updated successfully')
+      router.push('/admin/assessment-models')
+    }
+  })
 
   const initialModal: MaturityModel = {
     name: initialValues.name,
@@ -58,7 +57,7 @@ const ModalFormTest = ({initialValues}: any) => {
         <Formik
           initialValues={initialModal}
           validationSchema={assessmentModelSchema}
-          onSubmit={({ questions, ...values }, actions) => {
+          onSubmit={({ questions, ...values }, actions): any => {
             const questionsData = questions?.map((question) => ({
               ...question,
               options: question.options?.map((option) => ({
@@ -87,19 +86,10 @@ const ModalFormTest = ({initialValues}: any) => {
               };
             }
 
-            mutate(modelData, {
-              onSuccess() {
-                actions.resetForm({
-                  values: initialValues,
-                });
-                toast.success("Added successfully");
-                router.push("/admin/assessment-models");
-              },
-              onError(error) {
-                console.log(error);
-                toast.error("Something went wrong!");
-              },
-            });
+          updateMutation.mutate({
+            id: slug,
+            body: values
+          })
           }}
         >
           {({ values, setFieldValue }) => (

@@ -23,7 +23,8 @@ export const registerSchema = Yup.object().shape({
 export const assessmentModelSchema = Yup.object().shape({
   name: Yup.string().min(4).max(25).required("Required"),
   description: Yup.string().required("Required"),
-  file: Yup.mixed().required("Required"),
+  // file: Yup.mixed().required("Required"),
+  file: Yup.mixed().notRequired() //temporary change to test edit feature
 });
 
 export const assessmentSchema = Yup.object().shape({

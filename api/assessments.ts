@@ -43,8 +43,22 @@ export const deleteAssessment = async (id: string) => {
 };
 
 export const getAssessmentById = async (id: string) => {
-  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments/${id}`)
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments/${id}`, {cache: 'no-store'})
     .then((res) => res.json())
     .catch((err) => console.log(err));
   return data?.data || [];
 };
+
+export const updateAssessment = async (id: string, body: any) => {
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body)
+  })
+    .then(res => res.json())
+    .catch(err => console.log(err))
+
+    return data
+}

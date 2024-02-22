@@ -9,11 +9,11 @@ import SearchSelector, {
   SelectorListItem,
 } from "@/components/search-selector/SearchSelector";
 import { Label } from "@/components/shadcn/ui/label";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createAssessment } from "@/api/assessments";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createAssessment, updateAssessment } from "@/api/assessments";
 import { getModels } from "@/api/assessment-models";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { assessmentSchema } from "@/lib/form-validation/user";
 
 export type Assessment = {
@@ -27,19 +27,29 @@ export type Assessment = {
 
 
 const AssessmentForm = ({initialValues}: any) => {
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const { mutate } = useMutation({ mutationFn: createAssessment });
+  const { slug } = useParams<any>()
 
   const { data: models } = useQuery({
     queryKey: ["models"],
     queryFn: getModels,
-    initialData: initialValues
+    // initialData: initialValues
   });
+
+  const updateMutation = useMutation({
+    mutationFn: ({id, body}: {id:string, body: any}) => updateAssessment(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["assessments"]})
+      toast.success('Updated successfully')
+      router.push('/admin/assessments')
+    }
+  })
 
   const initialAssessment = {
     name: initialValues.name || "",
     submissions_limit: initialValues.submissions_limit || 1,
-    assessment_models: [],
+    assessment_models: initialValues.assessment_model_ids || [],
   };
   const [modelList, setModelList] = useState<SelectorListItem[]>([]);
 
@@ -59,9 +69,9 @@ const AssessmentForm = ({initialValues}: any) => {
       <Formik
         initialValues={initialAssessment}
         validationSchema={assessmentSchema}
-        onSubmit={(values, actions) => {
+        onSubmit={(values, actions):any => {
           // Display form field values in alert on form submission
-
+          console.log(values, 'values')
           const assessment = {
             name: values.name,
             submissions_limit: values.submissions_limit,
@@ -69,20 +79,10 @@ const AssessmentForm = ({initialValues}: any) => {
               (model: any) => model.value,
             ),
           };
-
-          mutate(assessment, {
-            onSuccess() {
-              actions.resetForm({
-                values: initialValues,
-              });
-              toast.success("Added successfully");
-              router.push("/admin/assessments");
-            },
-            onError(error) {
-              console.log(error);
-              toast.error("There was some error");
-            },
-          });
+          updateMutation.mutate({
+            id: slug, 
+            body:values
+          })
         }}
       >
         {({ values, setFieldValue }) => (

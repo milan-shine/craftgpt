@@ -6,7 +6,7 @@ export default async function Page({ params: { slug }}: any){
     
     return(
         <>
-            <AssessmentForm initialValues={initialData}/>
+            <AssessmentForm key={slug} initialValues={initialData}/>
         </>
     )
 }
