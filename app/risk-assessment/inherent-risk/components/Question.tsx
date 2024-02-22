@@ -1,17 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Options } from "./Options";
 import { Input } from "@/components/shadcn/ui/input";
+import { Answer } from "./Answer";
 
-interface OptionsType {
-  label: string;
-  value: string;
+export interface AnswerType {
+  _id: string;
+  question_id: string;
+  content: string;
+  score: number;
+  level_name: string;
+  level: number;
 }
 
 interface QuestionProps {
-  question: string;
-  options: OptionsType[];
+  question: any;
+  storedAnswer: { answer: string; score: number };
+  setStoredAnswers: React.Dispatch<any>;
 }
 
 const OPTION_MINMAX = [
@@ -37,16 +42,44 @@ const OPTION_MINMAX = [
   },
 ];
 
-export const Question = ({ question, options }: QuestionProps) => {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+export const Question = ({
+  question,
+  storedAnswer: { answer, score: currentScore },
+  setStoredAnswers,
+}: QuestionProps) => {
+  const [selectedAnswer, setSelectedAnswer] = useState<string>("");
   const [minScore, setMinScore] = useState<number>(0);
   const [maxScore, setMaxScore] = useState<number>(100);
   const [score, setScore] = useState<undefined | number>(undefined);
 
-  const selectOption = (value: string, index: number) => {
-    setSelectedOption(value);
+  const selectAnswer = (value: string, index: number) => {
+    setSelectedAnswer(value);
     setMinScore(OPTION_MINMAX[index].min);
     setMaxScore(OPTION_MINMAX[index].max);
+
+    setStoredAnswers((prevAnswers: any) => {
+      const index = prevAnswers.findIndex(
+        (answer: any) => answer.question_id === question._id,
+      );
+      if (index !== -1) {
+        // Update the existing answer
+        const updatedAnswers = [...prevAnswers];
+        updatedAnswers[index] = {
+          ...updatedAnswers[index],
+          answer: value,
+        };
+        return updatedAnswers;
+      } else {
+        // Add a new answer
+        return [
+          ...prevAnswers,
+          {
+            question_id: question._id,
+            answer: value,
+          },
+        ];
+      }
+    });
   };
 
   const handleChange = (e: any) => {
@@ -60,6 +93,25 @@ export const Question = ({ question, options }: QuestionProps) => {
     }
   };
 
+  useEffect(() => {
+    if (score !== undefined) {
+      setStoredAnswers((prevAnswers: any) => {
+        const index = prevAnswers.findIndex(
+          (answer: any) => answer.question_id === question._id,
+        );
+        if (index !== -1) {
+          // Update the existing answer
+          const updatedAnswers = [...prevAnswers];
+          updatedAnswers[index] = {
+            ...updatedAnswers[index],
+            score: score,
+          };
+          return updatedAnswers;
+        }
+      });
+    }
+  }, [score]);
+
   return (
     <>
       {/* <td className="text-center mx-2">
@@ -69,23 +121,20 @@ export const Question = ({ question, options }: QuestionProps) => {
         <Input
           type="number"
           placeholder={
-            selectedOption ? `Between ${minScore}-${maxScore}` : `Score...`
+            selectedAnswer ? `Between ${minScore}-${maxScore}` : `Score...`
           }
-          min={0}
-          max={20}
           value={score}
           className="w-full rounded-md border-[1px] border-black px-2 py-1"
           onChange={handleChange}
         />
       </td>
-      {options.map(({ label, value }, index) => (
-        <Options
-          key={label}
+      {question.answers.map((answer: AnswerType, index: number) => (
+        <Answer
+          key={answer._id}
           index={index}
-          label={label}
-          value={value}
-          selectOption={selectOption}
-          selectedOption={selectedOption}
+          answer={answer}
+          selectAnswer={selectAnswer}
+          selectedAnswer={selectedAnswer}
         />
       ))}
     </>
