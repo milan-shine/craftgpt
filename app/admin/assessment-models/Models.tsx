@@ -9,6 +9,7 @@ interface IModel {
   _id: string;
   name: string;
   description: string;
+  type: any;
 }
 
 const Models = ({ inititalModelList }: { inititalModelList: IModel }) => {

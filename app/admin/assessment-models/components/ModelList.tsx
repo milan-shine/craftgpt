@@ -13,7 +13,7 @@ interface IModel {
   _id: string;
   name: string;
   description: string;
-  type: { name: string }[];
+  type: any;
 }
 
 const ModelList = ({ initialData }: { initialData: IModel }) => {
