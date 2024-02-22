@@ -13,6 +13,7 @@ interface IModel {
   _id: string;
   name: string;
   description: string;
+  type: { name: string }[];
 }
 
 const ModelList = ({ initialData }: { initialData: IModel }) => {
@@ -57,15 +58,7 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
       ) : (
         <ul>
           {data.map(
-            ({
-              name,
-              _id,
-              type,
-            }: {
-              name: string;
-              _id: string;
-              type: string[];
-            }) => (
+            ({ name, _id, type }: { name: string; _id: string; type: any }) => (
               <li
                 className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
                 key={_id}
