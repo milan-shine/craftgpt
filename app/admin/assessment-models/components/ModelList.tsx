@@ -48,7 +48,6 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
     mutate(selectedId);
     setOpen(false);
   };
-  console.log("data", data);
   return (
     <>
       {data?.length === 0 ? (
@@ -64,7 +63,7 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
                 key={_id}
               >
                 <span>{name}</span>
-                <span>{type.name}</span>
+                {/* <span>{type.name}</span> */}
                 <div className="flex gap-2">
                   {/* <ActionButton Icon={Eye} /> */}
                   <ActionButton Icon={Edit} />
