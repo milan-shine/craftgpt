@@ -25,15 +25,14 @@ export type Assessment = {
   }[];
 };
 
-
-const AssessmentForm = ({initialValues}: any) => {
+const AssessmentForm = ({ initialValues }: any) => {
   const router = useRouter();
   const { mutate } = useMutation({ mutationFn: createAssessment });
 
   const { data: models } = useQuery({
     queryKey: ["models"],
     queryFn: getModels,
-    initialData: initialValues
+    initialData: initialValues,
   });
 
   const initialAssessment = {
@@ -106,8 +105,8 @@ const AssessmentForm = ({initialValues}: any) => {
               <div className="flex flex-col gap-2 ">
                 <Label>Select Models:</Label>
                 <SearchSelector
+                  name="assessment_models"
                   itemList={modelList}
-                  // itemList={dummyList}
                   selectedModels={values.assessment_models}
                   setFieldValue={setFieldValue}
                 />
