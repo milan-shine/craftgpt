@@ -18,7 +18,7 @@ interface IModel {
 }
 
 const ModelList = ({ initialData }: { initialData: IModel }) => {
-  const router = useRouter()
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const [open, setOpen] = useState(false);
@@ -65,7 +65,7 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
                 key={_id}
               >
                 <span>{name}</span>
-                {/* <span>{type.name}</span> */}
+                <span>{type?.name || "-"}</span>
                 <div className="flex gap-2">
                   {/* <ActionButton Icon={Eye} /> */}
                   <ActionButton Icon={Edit} />
