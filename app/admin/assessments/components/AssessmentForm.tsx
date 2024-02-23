@@ -71,7 +71,6 @@ const AssessmentForm = ({ initialValues }: any) => {
         validationSchema={assessmentSchema}
         onSubmit={(values, actions): any => {
           // Display form field values in alert on form submission
-          console.log(values, "values");
           const assessment = {
             name: values.name,
             submissions_limit: values.submissions_limit,

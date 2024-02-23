@@ -49,11 +49,6 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
   };
 
   const handleSubmit = (lastModelData: any) => {
-    console.log({
-      user_id: user?._id,
-      assessment_id: data._id,
-      assessment_models: [...modelSubmissionData, lastModelData],
-    });
     assessmentMutation.mutate({
       user_id: user?._id,
       assessment_id: data._id,

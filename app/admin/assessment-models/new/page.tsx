@@ -86,7 +86,6 @@ const Page: React.FC = () => {
                 file: false,
               };
             }
-            console.log("modelData", modelData);
             mutate(modelData, {
               onSuccess() {
                 actions.resetForm({
