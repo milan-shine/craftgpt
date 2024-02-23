@@ -34,7 +34,8 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
     mutationFn: submitAssessment,
     onSuccess: () => {
       toast.success("Submitted successfully");
-      router.push("/risk-assessment");
+      router.push("/thank-you");
+      // router.push("/risk-assessment");
     },
     onError: (error) => {
       toast.error(error.message);

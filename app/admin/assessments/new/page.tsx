@@ -62,6 +62,7 @@ const Page: React.FC = ({initialValues=tempInitialValues}: any) => {
           // Display form field values in alert on form submission
 
           const assessment = {
+            client_code: values.client_code,
             name: values.name,
             submissions_limit: values.submissions_limit,
             assessment_model_ids: values.assessment_models.map(
