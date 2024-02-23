@@ -54,7 +54,7 @@ const SearchSelector: React.FC<SearchSelectorProps> = ({
   return (
     <>
       <ul>
-        {selectedModels.map(({ name, value }) => (
+        {selectedModels?.map(({ name, value }) => (
           <li
             key={value}
             className="my-2 flex w-full items-center justify-between rounded-xl bg-card px-8 py-2"
