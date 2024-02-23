@@ -7,6 +7,8 @@ import ModelTable from "./ModelTable";
 import { Progress } from "@/components/shadcn/ui/progress";
 import LoadingButton from "@/components/buttons/LoadingButton";
 import { toast } from "sonner";
+import { ConfirmationDialog } from "@/components/modals/Modal";
+import { AlertCircle } from "lucide-react";
 
 type ModelsProps = {
   modelIds: string[];
@@ -23,6 +25,7 @@ const Models: React.FC<ModelsProps> = ({
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [storedAnswers, setStoredAnswers] = useState<any>([]);
+  const [open, setOpen] = useState(true);
 
   const { data, isLoading: isModelLoading } = useQuery({
     queryKey: ["current_assessment_model", currentModel],
@@ -66,8 +69,12 @@ const Models: React.FC<ModelsProps> = ({
       setCurrentModel((prev) => prev + 1);
     }
 
-    const mappedAnswers = mapAnswers(storedAnswers, data.questions);
-
+    let mappedAnswers;
+    if (!data.type.name.toLowerCase().includes("risk")) {
+      mappedAnswers = mapAnswers(storedAnswers, data.questions);
+    } else {
+      mappedAnswers = storedAnswers;
+    }
     setAssessmentModelAnswers({
       model_id: data._id,
       questions: mappedAnswers,
@@ -83,6 +90,27 @@ const Models: React.FC<ModelsProps> = ({
     return <div>Something went wrong</div>;
   }
 
+  const submitHandler = () => {
+    setIsLoading(true);
+    setIsLoading(false);
+    let mappedAnswers;
+    if (!data.type.name.toLowerCase().includes("risk")) {
+      mappedAnswers = mapAnswers(storedAnswers, data.questions);
+    } else {
+      mappedAnswers = storedAnswers;
+    }
+    handleSubmit({
+      model_id: data._id,
+      questions: mappedAnswers,
+    });
+  };
+  const nextHandler = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      handleNextModel();
+    }, 500);
+  };
   return (
     <>
       <span className="mb-2 mt-4 text-lg">
@@ -97,33 +125,25 @@ const Models: React.FC<ModelsProps> = ({
         storedAnswers={storedAnswers}
         setStoredAnswers={setStoredAnswers}
       />
+      <ConfirmationDialog
+        icon={<AlertCircle color="red" />}
+        onClick={() => setOpen(false)}
+        open={data?.type?.name?.includes("Risk") && open}
+        setOpen={setOpen}
+        title={"Risk management?"}
+        description={"Do you wamt to risk management?"}
+        buttonText="Yes"
+        actionButtonVariant="destructive"
+        cancelButtonText="No"
+        cancelButtonAction={submitHandler}
+      />
       <div className="self-end">
         {isSubmit ? (
-          <LoadingButton
-            onClick={() => {
-              setIsLoading(true);
-                setIsLoading(false);
-                const mappedAnswers = mapAnswers(storedAnswers, data.questions);
-                handleSubmit({
-                  model_id: data._id,
-                  questions: mappedAnswers,
-                });
-            }}
-            isLoading={isLoading}
-          >
+          <LoadingButton onClick={submitHandler} isLoading={isLoading}>
             Submit
           </LoadingButton>
         ) : (
-          <LoadingButton
-            onClick={() => {
-              setIsLoading(true);
-              setTimeout(() => {
-                setIsLoading(false);
-                handleNextModel();
-              }, 500);
-            }}
-            isLoading={isLoading}
-          >
+          <LoadingButton onClick={nextHandler} isLoading={isLoading}>
             Next
           </LoadingButton>
         )}

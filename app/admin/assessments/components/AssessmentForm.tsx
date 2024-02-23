@@ -25,26 +25,26 @@ export type Assessment = {
   }[];
 };
 
-
-const AssessmentForm = ({initialValues}: any) => {
+const AssessmentForm = ({ initialValues }: any) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { slug } = useParams<any>()
+  const { slug } = useParams<any>();
 
   const { data: models } = useQuery({
     queryKey: ["models"],
     queryFn: getModels,
-    // initialData: initialValues
+    initialData: initialValues,
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({id, body}: {id:string, body: any}) => updateAssessment(id, body),
+    mutationFn: ({ id, body }: { id: string; body: any }) =>
+      updateAssessment(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["assessments"]})
-      toast.success('Updated successfully')
-      router.push('/admin/assessments')
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: ["assessments"] });
+      toast.success("Updated successfully");
+      router.push("/admin/assessments");
+    },
+  });
 
   const initialAssessment = {
     name: initialValues.name || "",
@@ -69,9 +69,9 @@ const AssessmentForm = ({initialValues}: any) => {
       <Formik
         initialValues={initialAssessment}
         validationSchema={assessmentSchema}
-        onSubmit={(values, actions):any => {
+        onSubmit={(values, actions): any => {
           // Display form field values in alert on form submission
-          console.log(values, 'values')
+          console.log(values, "values");
           const assessment = {
             name: values.name,
             submissions_limit: values.submissions_limit,
@@ -80,9 +80,9 @@ const AssessmentForm = ({initialValues}: any) => {
             ),
           };
           updateMutation.mutate({
-            id: slug, 
-            body:values
-          })
+            id: slug,
+            body: values,
+          });
         }}
       >
         {({ values, setFieldValue }) => (
@@ -106,8 +106,8 @@ const AssessmentForm = ({initialValues}: any) => {
               <div className="flex flex-col gap-2 ">
                 <Label>Select Models:</Label>
                 <SearchSelector
+                  name="assessment_models"
                   itemList={modelList}
-                  // itemList={dummyList}
                   selectedModels={values.assessment_models}
                   setFieldValue={setFieldValue}
                 />
