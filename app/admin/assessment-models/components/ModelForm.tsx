@@ -35,6 +35,11 @@ const initialQuestionValues: Question = {
   ],
 };
 
+const sampleFileUrls: any = {
+  "Risk Inheritance": "/Risk_inheritance.xlsx",
+  "Risk Likelihood": "/Risk_likelihood.xlsx",
+};
+
 const ModelForm: React.FC<{
   setFieldValue: any;
   values: any;
@@ -90,8 +95,8 @@ const ModelForm: React.FC<{
           }}
         />
         <a
-          href="/sample.xlsx"
-          download="sample"
+          href={sampleFileUrls[values?.type[0]?.name] || "/sample.xlsx"}
+          download={sampleFileUrls[values?.type[0]?.name]}
           className="flex cursor-pointer items-center gap-2 self-end rounded-lg bg-green-800 p-2 text-white hover:bg-green-700"
           onClick={() => console.log("imported")}
         >
