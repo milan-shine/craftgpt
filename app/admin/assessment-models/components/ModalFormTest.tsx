@@ -33,23 +33,17 @@ const LEVEL_TITLES = [
 const ModalFormTest = ({ initialValues }: any) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { slug } = useParams<any>()
+  const { slug } = useParams<any>();
 
   const updateMutation = useMutation({
-    mutationFn: ({id, body}: {id:string, body: any}) => updateModel(id, body),
+    mutationFn: ({ id, body }: { id: string; body: any }) =>
+      updateModel(id, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["assessments"]})
-      toast.success('Updated successfully')
-      router.push('/admin/assessment-models')
-    }
-  })
-
-  const initialModal: MaturityModel = {
-    name: initialValues.name,
-    description: initialValues.description,
-    questions: [],
-    file: null,
-  };
+      queryClient.invalidateQueries({ queryKey: ["assessments"] });
+      toast.success("Updated successfully");
+      router.push("/admin/assessment-models");
+    },
+  });
 
   const initialModal: MaturityModel = {
     name: initialValues.name,

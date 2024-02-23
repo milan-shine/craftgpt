@@ -95,10 +95,9 @@ const ModelForm: React.FC<{
           }}
         />
         <a
-          href={sampleFileUrls[values?.type[0]?.name] || "/sample.xlsx"}
-          download={sampleFileUrls[values?.type[0]?.name]}
+          href={sampleFileUrls[values?.type?.[0]?.name] || "/sample.xlsx"}
+          download={sampleFileUrls[values?.type?.[0]?.name]}
           className="flex cursor-pointer items-center gap-2 self-end rounded-lg bg-green-800 p-2 text-white hover:bg-green-700"
-          onClick={() => console.log("imported")}
         >
           <FileSpreadsheet />
           <span>Download Sample file</span>
