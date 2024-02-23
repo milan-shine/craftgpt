@@ -24,6 +24,8 @@ export const ConfirmationDialog: React.FC<{
   title: string;
   description: string;
   onClick: () => void;
+  cancelButtonText?: string;
+  cancelButtonAction?: () => void;
 }> = ({
   icon,
   open,
@@ -33,6 +35,8 @@ export const ConfirmationDialog: React.FC<{
   onClick,
   actionButtonVariant,
   buttonText,
+  cancelButtonText,
+  cancelButtonAction,
 }) => {
   return (
     <Dialog onOpenChange={() => setOpen(false)} open={open}>
@@ -46,11 +50,24 @@ export const ConfirmationDialog: React.FC<{
           <Button
             type="button"
             variant="outline"
-            onClick={() => setOpen(false)}
+            onClick={
+              (() => {
+                if (cancelButtonAction) {
+                  cancelButtonAction();
+                }
+                setOpen(false);
+              }) || (() => setOpen(false))
+            }
           >
-            Cancel
+            {cancelButtonText || "Cancel"}
           </Button>
-          <Button variant={actionButtonVariant} onClick={onClick}>
+          <Button
+            variant={actionButtonVariant}
+            onClick={() => {
+              onClick();
+              setOpen(false);
+            }}
+          >
             {buttonText}
           </Button>
         </DialogFooter>
