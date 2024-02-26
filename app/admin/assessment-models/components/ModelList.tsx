@@ -9,6 +9,7 @@ import { deleteModel } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import DataTable from "@/components/table/DataTable";
 
 interface IModel {
   _id: string;
@@ -24,7 +25,7 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["models"],
     queryFn: getModels,
     initialData: initialData,
@@ -50,6 +51,33 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
     mutate(selectedId);
     setOpen(false);
   };
+
+  const assessmentData =
+    data &&
+    data.map((cell: IModel) => ({
+      row: [
+        { cell: cell.name },
+        { cell: cell.type?.name || "-" },
+        {
+          cell: (
+            <div className="flex items-center justify-center gap-2">
+              {/* <ActionButton title="View" Icon={Eye} /> */}
+              <ActionButton
+                onClick={() =>
+                  router.push(`/admin/assessment-models/${cell._id}`)
+                }
+                Icon={Edit}
+              />
+              <ActionButton
+                Icon={Trash}
+                onClick={() => modalHandler(cell._id)}
+              />
+            </div>
+          ),
+        },
+      ],
+    }));
+
   return (
     <>
       {data?.length === 0 ? (
@@ -57,32 +85,11 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
           <span>No Data found</span>
         </div>
       ) : (
-        <ul>
-          {data.map(
-            ({ name, _id, type }: { name: string; _id: string; type: any }) => (
-              <li
-                className="m-3 flex items-center justify-between rounded-lg bg-card p-3"
-                key={_id}
-              >
-                <span>{name}</span>
-                <span>{type?.name || "-"}</span>
-                <div className="flex gap-2">
-                  {/* <ActionButton Icon={Eye} /> */}
-                  <ActionButton
-                    onClick={() =>
-                      router.push(`/admin/assessment-models/${_id}`)
-                    }
-                    Icon={Edit}
-                  />
-                  <ActionButton
-                    Icon={Trash}
-                    onClick={() => modalHandler(_id)}
-                  />
-                </div>
-              </li>
-            ),
-          )}
-        </ul>
+        <DataTable
+          tHeads={["Name", "Model Type", "Actions"]}
+          tRows={assessmentData}
+          isLoading={isLoading}
+        />
       )}
       <ConfirmationDialog
         icon={<AlertCircle color="red" />}

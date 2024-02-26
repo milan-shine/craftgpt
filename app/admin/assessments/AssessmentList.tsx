@@ -92,16 +92,22 @@ const AssessmentList: React.FC<{
 
   return (
     <>
-      <DataTable
-        tHeads={[
-          "Name",
-          "Completed assessment",
-          "Total assessment limit",
-          "Actions",
-        ]}
-        tRows={assessmentData}
-        isLoading={isLoading}
-      />
+      {data?.length === 0 ? (
+        <div className="flex h-full w-full flex-col items-center justify-center text-2xl">
+          <span>No Data found</span>
+        </div>
+      ) : (
+        <DataTable
+          tHeads={[
+            "Name",
+            "Completed assessment",
+            "Total assessment limit",
+            "Actions",
+          ]}
+          tRows={assessmentData}
+          isLoading={isLoading}
+        />
+      )}
       <ConfirmationDialog
         icon={<AlertCircle color="red" />}
         onClick={deleteAction}
