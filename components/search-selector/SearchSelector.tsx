@@ -28,9 +28,10 @@ const SearchSelector: React.FC<SearchSelectorProps> = ({
   //   setFieldValue(name, [...selectedModels, item]);
   // };
 
-  const handleSelectItem = (item: { name: string; value: string }) => {
+  const handleSelectItem = (e: any, item: { name: string; value: string }) => {
     if (name === "type") {
       setFieldValue(name, [item]);
+      e.preventDefault();
     } else {
       setFieldValue(name, [...selectedModels, item]);
     }
@@ -96,7 +97,7 @@ const SearchSelector: React.FC<SearchSelectorProps> = ({
                           }}
                           variant={"ghost"}
                           className="w-full"
-                          onClick={() => handleSelectItem({ name, value })}
+                          onClick={(e) => handleSelectItem(e, { name, value })}
                           disabled={handleDisabled(value)}
                         >
                           {name}

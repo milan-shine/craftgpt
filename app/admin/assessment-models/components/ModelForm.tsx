@@ -9,7 +9,8 @@ import SearchSelector, {
 } from "@/components/search-selector/SearchSelector";
 import { Label } from "@/components/shadcn/ui/label";
 import { getModelType } from "@/api/model-type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import LoadingButton from "@/components/buttons/LoadingButton";
 
 export type Question = {
   content: string;
@@ -43,7 +44,8 @@ const sampleFileUrls: any = {
 const ModelForm: React.FC<{
   setFieldValue: any;
   values: any;
-}> = ({ setFieldValue, values }) => {
+  isPending:boolean
+}> = ({ setFieldValue, values,isPending }) => {
   const { data: modelType } = useQuery({
     queryKey: ["model-type"],
     queryFn: getModelType,
@@ -148,9 +150,9 @@ const ModelForm: React.FC<{
           )}
         </FieldArray>
 
-        <Button type="submit" className="self-end">
+        <LoadingButton type="submit" className="self-end" isLoading={isPending}>
           Submit
-        </Button>
+        </LoadingButton>
       </AdminFormContainer>
     </Form>
   );

@@ -8,7 +8,7 @@ import { updateModel, getModelById } from "@/api/assessment-models";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 import { assessmentModelSchema } from "@/lib/form-validation/user";
-import ModelForm from "../components/ModelForm";
+import ModelForm from "./ModelForm";
 
 export type Question = {
   content: string;
@@ -18,6 +18,10 @@ export type Question = {
 export type MaturityModel = {
   name: string;
   description: string;
+  type: {
+    name: string;
+    value: string;
+  }[];
   questions: Question[];
   file: File | null;
 };
@@ -30,12 +34,12 @@ const LEVEL_TITLES = [
   "Optimized",
 ];
 
-const ModalFormTest = ({ initialValues }: any) => {
+const EditModalForm = ({ initialValues }: any) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { slug } = useParams<any>();
 
-  const updateMutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ id, body }: { id: string; body: any }) =>
       updateModel(id, body),
     onSuccess: () => {
@@ -48,10 +52,10 @@ const ModalFormTest = ({ initialValues }: any) => {
   const initialModal: MaturityModel = {
     name: initialValues.name,
     description: initialValues.description,
+    type: [{ name: initialValues.type.name, value: initialValues.type._id }],
     questions: [],
     file: null,
   };
-
   return (
     <>
       <div className="w-[60%]">
@@ -87,14 +91,18 @@ const ModalFormTest = ({ initialValues }: any) => {
               };
             }
 
-            updateMutation.mutate({
+            mutate({
               id: slug,
-              body: values,
+              body: { ...values, type: values.type[0].value },
             });
           }}
         >
           {({ values, setFieldValue }) => (
-            <ModelForm setFieldValue={setFieldValue} values={values} />
+            <ModelForm
+              setFieldValue={setFieldValue}
+              values={values}
+              isPending={isPending}
+            />
           )}
         </Formik>
       </div>
@@ -102,4 +110,4 @@ const ModalFormTest = ({ initialValues }: any) => {
   );
 };
 
-export default ModalFormTest;
+export default EditModalForm;

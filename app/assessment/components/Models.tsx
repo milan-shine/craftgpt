@@ -14,12 +14,14 @@ type ModelsProps = {
   modelIds: string[];
   setAssessmentModelAnswers: (modelData: any) => void;
   handleSubmit: (lastModelData: any) => void;
+  isPending:boolean
 };
 
 const Models: React.FC<ModelsProps> = ({
   modelIds,
   setAssessmentModelAnswers,
   handleSubmit,
+  isPending
 }) => {
   const [currentModel, setCurrentModel] = useState<number>(0);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
@@ -90,16 +92,14 @@ const Models: React.FC<ModelsProps> = ({
     return <div>Something went wrong</div>;
   }
 
-  const submitHandler = () => {
-    setIsLoading(true);
-    setIsLoading(false);
+  const submitHandler = async() => {
     let mappedAnswers;
     if (!data.type.name.toLowerCase().includes("risk")) {
       mappedAnswers = mapAnswers(storedAnswers, data.questions);
     } else {
       mappedAnswers = storedAnswers;
     }
-    handleSubmit({
+   await handleSubmit({
       model_id: data._id,
       questions: mappedAnswers,
     });
@@ -139,7 +139,7 @@ const Models: React.FC<ModelsProps> = ({
       />
       <div className="self-end">
         {isSubmit ? (
-          <LoadingButton onClick={submitHandler} isLoading={isLoading}>
+          <LoadingButton onClick={submitHandler} isLoading={isPending}>
             Submit
           </LoadingButton>
         ) : (

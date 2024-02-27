@@ -44,7 +44,7 @@ const LEVEL_TITLES = [
 
 const Page: React.FC = () => {
   const router = useRouter();
-  const { mutate } = useMutation({ mutationFn: createModel });
+  const { mutate, isPending } = useMutation({ mutationFn: createModel });
 
   return (
     <>
@@ -102,7 +102,11 @@ const Page: React.FC = () => {
           }}
         >
           {({ values, setFieldValue }) => (
-            <ModelForm setFieldValue={setFieldValue} values={values} />
+            <ModelForm
+              setFieldValue={setFieldValue}
+              values={values}
+              isPending={isPending}
+            />
           )}
         </Formik>
       </div>

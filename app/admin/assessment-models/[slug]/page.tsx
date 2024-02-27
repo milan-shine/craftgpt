@@ -1,5 +1,5 @@
 import { getModelById } from "@/api/assessment-models";
-import ModalFormTest from "../components/ModalFormTest";
+import EditModalForm from "../components/EditModalForm";
 
 interface PageProps {
   params: { slug: string };
@@ -10,7 +10,7 @@ export default async function Page({ params: { slug } }: PageProps) {
   //refactor: unified form
   return (
     <>
-      <ModalFormTest key={slug} initialValues={initialData} />
+      <EditModalForm key={slug} initialValues={initialData} />
     </>
   );
 }

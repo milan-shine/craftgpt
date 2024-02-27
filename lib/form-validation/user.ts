@@ -28,7 +28,8 @@ export const assessmentModelSchema = Yup.object().shape({
 });
 
 export const assessmentSchema = Yup.object().shape({
+  client_code: Yup.string().required("Required"),
   name: Yup.string().required("Required"),
   submissions_limit: Yup.number().required("Required"),
-  assessment_model_ids: Yup.array().of(Yup.string().required("Required")),
+  assessment_model_ids: Yup.array().of(Yup.object().required("Required")),
 });

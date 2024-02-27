@@ -30,7 +30,7 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
     queryFn: () => getAssessmentByAccessCode(accessCode),
   });
 
-  const assessmentMutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: submitAssessment,
     onSuccess: () => {
       toast.success("Submitted successfully");
@@ -49,7 +49,7 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
   };
 
   const handleSubmit = (lastModelData: any) => {
-    assessmentMutation.mutate({
+    mutate({
       user_id: user?._id,
       assessment_id: data._id,
       assessment_models: [...modelSubmissionData, lastModelData],
@@ -77,6 +77,7 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
         modelIds={data.assessment_model_ids}
         setAssessmentModelAnswers={setAssessmentModelAnswers}
         handleSubmit={handleSubmit}
+        isPending={isPending}
       />
     </section>
   );
