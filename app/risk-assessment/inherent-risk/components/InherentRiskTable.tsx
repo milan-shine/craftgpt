@@ -28,7 +28,7 @@ const InherentRiskTable: React.FC<InherentRiskTableProps> = ({
   return (
     <table className="">
       <thead>
-        <tr className="grid w-[80vw] grid-cols-9 divide-x divide-slate-500 rounded-tl-xl rounded-tr-xl border border-slate-500 bg-card">
+        <tr className="px-1 grid w-[80vw] grid-cols-9 divide-x divide-slate-500 rounded-tl-xl border bg-card">
           <th className="flex items-center justify-center p-2">Risk Name</th>
           <th className="col-span-2 flex items-center justify-center p-2">
             Description
@@ -53,9 +53,9 @@ const InherentRiskTable: React.FC<InherentRiskTableProps> = ({
             (answer: any) => answer.question_id === question._id,
           );
           return (
-            <tr key={question._id} className="grid w-[80vw] grid-cols-9">
-              <td className=" border-r-[1px] border-r-black px-2 pb-4">
-                <strong>Regulatory Compliance</strong>
+            <tr key={question._id} className="px-1 my-4 grid w-[80vw] grid-cols-9">
+              <td className="border-r-[1px] border-r-black px-2 pb-4">
+                <strong>{question.content}</strong>
               </td>
               <td className="col-span-2 mx-2 pb-4">
                 {questionDescriptions[index].description.content}

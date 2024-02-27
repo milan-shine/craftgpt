@@ -39,10 +39,10 @@ export const Answer = ({
   }, [selectedAnswer]);
 
   return (
-    <td className="p-2">
+    <td className="w-full">
       <Button
         variant={"outline"}
-        className={`items-start justify-start text-left ${bgColor} hover:${bgColor} h-full w-full text-wrap`}
+        className={`px-1 break-words items-start justify-start text-left ${bgColor} hover:${bgColor} h-full w-full text-wrap`}
         onClick={() => selectAnswer(answer._id, index)}
       >
         {answer.content}
