@@ -39,6 +39,7 @@ const initialQuestionValues: Question = {
 const sampleFileUrls: any = {
   "Risk Inheritance": "/Risk_inheritance.xlsx",
   "Risk Likelihood": "/Risk_likelihood.xlsx",
+  "Objectives": "/objectives.xlsx",
 };
 
 const ModelForm: React.FC<{
