@@ -6,9 +6,6 @@ import React, { useEffect, useState } from "react";
 import ModelTable from "./ModelTable";
 import { Progress } from "@/components/shadcn/ui/progress";
 import LoadingButton from "@/components/buttons/LoadingButton";
-import { toast } from "sonner";
-import { ConfirmationDialog } from "@/components/modals/Modal";
-import { AlertCircle } from "lucide-react";
 
 type ModelsProps = {
   modelIds: string[];
@@ -27,7 +24,6 @@ const Models: React.FC<ModelsProps> = ({
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [storedAnswers, setStoredAnswers] = useState<any>([]);
-  const [open, setOpen] = useState(true);
 
   const { data, isLoading: isModelLoading } = useQuery({
     queryKey: ["current_assessment_model", currentModel],
@@ -124,18 +120,6 @@ const Models: React.FC<ModelsProps> = ({
         tableData={data}
         storedAnswers={storedAnswers}
         setStoredAnswers={setStoredAnswers}
-      />
-      <ConfirmationDialog
-        icon={<AlertCircle color="red" />}
-        onClick={() => setOpen(false)}
-        open={data?.type?.name?.includes("Risk") && open}
-        setOpen={setOpen}
-        title={"Risk management?"}
-        description={"Do you wamt to risk management?"}
-        buttonText="Yes"
-        actionButtonVariant="destructive"
-        cancelButtonText="No"
-        cancelButtonAction={submitHandler}
       />
       <div className="self-end">
         {isSubmit ? (
