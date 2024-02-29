@@ -82,6 +82,10 @@ const AssessmentList: React.FC<{
                 onClick={() => modalHandler(cell._id)}
               />
               <CopyButton
+                disabled={
+                  cell?.completed_submissions &&
+                  cell.completed_submissions.length <= cell.submissions_limit
+                }
                 text={`${GLOBAL_CONFIG.APP.BASE_URL}/login?access-code=${cell.access_code}`}
               />
             </div>

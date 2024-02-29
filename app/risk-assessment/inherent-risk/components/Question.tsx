@@ -104,7 +104,7 @@ export const Question = ({
           const updatedAnswers = [...prevAnswers];
           updatedAnswers[index] = {
             ...updatedAnswers[index],
-            score: score,
+            score: Number(score),
           };
           return updatedAnswers;
         }
@@ -124,6 +124,7 @@ export const Question = ({
             selectedAnswer ? `Between ${minScore}-${maxScore}` : `Score...`
           }
           value={score}
+          disabled={!selectedAnswer}
           className="w-full rounded-md border-[1px] border-black px-2 py-1"
           onChange={handleChange}
         />

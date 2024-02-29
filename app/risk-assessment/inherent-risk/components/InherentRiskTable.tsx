@@ -64,7 +64,7 @@ const InherentRiskTable: React.FC<InherentRiskTableProps> = ({
                 key={question._id}
                 question={question}
                 storedAnswer={{
-                  answer: filterdAnswers?.current_level_answer_id || 0,
+                  current_level_answer_id: filterdAnswers?.current_level_answer_id || 0,
                   score: 0,
                 }}
                 setStoredAnswers={setStoredAnswers}
