@@ -91,7 +91,11 @@ const Models: React.FC<ModelsProps> = ({
   const submitHandler = async() => {
     let mappedAnswers;
     if (!data.type.name.toLowerCase().includes("risk")) {
-      mappedAnswers = mapAnswers(storedAnswers, data.questions);
+      if(data.type.name === 'Objectives'){
+        mappedAnswers = storedAnswers;
+      }else{
+        mappedAnswers = mapAnswers(storedAnswers, data.questions);
+      }
     } else {
       mappedAnswers = storedAnswers;
     }
