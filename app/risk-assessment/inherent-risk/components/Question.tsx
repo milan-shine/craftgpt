@@ -15,7 +15,7 @@ export interface AnswerType {
 
 interface QuestionProps {
   question: any;
-  storedAnswer: { answer: string; score: number };
+  storedAnswer: { current_level_answer_id: string; score: number };
   setStoredAnswers: React.Dispatch<any>;
 }
 
@@ -44,7 +44,7 @@ const OPTION_MINMAX = [
 
 export const Question = ({
   question,
-  storedAnswer: { answer, score: currentScore },
+  storedAnswer: { current_level_answer_id, score: currentScore },
   setStoredAnswers,
 }: QuestionProps) => {
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
@@ -66,7 +66,7 @@ export const Question = ({
         const updatedAnswers = [...prevAnswers];
         updatedAnswers[index] = {
           ...updatedAnswers[index],
-          answer: value,
+          current_level_answer_id: value,
         };
         return updatedAnswers;
       } else {
@@ -75,7 +75,7 @@ export const Question = ({
           ...prevAnswers,
           {
             question_id: question._id,
-            answer: value,
+            current_level_answer_id: value,
           },
         ];
       }

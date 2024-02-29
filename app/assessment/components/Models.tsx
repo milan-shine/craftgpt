@@ -54,8 +54,8 @@ const Models: React.FC<ModelsProps> = ({
 
         return {
           question_id,
-          current_level_answer: currentAnswer._id,
-          desired_level_answer: desiredAnswer._id,
+          current_level_answer_id: currentAnswer._id,
+          desired_level_answer_id: desiredAnswer._id,
         };
       },
     );
