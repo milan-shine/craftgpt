@@ -62,9 +62,14 @@ const AssessmentList: React.FC<{
       row: [
         { cell: cell.name },
         {
-          cell: cell?.completed_submissions
-            ? cell.completed_submissions.length
-            : 0,
+          cell: cell?.completed_submissions ? (
+            <div className="flex items-center justify-center gap-2">
+              {cell.completed_submissions.length}
+              <Eye onClick={() => router.push(`assessments/completed-assessments?assestment_id=${cell._id}`)} />
+            </div>
+          ) : (
+            0
+          ),
         },
         { cell: cell.submissions_limit },
         {

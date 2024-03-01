@@ -67,7 +67,7 @@ export const Question = ({
         const updatedAnswers = [...prevAnswers];
         updatedAnswers[index] = {
           ...updatedAnswers[index],
-          answer: value,
+          current_level_answer_id: value,
         };
         return updatedAnswers;
       } else {
@@ -76,7 +76,7 @@ export const Question = ({
           ...prevAnswers,
           {
             question_id: question._id,
-            answer: value,
+            current_level_answer_id: value,
           },
         ];
       }

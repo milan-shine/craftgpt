@@ -55,7 +55,9 @@ const Models: React.FC<ModelsProps> = ({
         return {
           question_id,
           current_level_answer_id: currentAnswer._id,
-          desired_level_answer_id: desiredAnswer._id,
+          ...(desiredAnswer?._id && {
+            desired_level_answer_id: desiredAnswer?._id,
+          }),
         };
       },
     );
@@ -88,18 +90,18 @@ const Models: React.FC<ModelsProps> = ({
     return <div>Something went wrong</div>;
   }
 
-  const submitHandler = async() => {
+  const submitHandler = async () => {
     let mappedAnswers;
-    if (!data.type.name.toLowerCase().includes("risk")) {
-      if(data.type.name === 'Objectives'){
-        mappedAnswers = storedAnswers;
-      }else{
-        mappedAnswers = mapAnswers(storedAnswers, data.questions);
-      }
+    if (
+      !data.type.name.toLowerCase().includes("risk") ||
+      data.type.name !== "Objectives"
+    ) {
+      console.log("matur");
+      mappedAnswers = mapAnswers(storedAnswers, data.questions);
     } else {
       mappedAnswers = storedAnswers;
     }
-   await handleSubmit({
+    await handleSubmit({
       model_id: data._id,
       questions: mappedAnswers,
     });

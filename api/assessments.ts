@@ -49,6 +49,13 @@ export const getAssessmentById = async (id: string) => {
   return data?.data || [];
 };
 
+export const getAssessmentSubmissionById = async (id: string) => {
+  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments/assessment-submission/${id}`, {cache: 'no-store'})
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+  return data?.data || [];
+};
+
 export const updateAssessment = async (id: string, body: any) => {
   const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessments/${id}`, {
     method: "PUT",

@@ -28,7 +28,7 @@ export const Answer = ({
   const [bgColor, setBgColor] = useState<string>("");
 
   const btnColorHandler = () => {
-    if (selectedAnswer === answer._id) {
+    if (selectedAnswer === answer.level.toString()) {
       setBgColor(COLOR_VALUES[index]);
     }
   };
@@ -42,8 +42,8 @@ export const Answer = ({
     <td className="w-full">
       <Button
         variant={"outline"}
-        className={`px-1 break-words items-start justify-start text-left ${bgColor} hover:${bgColor} h-full w-full text-wrap`}
-        onClick={() => selectAnswer(answer._id, index)}
+        className={`items-start justify-start break-words px-1 text-left ${bgColor} hover:${bgColor} h-full w-full text-wrap`}
+        onClick={() => selectAnswer(answer.level.toString(), index)}
       >
         {answer.content}
       </Button>
