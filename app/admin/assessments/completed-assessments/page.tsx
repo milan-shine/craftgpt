@@ -1,9 +1,9 @@
 import React from "react";
-// import Assessments from "./Assessments";
-import CompleteAssessmentsView from "./components/CompleteAssessmentsView";
+import CompleteAssessmentsUsers from "./components/CompleteAssessmentsUsers";
 
 const Page: React.FC = async () => {
-  return <CompleteAssessmentsView />;
+
+  return <CompleteAssessmentsUsers />;
 };
 
 export default Page;
