@@ -9,7 +9,7 @@ import ActionButton from "@/components/buttons/ActionButton";
 import DataTable from "@/components/table/DataTable";
 import { useQuery } from "@tanstack/react-query";
 import { Eye } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 interface IAssessment {
   user_id: any;
@@ -23,11 +23,10 @@ interface IAssessment {
 }
 
 const CompleteAssessmentsView: any = () => {
-  const searchParams = useSearchParams();
-
-  const assestment_id: any = searchParams.get("assestment_id");
-
+  const searchParams = useParams();
+  const assestment_id: any = searchParams["assessment-id"];
   const initialData = getAssessmentSubmissionById(assestment_id);
+  const router = useRouter();
 
   const { data, isLoading } = useQuery({
     queryKey: ["assessments"],
@@ -46,24 +45,13 @@ const CompleteAssessmentsView: any = () => {
         {
           cell: (
             <div className="flex items-center justify-center gap-2">
-              <ActionButton title="View" Icon={Eye} />
+              <ActionButton title="View" Icon={Eye} onClick={() => router.push(`${assestment_id}/${cell.user_id._id}`)}/>
             </div>
           ),
         },
       ],
     }));
 
-  let submissionData: any;
-  const getSubmission = async () => {
-    submissionData = await getUserAssessmentSubmission(
-      "65e1a2dcb086155d8502dbba",
-      "65e1a2f1b086155d8502dbcb",
-    );
-    console.log("submissionData", submissionData);
-  };
-  useEffect(() => {
-    getSubmission();
-  }, []);
   return (
     <div className="my-2">
       <DataTable

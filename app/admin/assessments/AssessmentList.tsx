@@ -65,7 +65,7 @@ const AssessmentList: React.FC<{
           cell: cell?.completed_submissions ? (
             <div className="flex items-center justify-center gap-2">
               {cell.completed_submissions.length}
-              <Eye onClick={() => router.push(`assessments/completed-assessments?assestment_id=${cell._id}`)} />
+              <Eye onClick={() => router.push(`assessments/completed-assessments/${cell._id}`)} />
             </div>
           ) : (
             0

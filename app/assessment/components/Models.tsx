@@ -11,19 +11,22 @@ type ModelsProps = {
   modelIds: string[];
   setAssessmentModelAnswers: (modelData: any) => void;
   handleSubmit: (lastModelData: any) => void;
-  isPending:boolean
+  isPending:boolean,
+  completedData: any,
 };
 
 const Models: React.FC<ModelsProps> = ({
   modelIds,
   setAssessmentModelAnswers,
   handleSubmit,
-  isPending
+  isPending,
+  completedData
 }) => {
   const [currentModel, setCurrentModel] = useState<number>(0);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [storedAnswers, setStoredAnswers] = useState<any>([]);
+  const modelIdAnswers = completedData && completedData?.data?.filter((item:any) => item.model_id._id === modelIds[currentModel]);
 
   const { data, isLoading: isModelLoading } = useQuery({
     queryKey: ["current_assessment_model", currentModel],
@@ -31,13 +34,16 @@ const Models: React.FC<ModelsProps> = ({
   });
 
   useEffect(() => {
+    if(modelIdAnswers?.length){
+      setStoredAnswers(modelIdAnswers);
+    }
     if (currentModel + 1 === modelIds.length) {
       setIsSubmit(true);
     }
   }, [currentModel, modelIds.length]);
 
   const mapAnswers = (storedAnswers: any, questions: any) => {
-    const mappedAnswers = storedAnswers.map(
+    const mappedAnswers = !completedData ? storedAnswers.map(
       (
         { question_id, current_level_answer_id, desired_level_answer_id }: any,
         index: number,
@@ -60,7 +66,7 @@ const Models: React.FC<ModelsProps> = ({
           }),
         };
       },
-    );
+    ): storedAnswers;
 
     return mappedAnswers;
   };
@@ -129,9 +135,9 @@ const Models: React.FC<ModelsProps> = ({
       />
       <div className="self-end">
         {isSubmit ? (
-          <LoadingButton onClick={submitHandler} isLoading={isPending}>
+          !completedData ? <LoadingButton onClick={submitHandler} isLoading={isPending}>
             Submit
-          </LoadingButton>
+          </LoadingButton> : <></>
         ) : (
           <LoadingButton onClick={nextHandler} isLoading={isLoading}>
             Next

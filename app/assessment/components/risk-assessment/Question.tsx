@@ -15,7 +15,7 @@ export interface AnswerType {
 
 interface QuestionProps {
   question: any;
-  storedAnswer: { answer: string; score: number };
+  storedAnswer: { answer: AnswerType; score: number };
   setStoredAnswers: React.Dispatch<any>;
 }
 
@@ -48,12 +48,13 @@ export const Question = ({
   setStoredAnswers,
 }: QuestionProps) => {
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+  const filledAns = answer;
+
   const [minScore, setMinScore] = useState<number>(0);
   const [maxScore, setMaxScore] = useState<number>(100);
   const [score, setScore] = useState<undefined | number>(undefined);
 
   const selectAnswer = (value: string, index: number) => {
-    console.log('risk value',value)
     setSelectedAnswer(value);
     setMinScore(OPTION_MINMAX[index].min);
     setMaxScore(OPTION_MINMAX[index].max);
@@ -124,7 +125,7 @@ export const Question = ({
           placeholder={
             selectedAnswer ? `Between ${minScore}-${maxScore}` : `Score...`
           }
-          value={score}
+          value={currentScore ||score}
           className="w-full rounded-md border-[1px] border-black px-2 py-1"
           onChange={handleChange}
         />
@@ -135,7 +136,10 @@ export const Question = ({
           index={index}
           answer={answer}
           selectAnswer={selectAnswer}
-          selectedAnswer={selectedAnswer}
+          selectedAnswer={
+            (filledAns?.level ? filledAns.level.toString() : "") ||
+            selectedAnswer
+          }
         />
       ))}
     </>

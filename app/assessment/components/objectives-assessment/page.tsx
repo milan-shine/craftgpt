@@ -56,7 +56,10 @@ const page: React.FC<InherentRiskTableProps> = ({
       <tbody className="w-full border border-black ">
         {questions.map((question: any, index: number) => {
           const [filterdAnswers] = storedAnswers.filter(
-            (answer: any) => answer.question_id === question._id,
+            (answer: any) =>
+              (typeof answer.question_id == "string"
+                ? answer.question_id
+                : answer.question_id._id) === question._id,
           );
 
           return (
@@ -67,7 +70,7 @@ const page: React.FC<InherentRiskTableProps> = ({
               <td className="border-r-[1px] border-r-black px-2 pb-4">
                 <strong>{questionDescriptions[index].question.content}</strong>
               </td>
-              <td className="border-r-[1px] border-r-black col-span-3 px-2 pb-4">
+              <td className="col-span-3 border-r-[1px] border-r-black px-2 pb-4">
                 {extractedAnswers[index]}
               </td>
               <td className="mx-2 pb-4">{owners[index].question.content}</td>
@@ -76,7 +79,7 @@ const page: React.FC<InherentRiskTableProps> = ({
                 question={question}
                 storedAnswer={{
                   answer: filterdAnswers?.current_level_answer_id || 0,
-                  score: 0,
+                  score: Number(filterdAnswers?.current_level_answer_id?.score) || 0,
                 }}
                 setStoredAnswers={setStoredAnswers}
               />

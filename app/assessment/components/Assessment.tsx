@@ -12,9 +12,10 @@ import { toast } from "sonner";
 
 type AssessmentProps = {
   accessCode: string;
+  completedData?: any;
 };
 
-const Assessment = ({ accessCode }: AssessmentProps) => {
+const Assessment = ({ accessCode, completedData }: AssessmentProps) => {
   const router = useRouter();
   let userString;
   if (typeof localStorage !== "undefined") {
@@ -35,7 +36,6 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
     onSuccess: () => {
       toast.success("Submitted successfully");
       router.push("/thank-you");
-      // router.push("/risk-assessment");
     },
     onError: (error) => {
       toast.error(error.message);
@@ -74,6 +74,7 @@ const Assessment = ({ accessCode }: AssessmentProps) => {
       </span>
       <Separator className="my-2" />
       <Models
+        completedData={completedData}
         modelIds={data.assessment_model_ids}
         setAssessmentModelAnswers={setAssessmentModelAnswers}
         handleSubmit={handleSubmit}

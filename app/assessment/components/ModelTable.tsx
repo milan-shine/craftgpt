@@ -64,9 +64,11 @@ const ModelTable: React.FC<ModelTableProps> = ({
                 <tbody className="w-full border border-black">
                   {tableData.questions?.map((question: any) => {
                     const [filterdAnswers] = storedAnswers.filter(
-                      (answer: any) => answer.question_id === question._id,
+                      (answer: any) =>
+                        (typeof answer.question_id == "string"
+                          ? answer.question_id
+                          : answer.question_id._id) === question._id,
                     );
-
                     return (
                       <tr
                         className="my-4 grid w-[80vw] grid-cols-6"
@@ -77,9 +79,17 @@ const ModelTable: React.FC<ModelTableProps> = ({
                           question={question}
                           storedAnswer={{
                             currentAnswer:
-                              filterdAnswers?.current_level_answer_id || 0,
+                              (typeof filterdAnswers?.current_level_answer_id ==
+                              "string"
+                                ? filterdAnswers?.current_level_answer_id
+                                : filterdAnswers?.current_level_answer_id
+                                    ?.level) || 0,
                             desiredAnswer:
-                              filterdAnswers?.desired_level_answer_id || 0,
+                              (typeof filterdAnswers?.desired_level_answer_id ==
+                              "string"
+                                ? filterdAnswers?.desired_level_answer_id
+                                : filterdAnswers?.desired_level_answer_id
+                                    ?.level) || 0,
                           }}
                           setStoredAnswers={setStoredAnswers}
                         />

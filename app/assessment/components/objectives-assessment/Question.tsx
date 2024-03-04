@@ -15,32 +15,9 @@ export interface AnswerType {
 
 interface QuestionProps {
   question: any;
-  storedAnswer: { answer: string; score: number };
+  storedAnswer: { answer: AnswerType; score: number };
   setStoredAnswers: React.Dispatch<any>;
 }
-
-const OPTION_MINMAX = [
-  {
-    min: 0,
-    max: 20,
-  },
-  {
-    min: 20,
-    max: 40,
-  },
-  {
-    min: 40,
-    max: 60,
-  },
-  {
-    min: 60,
-    max: 80,
-  },
-  {
-    min: 80,
-    max: 100,
-  },
-];
 
 export const Question = ({
   question,
@@ -48,9 +25,9 @@ export const Question = ({
   setStoredAnswers,
 }: QuestionProps) => {
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+  const filledAns = answer;
 
   const selectAnswer = (value: string, index: number) => {
-    console.log('objedct value',value)
     setSelectedAnswer(value);
     setStoredAnswers((prevAnswers: any) => {
       const index = prevAnswers.findIndex(
@@ -83,7 +60,10 @@ export const Question = ({
           index={index}
           answer={answer}
           selectAnswer={selectAnswer}
-          selectedAnswer={selectedAnswer}
+          selectedAnswer={
+            (filledAns?.level ? filledAns.level.toString() : "") ||
+            selectedAnswer
+          }
         />
       ))}
     </>
