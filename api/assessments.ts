@@ -77,9 +77,14 @@ export const updateAssessment = async (id: string, body: any) => {
     return data
 }
 
-export const exportExcel = async (assessment_id: string, user_id: string) => {
-  const data = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessment-submission/export-excel?assessment_id=${assessment_id}&user_id=${user_id}`, {cache: 'no-store', method: "GET"})
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
-  return data;
+export const exportExcel = async (assessment_id: string, user_id: string, fileName: string) => {
+  const response = await fetch(`${GLOBAL_CONFIG.API.BASE_URL}/assessment-submission/export-excel?assessment_id=${assessment_id}&user_id=${user_id}`, {cache: 'no-store', method: "GET"});
+  const data = await response.blob();
+  const url = window.URL.createObjectURL(data);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', fileName);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };

@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import ModelTable from "./ModelTable";
 import { Progress } from "@/components/shadcn/ui/progress";
 import LoadingButton from "@/components/buttons/LoadingButton";
+import { useParams } from "next/navigation";
+import { exportExcel } from "@/api/assessments";
 
 type ModelsProps = {
   modelIds: string[];
@@ -26,7 +28,16 @@ const Models: React.FC<ModelsProps> = ({
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [storedAnswers, setStoredAnswers] = useState<any>([]);
-  const modelIdAnswers = completedData && completedData?.data?.filter((item:any) => item?.model_id?._id === modelIds[currentModel]);
+
+  const searchParams = useParams();
+  const assestment_id: any = searchParams["assessment-id"];
+  const user_id: any = searchParams["user"];
+
+  const modelIdAnswers =
+    completedData &&
+    completedData?.data?.filter(
+      (item: any) => item?.model_id?._id === modelIds[currentModel],
+    );
 
   const { data, isLoading: isModelLoading } = useQuery({
     queryKey: ["current_assessment_model", currentModel],
@@ -119,6 +130,11 @@ const Models: React.FC<ModelsProps> = ({
       handleNextModel();
     }, 500);
   };
+  const exportHandler = () => {
+    const fileName = 'export.xlsx';
+    exportExcel(assestment_id, user_id, fileName);
+  };
+  
   return (
     <>
       <span className="mb-2 mt-4 text-lg">
@@ -135,9 +151,15 @@ const Models: React.FC<ModelsProps> = ({
       />
       <div className="self-end">
         {isSubmit ? (
-          !completedData ? <LoadingButton onClick={submitHandler} isLoading={isPending}>
-            Submit
-          </LoadingButton> : <></>
+          !completedData ? (
+            <LoadingButton onClick={submitHandler} isLoading={isPending}>
+              Submit
+            </LoadingButton>
+          ) : (
+            <LoadingButton onClick={exportHandler} isLoading={isPending}>
+              Export
+            </LoadingButton>
+          )
         ) : (
           <LoadingButton onClick={nextHandler} isLoading={isLoading}>
             Next
