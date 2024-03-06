@@ -26,7 +26,7 @@ const Models: React.FC<ModelsProps> = ({
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [storedAnswers, setStoredAnswers] = useState<any>([]);
-  const modelIdAnswers = completedData && completedData?.data?.filter((item:any) => item.model_id._id === modelIds[currentModel]);
+  const modelIdAnswers = completedData && completedData?.data?.filter((item:any) => item?.model_id?._id === modelIds[currentModel]);
 
   const { data, isLoading: isModelLoading } = useQuery({
     queryKey: ["current_assessment_model", currentModel],
