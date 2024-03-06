@@ -2,13 +2,14 @@
 
 import React, { useEffect } from "react";
 import {
+  exportExcel,
   getAssessmentSubmissionById,
   getUserAssessmentSubmission,
 } from "@/api/assessments";
 import ActionButton from "@/components/buttons/ActionButton";
 import DataTable from "@/components/table/DataTable";
 import { useQuery } from "@tanstack/react-query";
-import { Eye } from "lucide-react";
+import { Eye,ArrowDownCircle } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 interface IAssessment {
@@ -34,6 +35,11 @@ const CompleteAssessmentsView: any = () => {
     initialData: initialData,
   });
 
+  const exportHandler = (user_id: string) => {
+    const fileName = "export.xlsx";
+    exportExcel(assestment_id, user_id, fileName);
+  };
+
   const completedAssessmentData =
     data.completed_submissions_users &&
     data.completed_submissions_users.map((cell: IAssessment) => ({
@@ -45,7 +51,18 @@ const CompleteAssessmentsView: any = () => {
         {
           cell: (
             <div className="flex items-center justify-center gap-2">
-              <ActionButton title="View" Icon={Eye} onClick={() => router.push(`${assestment_id}/${cell.user_id._id}`)}/>
+              <ActionButton
+                title="View"
+                Icon={Eye}
+                onClick={() =>
+                  router.push(`${assestment_id}/${cell.user_id._id}`)
+                }
+              />
+              <ActionButton
+                title="Export"
+                Icon={ArrowDownCircle}
+                onClick={() => exportHandler(cell.user_id._id)}
+              />
             </div>
           ),
         },

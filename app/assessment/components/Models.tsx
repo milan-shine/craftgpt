@@ -29,10 +29,6 @@ const Models: React.FC<ModelsProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [storedAnswers, setStoredAnswers] = useState<any>([]);
 
-  const searchParams = useParams();
-  const assestment_id: any = searchParams["assessment-id"];
-  const user_id: any = searchParams["user"];
-
   const modelIdAnswers =
     completedData &&
     completedData?.data?.filter(
@@ -130,10 +126,7 @@ const Models: React.FC<ModelsProps> = ({
       handleNextModel();
     }, 500);
   };
-  const exportHandler = () => {
-    const fileName = 'export.xlsx';
-    exportExcel(assestment_id, user_id, fileName);
-  };
+
   
   return (
     <>
@@ -155,11 +148,7 @@ const Models: React.FC<ModelsProps> = ({
             <LoadingButton onClick={submitHandler} isLoading={isPending}>
               Submit
             </LoadingButton>
-          ) : (
-            <LoadingButton onClick={exportHandler} isLoading={isPending}>
-              Export
-            </LoadingButton>
-          )
+          ) : <></>
         ) : (
           <LoadingButton onClick={nextHandler} isLoading={isLoading}>
             Next
