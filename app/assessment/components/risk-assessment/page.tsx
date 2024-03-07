@@ -12,14 +12,14 @@ const Page: React.FC<InherentRiskTableProps> = ({
   storedAnswers,
   setStoredAnswers,
 }) => {
-  const questions = tableData.questions.map((question: any) => ({
+  const questions = tableData?.questions?.map((question: any) => ({
     ...question,
     answers: question.answers.filter(
       (answer: any) => !Number.isNaN(+answer.level),
     ),
   }));
 
-  const questionDescriptions = tableData.questions.map((question: any) => ({
+  const questionDescriptions = tableData?.questions?.map((question: any) => ({
     description: question.answers.filter((answer: any) =>
       Number.isNaN(+answer.level),
     )[0],
@@ -48,8 +48,8 @@ const Page: React.FC<InherentRiskTableProps> = ({
         </tr>
       </thead>
       <tbody className="w-full border border-black ">
-        {questions.map((question: any, index: number) => {
-          const [filterdAnswers] = storedAnswers.filter(
+        {questions?.map((question: any, index: number) => {
+          const [filterdAnswers] = storedAnswers?.filter(
             (answer: any) =>
               (typeof answer.question_id == "string"
                 ? answer.question_id

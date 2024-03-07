@@ -2,7 +2,7 @@ import React from "react";
 import { Question } from "./Question";
 
 type InherentRiskTableProps = {
-  tableData?: any;
+  tableData?: any | never;
   storedAnswers?: any;
   setStoredAnswers: React.Dispatch<any>;
 };
@@ -12,20 +12,20 @@ const Page: React.FC<InherentRiskTableProps> = ({
   storedAnswers,
   setStoredAnswers,
 }) => {
-  const questions = tableData.questions.map((question: any) => ({
+  const questions = tableData?.questions?.map((question: any) => ({
     ...question,
     answers: question.answers.filter(
       (answer: any) => !Number.isNaN(+answer.level),
     ),
   }));
 
-  const questionDescriptions = tableData.questions.map((question: any) => ({
+  const questionDescriptions = tableData?.questions?.map((question: any) => ({
     question: question.answers.filter((answer: any) =>
       Number.isNaN(+answer.level),
     )[0],
   }));
 
-  const extractedAnswers = tableData.questions.map((question: any) => {
+  const extractedAnswers = tableData?.questions?.map((question: any) => {
     if (question.answers.length > 1) {
       return question.answers[1].content;
     } else {
@@ -33,7 +33,7 @@ const Page: React.FC<InherentRiskTableProps> = ({
     }
   });
 
-  const owners = tableData.questions.map((question: any) => ({
+  const owners = tableData?.questions?.map((question: any) => ({
     question: question.answers.filter((answer: any) =>
       Number.isNaN(+answer.level),
     )[2],
@@ -54,7 +54,7 @@ const Page: React.FC<InherentRiskTableProps> = ({
         </tr>
       </thead>
       <tbody className="w-full border border-black ">
-        {questions.map((question: any, index: number) => {
+        {questions?.map((question: any, index: number) => {
           const [filterdAnswers] = storedAnswers.filter(
             (answer: any) =>
               (typeof answer.question_id == "string"
