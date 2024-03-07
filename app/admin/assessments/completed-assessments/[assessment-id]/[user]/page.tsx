@@ -1,7 +1,7 @@
 import React from "react";
 import CompletedAssessment from "./components/CompletedAssessment";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <CompletedAssessment />
@@ -9,4 +9,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

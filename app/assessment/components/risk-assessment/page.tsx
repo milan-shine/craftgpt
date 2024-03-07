@@ -7,7 +7,7 @@ type InherentRiskTableProps = {
   setStoredAnswers: React.Dispatch<any>;
 };
 
-const page: React.FC<InherentRiskTableProps> = ({
+const Page: React.FC<InherentRiskTableProps> = ({
   tableData,
   storedAnswers,
   setStoredAnswers,
@@ -84,4 +84,4 @@ const page: React.FC<InherentRiskTableProps> = ({
   );
 };
 
-export default page;
+export default Page;

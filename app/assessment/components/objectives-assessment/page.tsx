@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Question } from "./Question";
 
 type InherentRiskTableProps = {
@@ -7,7 +7,7 @@ type InherentRiskTableProps = {
   setStoredAnswers: React.Dispatch<any>;
 };
 
-const page: React.FC<InherentRiskTableProps> = ({
+const Page: React.FC<InherentRiskTableProps> = ({
   tableData,
   storedAnswers,
   setStoredAnswers,
@@ -91,4 +91,4 @@ const page: React.FC<InherentRiskTableProps> = ({
   );
 };
 
-export default page;
+export default Page;
