@@ -109,7 +109,6 @@ const Models: React.FC<ModelsProps> = ({
       !data.type.name.toLowerCase().includes("risk") ||
       data.type.name !== "Objectives"
     ) {
-      console.log("matur");
       mappedAnswers = mapAnswers(storedAnswers, data.questions);
     } else {
       mappedAnswers = storedAnswers;

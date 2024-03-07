@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAssessments } from "@/api/assessments";
@@ -29,7 +31,7 @@ const AssessmentList: React.FC<{
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
-  const { data, isLoading } = useQuery({
+  const { data:assessmentListData, isLoading } = useQuery({
     queryKey: ["assessments"],
     queryFn: getAssessments,
     initialData: initialAssessmentsList,
@@ -57,8 +59,7 @@ const AssessmentList: React.FC<{
   };
 
   const assessmentData =
-    data &&
-    data.map((cell: IAssessment) => ({
+  assessmentListData.length && assessmentListData?.map((cell: IAssessment) => ({
       row: [
         { cell: cell.name },
         {
@@ -101,7 +102,7 @@ const AssessmentList: React.FC<{
 
   return (
     <>
-      {data?.length === 0 ? (
+      {assessmentListData?.length === 0 ? (
         <div className="flex h-full w-full flex-col items-center justify-center text-2xl">
           <span>No Data found</span>
         </div>

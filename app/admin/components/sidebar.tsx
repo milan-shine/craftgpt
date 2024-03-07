@@ -24,6 +24,7 @@ export const Sidebar = ({ sidebarTabs, isCollapsed }: SidebarProps) => {
           <Link
             key={index}
             href={sidebarTab.path}
+            as={sidebarTab.path}
             className={cn(
               buttonVariants({
                 variant: pathname.includes(sidebarTab.path)
