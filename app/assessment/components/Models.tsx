@@ -6,8 +6,6 @@ import React, { useEffect, useState } from "react";
 import ModelTable from "./ModelTable";
 import { Progress } from "@/components/shadcn/ui/progress";
 import LoadingButton from "@/components/buttons/LoadingButton";
-import { useParams } from "next/navigation";
-import { exportExcel } from "@/api/assessments";
 
 type ModelsProps = {
   modelIds: string[];
@@ -50,30 +48,39 @@ const Models: React.FC<ModelsProps> = ({
   }, [currentModel, modelIds.length]);
 
   const mapAnswers = (storedAnswers: any, questions: any) => {
-    const mappedAnswers = !completedData ? storedAnswers.map(
-      (
-        { question_id, current_level_answer_id, desired_level_answer_id }: any,
-        index: number,
-      ) => {
-        const questionData = questions.find(
-          (question: any) => question._id === question_id,
-        );
-        const currentAnswer = questionData.answers.find(
-          (answer: any) => answer.level.toString() === current_level_answer_id,
-        );
-        const desiredAnswer = questionData.answers.find(
-          (answer: any) => answer.level.toString() === desired_level_answer_id,
-        );
+    const mappedAnswers = !completedData
+      ? storedAnswers.map(
+          (
+            {
+              question_id,
+              current_level_answer_id,
+              desired_level_answer_id,
+              score,
+            }: any,
+          ) => {
+            const questionData = questions.find(
+              (question: any) => question._id === question_id,
+            );
+            const currentAnswer = questionData.answers.find(
+              (answer: any) =>
+                answer.level.toString() === current_level_answer_id,
+            );
+            const desiredAnswer = questionData.answers.find(
+              (answer: any) =>
+                answer.level.toString() === desired_level_answer_id,
+            );
 
-        return {
-          question_id,
-          current_level_answer_id: currentAnswer._id,
-          ...(desiredAnswer?._id && {
-            desired_level_answer_id: desiredAnswer?._id,
-          }),
-        };
-      },
-    ): storedAnswers;
+            return {
+              question_id,
+              current_level_answer_id: currentAnswer._id,
+              ...(desiredAnswer?._id && {
+                desired_level_answer_id: desiredAnswer?._id,
+              }),
+              score: score,
+            };
+          },
+        )
+      : storedAnswers;
 
     return mappedAnswers;
   };

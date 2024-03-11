@@ -72,7 +72,7 @@ const page: React.FC<InherentRiskTableProps> = ({
                 question={question}
                 storedAnswer={{
                   answer: filterdAnswers?.current_level_answer_id || 0,
-                  score: Number(filterdAnswers?.current_level_answer_id?.score) || 0,
+                  score: Number(filterdAnswers?.score) || 0,
                 }}
                 setStoredAnswers={setStoredAnswers}
               />
