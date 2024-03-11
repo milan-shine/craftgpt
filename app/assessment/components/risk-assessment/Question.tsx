@@ -106,7 +106,7 @@ export const Question = ({
           const updatedAnswers = [...prevAnswers];
           updatedAnswers[index] = {
             ...updatedAnswers[index],
-            score: score,
+            score: Number(score),
           };
           return updatedAnswers;
         }
@@ -116,9 +116,6 @@ export const Question = ({
 
   return (
     <>
-      {/* <td className="text-center mx-2">
-        <strong>{question}</strong>
-      </td> */}
       <td className="mx-2 pb-4 pt-4">
         <Input
           type="number"
