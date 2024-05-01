@@ -125,6 +125,7 @@ export const Question = ({
           value={currentScore ||score}
           className="w-full rounded-md border-[1px] border-black px-2 py-1"
           onChange={handleChange}
+          disabled={!answer}
         />
       </td>
       {question.answers.map((answer: AnswerType, index: number) => (

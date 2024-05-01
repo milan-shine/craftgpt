@@ -65,7 +65,7 @@ const Page: React.FC<InherentRiskTableProps> = ({
                 <strong>{question.content}</strong>
               </td>
               <td className="col-span-2 mx-2 pb-4">
-                {questionDescriptions[index].description.content}
+                {questionDescriptions[index]?.description?.content || question?.description || ""}
               </td>
               <Question
                 key={question._id}

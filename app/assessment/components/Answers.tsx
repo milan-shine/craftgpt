@@ -21,13 +21,14 @@ type ColorValues = {
   optimized: string;
 };
 
-const COLOR_VALUES: ColorValues = {
-  initial: "bg-orange-400",
-  developing: "bg-yellow-200",
-  defined: "bg-green-200",
-  managed: "bg-emerald-500",
-  optimized: "bg-cyan-300",
-};
+
+const COLOR_VALUES_ARRAY: any = [
+  "bg-orange-400",
+  "bg-yellow-200",
+  "bg-green-200",
+  "bg-emerald-500",
+  "bg-cyan-300",
+]
 
 export const Answers = ({
   answer,
@@ -37,10 +38,9 @@ export const Answers = ({
   const [bgColor, setBgColor] = useState<string>("");
   const { currentAnswer, desiredAnswer } = selectedAnswers;
   const { level, level_name } = answer;
-
   const btnColorHandler = () => {
-    if (level === currentAnswer || level === desiredAnswer) {
-      setBgColor(COLOR_VALUES[level_name.toLowerCase() as keyof ColorValues]);
+    if (level == currentAnswer || level == desiredAnswer) {
+      setBgColor(COLOR_VALUES_ARRAY[level - 1]);
     } else {
       if (bgColor !== "") setBgColor("");
     }
