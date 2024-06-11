@@ -1,11 +1,18 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAssessments } from "@/api/assessments";
+import { exportExcel, getAssessments } from "@/api/assessments";
 import DataTable from "@/components/table/DataTable";
 import ActionButton from "@/components/buttons/ActionButton";
-import { Edit, Eye, Trash, AlertCircle } from "lucide-react";
+import {
+  Edit,
+  Eye,
+  Trash,
+  AlertCircle,
+  Download,
+  ArrowDownCircle,
+} from "lucide-react";
 import { GLOBAL_CONFIG } from "@/config/globals";
 import CopyButton from "@/components/buttons/CopyToClipboardBtn";
 import { ConfirmationDialog } from "@/components/modals/Modal";
@@ -31,7 +38,7 @@ const AssessmentList: React.FC<{
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
-  const { data:assessmentListData, isLoading } = useQuery({
+  const { data: assessmentListData, isLoading } = useQuery({
     queryKey: ["assessments"],
     queryFn: getAssessments,
     initialData: initialAssessmentsList,
@@ -59,14 +66,24 @@ const AssessmentList: React.FC<{
   };
 
   const assessmentData =
-  assessmentListData.length && assessmentListData?.map((cell: IAssessment) => ({
+    assessmentListData.length &&
+    assessmentListData?.map((cell: IAssessment) => ({
       row: [
         { cell: cell.name },
         {
           cell: cell?.completed_submissions ? (
             <div className="flex items-center justify-center gap-2">
               {cell.completed_submissions.length}
-              <Eye onClick={() => router.push(`assessments/completed-assessments/${cell._id}`)} />
+              <Eye
+                onClick={() =>
+                  router.push(`assessments/completed-assessments/${cell._id}`)
+                }
+              />
+              <ActionButton
+                title="Export"
+                Icon={ArrowDownCircle}
+                onClick={() => exportExcel(cell._id, '', "export-all.xlsx")}
+              />
             </div>
           ) : (
             0
