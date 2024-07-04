@@ -23,7 +23,7 @@ export default function BreadcrumbView({ children }: { children: ReactNode }) {
             {createTitleCase(path)}
            </span>
           ) : (
-            <Link key={path} className="hover:underline flex" href={`/admin/${path}`}>
+            <Link key={path} className="hover:underline flex" href={path === "completed-assessments" ? "/admin/assessments" : `/admin/${routes.slice(0, i+1).join('/')}`}>
             {i > 0 && <span className="mx-2 text-muted-foreground"><ChevronRight/></span>}
             {createTitleCase(path).replace(/-/g, ' ')}
           </Link>
