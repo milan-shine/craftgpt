@@ -49,7 +49,7 @@ export default function EditAssessments({ initialValues }: any) {
               client_code: values.client_code,
               submissions_limit: values.submissions_limit,
               assessment_model_ids: values.assessment_model_ids.map(
-                (model: any) => model.value,
+                (model: any) => model.value || model._id,
               ),
             };
             mutate({

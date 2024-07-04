@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { exportExcel, getAssessments } from "@/api/assessments";
 import DataTable from "@/components/table/DataTable";
@@ -19,6 +19,8 @@ import { ConfirmationDialog } from "@/components/modals/Modal";
 import { deleteAssessment } from "@/api/assessments";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 interface IAssessment {
   _id: string;
@@ -37,6 +39,7 @@ const AssessmentList: React.FC<{
 
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
+  const [chartData, setChartData] = useState({ X: [], y: [] });
 
   const { data: assessmentListData, isLoading } = useQuery({
     queryKey: ["assessments"],
@@ -65,6 +68,14 @@ const AssessmentList: React.FC<{
     setOpen(false);
   };
 
+  useEffect(() => {
+    const barChartData = {
+      x: assessmentListData && assessmentListData.length ? assessmentListData.map((obj) => obj.name) : [],
+      y: assessmentListData && assessmentListData.length ? assessmentListData.map((obj) => obj.completed_submissions.length) : [],
+    };
+    setChartData(barChartData);
+  }, [assessmentListData]);
+
   const assessmentData =
     assessmentListData.length &&
     assessmentListData?.map((cell: IAssessment) => ({
@@ -82,7 +93,7 @@ const AssessmentList: React.FC<{
               <ActionButton
                 title="Export"
                 Icon={ArrowDownCircle}
-                onClick={() => exportExcel(cell._id, '', "export-all.xlsx")}
+                onClick={() => exportExcel(cell._id, "", "export-all.xlsx")}
               />
             </div>
           ) : (
@@ -124,16 +135,24 @@ const AssessmentList: React.FC<{
           <span>No Data found</span>
         </div>
       ) : (
-        <DataTable
-          tHeads={[
-            "Name",
-            "Completed assessment",
-            "Total assessment limit",
-            "Actions",
-          ]}
-          tRows={assessmentData}
-          isLoading={isLoading}
-        />
+        <>
+          <Plot
+            data={[{ type: "bar", x: chartData.x, y: chartData.y }]}
+            layout={{ title: "Assessment chart" }}
+          />
+          <div style={{ marginTop: '30px', width: "100%" }}>
+            <DataTable
+              tHeads={[
+                "Name",
+                "Completed assessment",
+                "Total assessment limit",
+                "Actions",
+              ]}
+              tRows={assessmentData}
+              isLoading={isLoading}
+            />
+          </div>
+        </>
       )}
       <ConfirmationDialog
         icon={<AlertCircle color="red" />}
