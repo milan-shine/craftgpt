@@ -19,7 +19,8 @@ import { ConfirmationDialog } from "@/components/modals/Modal";
 import { deleteAssessment } from "@/api/assessments";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import Plot from "react-plotly.js";
+import dynamic from "next/dynamic";
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 interface IAssessment {
   _id: string;
