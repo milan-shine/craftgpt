@@ -5,6 +5,7 @@ import { Trash } from "lucide-react";
 import { ScrollArea } from "../shadcn/ui/scroll-area";
 
 export type SelectorListItem = {
+  _id: string;
   name: string;
   value: string;
 };
@@ -28,6 +29,8 @@ const SearchSelector: React.FC<SearchSelectorProps> = ({
   //   setFieldValue(name, [...selectedModels, item]);
   // };
 
+  console.log("selectedModels---", selectedModels);
+
   const handleSelectItem = (e: any, item: { name: string; value: string }) => {
     if (name === "type") {
       setFieldValue(name, [item]);
@@ -38,7 +41,10 @@ const SearchSelector: React.FC<SearchSelectorProps> = ({
   };
 
   const handleDeleteItem = (value: string) => {
-    const filteredItems = selectedModels.filter((item) => item.value !== value);
+    console.log("Values----", value);
+    const filteredItems = selectedModels.filter((item) => (item.value || item._id) !== value);
+    console.log("selectedModels", selectedModels);
+    console.log("filteredItems----", filteredItems);
     setFieldValue(name, filteredItems);
   };
 
@@ -55,15 +61,15 @@ const SearchSelector: React.FC<SearchSelectorProps> = ({
   return (
     <>
       <ul>
-        {selectedModels?.map(({ name, value }) => (
+        {selectedModels?.map(({ name, value, _id }) => (
           <li
-            key={value}
+            key={value || _id}
             className="my-2 flex w-full items-center justify-between rounded-xl bg-card px-8 py-2"
           >
             <span>{name}</span>
             <Trash
               className="h-[16px] w-[16px] cursor-pointer"
-              onClick={(e) => handleDeleteItem(value)}
+              onClick={(e) => handleDeleteItem(value || _id)}
             />
           </li>
         ))}
