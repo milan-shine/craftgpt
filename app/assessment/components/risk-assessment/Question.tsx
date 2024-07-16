@@ -54,8 +54,14 @@ export const Question = ({
   const [maxScore, setMaxScore] = useState<number>(100);
   const [score, setScore] = useState<undefined | number>(undefined);
 
-  const selectAnswer = (value: string, index: number) => {
+  const selectAnswer = (value: string, index: number, scoreValue: any) => {
     setSelectedAnswer(value);
+    if(scoreValue !== undefined && (scoreValue < OPTION_MINMAX[index].min || scoreValue > OPTION_MINMAX[index].max)) {
+      setScore(OPTION_MINMAX[index].max);
+    }
+    else {
+      setScore(scoreValue);
+    }
     setMinScore(OPTION_MINMAX[index].min);
     setMaxScore(OPTION_MINMAX[index].max);
 
@@ -85,14 +91,25 @@ export const Question = ({
   };
 
   const handleChange = (e: any) => {
-    if (e.target.value < minScore && e.target.value.toString().length >= 2) {
-      setScore(minScore);
-      // setScore(e.target.value);
-    } else if (e.target.value > maxScore) {
-      setScore(maxScore);
-    } else {
-      setScore(e.target.value);
+    let demoindex = OPTION_MINMAX.findIndex(range => e.target.value >= range.min && e.target.value <= range.max);
+    if(e.target.value > 100) {
+      setScore(100);
+      selectAnswer('5', 4, undefined);
     }
+    else {
+      setScore(e.target.value);
+      selectAnswer((demoindex + 1).toString(), demoindex, e.target.value);
+    }
+
+    // if (e.target.value < minScore && e.target.value.toString().length >= 2) {
+    //   setScore(minScore);
+    //   // setScore(e.target.value);
+    //   selectAnswer((demoindex + 1).toString(), demoindex);
+    // } else if (e.target.value > maxScore) {
+    //   setScore(maxScore);
+    //   selectAnswer((demoindex + 1).toString(), demoindex);
+    // } else {
+    // }
   };
 
   useEffect(() => {
@@ -122,7 +139,7 @@ export const Question = ({
           placeholder={
             selectedAnswer ? `Between ${minScore}-${maxScore}` : `Score...`
           }
-          value={currentScore ||score}
+          value={(currentScore < minScore || currentScore > maxScore) ? "" : score || ''}
           className="w-full rounded-md border-[1px] border-black px-2 py-1"
           onChange={handleChange}
         />
