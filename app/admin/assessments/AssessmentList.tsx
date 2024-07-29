@@ -10,7 +10,6 @@ import {
   Eye,
   Trash,
   AlertCircle,
-  Download,
   ArrowDownCircle,
 } from "lucide-react";
 import { GLOBAL_CONFIG } from "@/config/globals";
@@ -86,6 +85,7 @@ const AssessmentList: React.FC<{
             <div className="flex items-center justify-center gap-2">
               {cell.completed_submissions.length}
               <Eye
+                style={{ cursor: 'pointer' }}
                 onClick={() =>
                   router.push(`assessments/completed-assessments/${cell._id}`)
                 }

@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createUser } from "@/api/users";
 import { toast } from "sonner";
+import { Tablet } from "lucide-react";
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -64,6 +65,16 @@ const Login: React.FC = () => {
               >
                 Login
               </LoadingButton>
+              <div className="flex items-center gap-1">
+                <Tablet
+                  className="opacity-50"
+                  size={16}
+                  style={{ transform: "rotate(-0.25turn)" }}
+                />
+                <span className="text-xs opacity-75">
+                  Best in landscape for a phone or tablet
+                </span>
+              </div>
             </Form>
           )}
         </Formik>

@@ -3,22 +3,25 @@
 import React from "react";
 import { Sidebar } from "./components/sidebar";
 import { usePathname } from "next/navigation";
-import { Toaster } from "@/components/shadcn/ui/sonner";
+import { ListChecks, Package } from "lucide-react";
 import { ScrollArea } from "@/components/shadcn/ui/scroll-area";
 
 export type SidebarTabs = {
   title: string;
   path: string;
+  icon: any
 }[];
 
 const SIDEBAR_TABS: SidebarTabs = [
   {
     title: "Assessment Models",
     path: "/admin/assessment-models",
+    icon: <Package />
   },
   {
     title: "Assessments",
     path: "/admin/assessments",
+    icon: <ListChecks />
   },
 ];
 
@@ -42,7 +45,7 @@ const Layout = ({
           <Sidebar sidebarTabs={SIDEBAR_TABS} />
         </ScrollArea>
       </div>
-      <div className="flex-[5] space-y-2 p-8">{children}</div>
+      <div className="flex-[5] space-y-2">{children}</div>
     </div>
   );
 };
