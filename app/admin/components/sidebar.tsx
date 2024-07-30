@@ -44,6 +44,7 @@ export const Sidebar = ({ sidebarTabs, isCollapsed }: SidebarProps) => {
                 ? "4px solid #112F49"
                 : "4px solid #3764EB",
             }}
+            key={index}
           >
             {sidebarTab.icon}
             <Link
