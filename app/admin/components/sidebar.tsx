@@ -55,7 +55,7 @@ export const Sidebar = ({ sidebarTabs, isCollapsed }: SidebarProps) => {
                 buttonVariants({
                   variant: pathname.includes(sidebarTab.path)
                     ? "none"
-                    : "ghost",
+                    : "none",
                   size: "default",
                 }),
                 !pathname.includes(sidebarTab.path) && "opacity-80",

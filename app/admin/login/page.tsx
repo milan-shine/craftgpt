@@ -64,7 +64,7 @@ const Page: React.FC = () => {
           )}
         </Formik>
       </div>
-      <div className="flex items-center gap-1 mt-2" style={{marginRight: '65px'}}>
+      <div className="flex items-center gap-1 mt-2">
         <Tablet
           className="opacity-50"
           size={16}
