@@ -5,9 +5,9 @@ interface LoadingBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
     isLoading: boolean
 } 
 
-export default function LoadingButton ({isLoading, children, ...props}: LoadingBtnProps){
+export default function LoadingButton ({isLoading, className, children, ...props}: LoadingBtnProps){
     return(
-        <Button {...props} className="flex gap-2">
+        <Button {...props} className={`flex gap-2 ${className}`}>
             {isLoading && <Loader className="animate-spin"/>}
             {children}
         </Button>

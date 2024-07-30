@@ -69,7 +69,7 @@ const Assessment = ({ accessCode, completedData }: AssessmentProps) => {
       <Header title={`Assessment: ${data.name}`} className="self-start" />
       <Separator className="my-2" />
       <span className="text-xl">
-        Welcome there are {data.assessment_model_ids.length} assessment models
+        Welcome there {data.assessment_model_ids.length === 1 ? 'is' : 'are'} {data.assessment_model_ids.length} assessment model{data.assessment_model_ids.length > 1 ? 's ' : ' '}
         to be completed.
       </span>
       <Separator className="my-2" />
