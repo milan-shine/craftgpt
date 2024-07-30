@@ -65,19 +65,19 @@ const Login: React.FC = () => {
               >
                 Login
               </LoadingButton>
-              <div className="flex items-center gap-1">
-                <Tablet
-                  className="opacity-50"
-                  size={16}
-                  style={{ transform: "rotate(-0.25turn)" }}
-                />
-                <span className="text-xs opacity-75">
-                  Best in landscape for a phone or tablet
-                </span>
-              </div>
             </Form>
           )}
         </Formik>
+      </div>
+      <div className="flex items-center gap-1 mt-2" style={{marginRight: '80px'}}>
+        <Tablet
+          className="opacity-50"
+          size={16}
+          style={{ transform: "rotate(-0.25turn)" }}
+        />
+        <span className="text-xs opacity-75">
+          Best in landscape for a phone or tablet
+        </span>
       </div>
     </div>
   );
