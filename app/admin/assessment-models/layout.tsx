@@ -10,7 +10,7 @@ export default function AssessmentLayout({
 }) {
   return (
     <>
-      <Header title="Assessment Models" />
+      <Header title="Assessment Models" className="sticky shadow-lg" />
       <div className="px-8">
         <Separator className="mt-2 w-[100%]" />
         <BreadcrumbView>{children}</BreadcrumbView>
