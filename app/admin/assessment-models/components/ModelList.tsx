@@ -63,12 +63,14 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
             <div className="flex items-center justify-center gap-2">
               {/* <ActionButton title="View" Icon={Eye} /> */}
               <ActionButton
+               style={{color:"#375d70"}}
                 onClick={() =>
                   router.push(`/admin/assessment-models/${cell._id}`)
                 }
                 Icon={Edit}
               />
               <ActionButton
+               style={{color:"#375d70"}}
                 Icon={Trash}
                 onClick={() => modalHandler(cell._id)}
               />
