@@ -50,7 +50,7 @@ const AssessmentList: React.FC<{
   const { mutate } = useMutation({
     mutationFn: deleteAssessment,
     onSuccess: () => {
-      toast.success("Modal deleted sucessfully");
+      toast.success("Assessment deleted sucessfully");
       queryClient.invalidateQueries({ queryKey: ["assessments"] });
     },
     onError: (err: any) => {
