@@ -34,7 +34,7 @@ export default function CopyButton({
           Copied
         </span>
       )}
-      {isCopied ? <CheckSquare color="#085C7C"/> : <Copy color="#085C7C"/>}
+      {isCopied ? <CheckSquare /> : <Copy />}
     </div>
   );
 }
