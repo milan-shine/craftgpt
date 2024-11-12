@@ -19,7 +19,7 @@ import { deleteAssessment } from "@/api/assessments";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Badge } from '@/components/shadcn/ui/badge'
+import { Badge } from "@/components/shadcn/ui/badge";
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 interface IAssessment {
