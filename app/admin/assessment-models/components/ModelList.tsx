@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DataTable from "@/components/table/DataTable";
+import { getAssessments } from "@/api/assessments";
 
 interface IModel {
   _id: string;
@@ -19,6 +20,11 @@ interface IModel {
 }
 
 const ModelList = ({ initialData }: { initialData: IModel }) => {
+  const { data: assessmentListData } = useQuery({
+    queryKey: ["assessments"],
+    queryFn: getAssessments,
+  });
+
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -43,8 +49,15 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
   });
 
   const modalHandler = (_id: any) => {
-    setOpen(true);
-    setSelectedId(_id);
+    let modeld = assessmentListData.filter((item: any) =>
+      item.assessment_model_ids.flat(Infinity).includes(_id),
+    );
+    if (modeld.length) {
+      toast.error("Cannot delete model. It is in use by other assessments.");
+    } else {
+      setOpen(true);
+      setSelectedId(_id);
+    }
   };
 
   const deleteAction = async () => {
@@ -63,12 +76,14 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
             <div className="flex items-center justify-center gap-2">
               {/* <ActionButton title="View" Icon={Eye} /> */}
               <ActionButton
+                style={{ color: "#375d70" }}
                 onClick={() =>
                   router.push(`/admin/assessment-models/${cell._id}`)
                 }
                 Icon={Edit}
               />
               <ActionButton
+                style={{ color: "#375d70" }}
                 Icon={Trash}
                 onClick={() => modalHandler(cell._id)}
               />
@@ -96,8 +111,8 @@ const ModelList = ({ initialData }: { initialData: IModel }) => {
         onClick={deleteAction}
         open={open}
         setOpen={setOpen}
-        title={"Are you sure you want to delete?"}
-        description={"This will be permently deleted"}
+        title={"Are you sure you want to delete this model?"}
+        description={"This will be permanently deleted"}
         buttonText="Delete"
         actionButtonVariant="destructive"
       />

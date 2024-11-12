@@ -50,7 +50,7 @@ const DataTable: React.FC<{
         ) : (
           <>
             {tRows?.map((row: any) => (
-              <TableRow key={row} className="justify-between">
+              <TableRow key={row} className="justify-between" style={{ borderBottom: '1px solid #8888887d'}}>
                 {renderCells(row.row)}
               </TableRow>
             ))}
