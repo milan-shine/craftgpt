@@ -19,7 +19,6 @@ import { deleteAssessment } from "@/api/assessments";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Badge } from '@/components/shadcn/ui/badge'
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 interface IAssessment {
@@ -50,7 +49,7 @@ const AssessmentList: React.FC<{
   const { mutate } = useMutation({
     mutationFn: deleteAssessment,
     onSuccess: () => {
-      toast.success("Assessment deleted sucessfully");
+      toast.success("Modal deleted sucessfully");
       queryClient.invalidateQueries({ queryKey: ["assessments"] });
     },
     onError: (err: any) => {
@@ -84,41 +83,34 @@ const AssessmentList: React.FC<{
         {
           cell: cell?.completed_submissions ? (
             <div className="flex items-center justify-center gap-2">
-              <Badge variant="custom">{cell.completed_submissions.length}</Badge>
+              {cell.completed_submissions.length}
               <Eye
-              color="#085C7C"
                 style={{ cursor: 'pointer' }}
                 onClick={() =>
                   router.push(`assessments/completed-assessments/${cell._id}`)
                 }
               />
               <ActionButton
-              style={{color:"#085C7C"}}
                 title="Export"
                 Icon={ArrowDownCircle}
-                onClick={() => {
-                  toast.success("Your file is being downloaded");
-                  return exportExcel(cell._id, "", "export-all.xlsx")
-                }}
+                onClick={() => exportExcel(cell._id, "", "export-all.xlsx")}
               />
             </div>
           ) : (
             0
           ),
         },
-        { cell: <Badge variant='custom'>{cell.submissions_limit} </Badge>},
+        { cell: cell.submissions_limit },
         {
           cell: (
             <div className="flex items-center justify-center gap-2">
               {/* <ActionButton title="View" Icon={Eye} /> */}
               <ActionButton
-              style={{color:"#375d70"}}
                 onClick={() => router.push(`/admin/assessments/${cell._id}`)}
                 title="Edit"
                 Icon={Edit}
               />
               <ActionButton
-              style={{color:"#375d70"}}
                 title="Delete"
                 Icon={Trash}
                 onClick={() => modalHandler(cell._id)}
@@ -146,7 +138,7 @@ const AssessmentList: React.FC<{
         <>
           <Plot
             data={[{ type: "bar", x: chartData.x, y: chartData.y }]}
-            layout={{title: "Assessment chart", margin: {l: 50,r: 50,t: 80,b: 110,}}}
+            layout={{ title: "Assessment chart" }}
           />
           <div style={{ marginTop: '30px', width: "100%" }}>
             <DataTable
