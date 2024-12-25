@@ -11,6 +11,7 @@ import DataTable from "@/components/table/DataTable";
 import { useQuery } from "@tanstack/react-query";
 import { Eye,ArrowDownCircle } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 interface IAssessment {
   user_id: any;
@@ -61,7 +62,10 @@ const CompleteAssessmentsView: any = () => {
               <ActionButton
                 title="Export"
                 Icon={ArrowDownCircle}
-                onClick={() => exportHandler(cell.user_id._id)}
+                onClick={() =>  {
+                  toast.success("Your file is being downloaded");
+                   return exportHandler(cell.user_id._id)
+                }}
               />
             </div>
           ),

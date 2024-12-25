@@ -17,6 +17,19 @@ export type Question = {
   options: { level: number; content: string }[];
 };
 
+export type ObjectivesQuestion = {
+  content: string;
+  owner: string;
+  overview: string;
+  options: { level: number; content: string }[];
+};
+
+export type RiskInheritanceQuestion = {
+  content: string;
+  description: string;
+  options: { level: number; content: string }[];
+};
+
 const LEVEL_TITLES = [
   "Initial",
   "Developing",
@@ -36,6 +49,29 @@ const initialQuestionValues: Question = {
   ],
 };
 
+const initialRiskInheritanceQuestionValues: RiskInheritanceQuestion = {
+  content: "",
+  description: "",
+  options: [
+    { level: 1, content: "" },
+    { level: 2, content: "" },
+    { level: 3, content: "" },
+    { level: 4, content: "" },
+    { level: 5, content: "" },
+  ],
+};
+
+const initialObjectivesQuestionValues: ObjectivesQuestion = {
+  content: "",
+  owner: "",
+  overview: "",
+  options: [
+    { level: 1, content: "" },
+    { level: 2, content: "" },
+    { level: 3, content: "" },
+  ],
+};
+
 const sampleFileUrls: any = {
   "Risk Inheritance": "/Risk_inheritance.xlsx",
   "Risk Likelihood": "/Risk_likelihood.xlsx",
@@ -45,8 +81,8 @@ const sampleFileUrls: any = {
 const ModelForm: React.FC<{
   setFieldValue: any;
   values: any;
-  isPending:boolean
-}> = ({ setFieldValue, values,isPending }) => {
+  isPending: boolean;
+}> = ({ setFieldValue, values, isPending }) => {
   const { data: modelType } = useQuery({
     queryKey: ["model-type"],
     queryFn: getModelType,
@@ -105,51 +141,179 @@ const ModelForm: React.FC<{
           <FileSpreadsheet />
           <span>Download Sample file</span>
         </a>
-        <FieldArray name="questions">
-          {({ insert, remove, push }) => (
-            <div>
-              {values.questions.length > 0 &&
-                values.questions.map((question: any, index: number) => (
-                  <div className="mb-4 rounded-xl bg-card p-6" key={index}>
-                    <div className="flex items-end justify-between gap-4">
-                      <div className="w-full">
-                        <Field
-                          name={`questions.${index}.content`}
-                          label={`Question ${index + 1}:`}
-                          placeholder="Question"
-                          component={Input}
-                          required
-                        />
-                      </div>
-                      <Button onClick={() => remove(index)}>
-                        <Trash />
-                      </Button>
-                    </div>
-                    <div className="flex flex-col gap-1 pl-6 pr-0 pt-4">
-                      {question.options.map(
-                        (option: any, optionIndex: number) => (
+        {values?.type?.[0]?.name === "Objectives" ? (
+          <FieldArray name="questions">
+            {({ insert, remove, push }) => (
+              <div>
+                {values.questions.length > 0 &&
+                  values.questions.map((question: any, index: number) => (
+                    <div className="mb-4 rounded-xl bg-card p-6" key={index}>
+                      <div className="flex items-end justify-between gap-4">
+                        <div className="w-full">
                           <Field
-                            name={`questions.${index}.options.${optionIndex}.content`}
-                            label={`Level ${optionIndex + 1}: ${
-                              LEVEL_TITLES[optionIndex]
-                            }`}
-                            placeholder={`Option ${optionIndex + 1}`}
-                            key={optionIndex}
+                            name={`questions.${index}.options.objective`}
+                            label={`Objective ${index + 1}:`}
+                            placeholder="Objective"
                             component={Input}
                             required
                           />
-                        ),
-                      )}
-                    </div>
-                  </div>
-                ))}
+                        </div>
+                        <Button onClick={() => remove(index)}>
+                          <Trash />
+                        </Button>
+                      </div>
 
-              <Button type="button" onClick={() => push(initialQuestionValues)}>
-                Add Question
-              </Button>
-            </div>
-          )}
-        </FieldArray>
+                      <div className="flex flex-col gap-1 pl-6 pr-0 pt-4">
+                        <Field
+                          name={`questions.${index}.options.overview`}
+                          label={`Overview ${index + 1}:`}
+                          placeholder={`Overview`}
+                          component={Input}
+                          required
+                        />
+                        <Field
+                          name={`questions.${index}.options.owner`}
+                          label={`Owner ${index + 1}:`}
+                          placeholder={`Owner`}
+                          component={Input}
+                          required
+                        />
+                        {question.options.map(
+                          (option: any, optionIndex: number) => (
+                            <Field
+                              name={`questions.${index}.options.level-${optionIndex}.content`}
+                              label={`Level ${optionIndex + 1}:`}
+                              placeholder={`Option ${optionIndex + 1}`}
+                              key={optionIndex}
+                              component={Input}
+                              required
+                            />
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                <Button
+                  type="button"
+                  onClick={() => push(initialObjectivesQuestionValues)}
+                >
+                  Add Question
+                </Button>
+              </div>
+            )}
+          </FieldArray>  
+        ) : (values?.type?.[0]?.name === "Risk Inheritance" ||
+          values?.type?.[0]?.name ===   "Risk Likelihood" ? (
+          <FieldArray name="questions">
+            {({ insert, remove, push }) => (
+              <div>
+                {values.questions.length > 0 &&
+                  values.questions.map((question: any, index: number) => (
+                    <div className="mb-4 rounded-xl bg-card p-6" key={index}>
+                      <div className="flex items-end justify-between gap-4">
+                        <div className="w-full">
+                          <Field
+                            name={`questions.${index}.content`}
+                            label={`Question ${index + 1}:`}
+                            placeholder="Question"
+                            component={Input}
+                            required
+                          />
+                        </div>
+                        <Button onClick={() => remove(index)}>
+                          <Trash />
+                        </Button>
+                      </div>
+
+                      <div className="flex flex-col gap-1 pl-6 pr-0 pt-4">
+                        <Field
+                          name={`description`}
+                          label={`description`}
+                          placeholder={`description`}
+                          key={"description"}
+                          component={Input}
+                          required
+                        />
+                        {question.options.map(
+                          (option: any, optionIndex: number) => (
+                            <Field
+                              name={`questions.${index}.options.${optionIndex}.content`}
+                              label={`Level ${optionIndex + 1}: ${
+                                LEVEL_TITLES[optionIndex]
+                              }`}
+                              placeholder={`Option ${optionIndex + 1}`}
+                              key={optionIndex}
+                              component={Input}
+                              required
+                            />
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                <Button
+                  type="button"
+                  onClick={() => push(initialRiskInheritanceQuestionValues)}
+                >
+                  Add Question
+                </Button>
+              </div>
+            )}
+          </FieldArray>
+       
+        ) : (  
+          <FieldArray name="questions">
+            {({ insert, remove, push }) => (
+              <div>
+                {values.questions.length > 0 &&
+                  values.questions.map((question: any, index: number) => (
+                    <div className="mb-4 rounded-xl bg-card p-6" key={index}>
+                      <div className="flex items-end justify-between gap-4">
+                        <div className="w-full">
+                          <Field
+                            name={`questions.${index}.content`}
+                            label={`Question ${index + 1}:`}
+                            placeholder="Question"
+                            component={Input}
+                            required
+                          />
+                        </div>
+                        <Button onClick={() => remove(index)}>
+                          <Trash />
+                        </Button>
+                      </div>
+                      <div className="flex flex-col gap-1 pl-6 pr-0 pt-4">
+                        {question.options.map(
+                          (option: any, optionIndex: number) => (
+                            <Field
+                              name={`questions.${index}.options.${optionIndex}.content`}
+                              label={`Level ${optionIndex + 1}: ${
+                                LEVEL_TITLES[optionIndex]
+                              }`}
+                              placeholder={`Option ${optionIndex + 1}`}
+                              key={optionIndex}
+                              component={Input}
+                              required
+                            />
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                <Button
+                  type="button"
+                  onClick={() => push(initialQuestionValues)}
+                >
+                  Add Question
+                </Button>
+              </div>
+            )}
+          </FieldArray>
+   
+        ))
+        }
 
         <LoadingButton type="submit" className="self-end" isLoading={isPending}>
           Submit

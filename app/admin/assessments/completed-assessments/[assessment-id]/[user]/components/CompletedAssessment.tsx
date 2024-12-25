@@ -24,7 +24,7 @@ const CompletedAssessment = () => {
     return <div>Loading..</div>;
   }
 
-  const accessCode = data?.data?.[0].assessment_id.access_code;
+  const accessCode = data?.data?.[0]?.assessment_id.access_code;
   return <>{accessCode && <Assessment accessCode={accessCode} completedData={data}/>}</>;
 };
 

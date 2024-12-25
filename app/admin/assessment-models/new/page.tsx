@@ -82,7 +82,11 @@ const Page: React.FC = () => {
               modelData = { data: formData, file: true };
             } else {
               modelData = {
-                data: { ...values, questions: questionsData },
+                data: {
+                  ...values,
+                  type: values.type[0].value,
+                  questions: questionsData,
+                },
                 file: false,
               };
             }

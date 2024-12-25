@@ -68,12 +68,12 @@ const Page: React.FC<InherentRiskTableProps> = ({
               className="my-4 grid w-[80vw] grid-cols-8 px-1"
             >
               <td className="border-r-[1px] border-r-black px-2 pb-4">
-                <strong>{questionDescriptions[index].question.content}</strong>
+                <strong>{questionDescriptions[index]?.question?.content}</strong>
               </td>
               <td className="col-span-3 border-r-[1px] border-r-black px-2 pb-4">
                 {extractedAnswers[index]}
               </td>
-              <td className="mx-2 pb-4">{owners[index].question.content}</td>
+              <td className="mx-2 pb-4">{owners[index].question?.content}</td>
               <Question
                 key={question._id}
                 question={question}
